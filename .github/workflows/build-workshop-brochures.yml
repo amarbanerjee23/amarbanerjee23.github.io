@@ -8,20 +8,28 @@ on:
     paths:
       - "brochures-src/**"
       - ".github/workflows/build-workshop-brochures.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "brochures-src/**"
+      - ".github/workflows/build-workshop-brochures.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: workshop-brochure-build
+  group: workshop-brochure-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build-brochures:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out website
+      - name: Check out website branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Compile brochure pack
         uses: xu-cheng/latex-action@v3
@@ -56,7 +64,7 @@ jobs:
           test -s downloads/modern-day-professional.pdf.b64
           test -s downloads/technology-to-emotions.pdf.b64
 
-      - name: Publish generated PDFs
+      - name: Publish generated PDFs to the current branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -70,5 +78,5 @@ jobs:
             echo "Brochure PDFs are already current."
           else
             git commit -m "Build downloadable workshop brochure PDFs"
-            git push
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
           fi
