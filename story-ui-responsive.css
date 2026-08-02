@@ -1,0 +1,31 @@
+/* Keep the story navigation clear of the main content on standard screens. */
+@media(max-width:1659px){
+  .story-nav{
+    top:auto;
+    left:50%;
+    bottom:16px;
+    width:min(760px,calc(100% - 160px));
+    transform:translateX(-50%);
+    padding:8px 10px;
+    border-radius:18px;
+  }
+  .story-nav:before,.story-nav:after{display:none}
+  .story-nav-head,.story-progress-track{display:none}
+  .story-nav-list{display:flex;gap:4px;overflow:auto;scrollbar-width:none;overscroll-behavior-inline:contain}
+  .story-nav-list::-webkit-scrollbar{display:none}
+  .story-nav li{flex:0 0 auto}
+  .story-nav a{grid-template-columns:26px auto;min-height:42px;padding:5px 9px}
+  .story-next{right:14px;bottom:16px;max-width:138px;min-height:58px;padding:9px}
+  .story-next-copy small{display:none}
+  .story-next-copy strong{max-width:72px;font-size:10px}
+  .story-next-arrow{width:34px;height:34px;flex-basis:34px}
+  .back-to-top{bottom:84px!important}
+}
+
+@media(max-width:700px){
+  .story-nav{left:12px;right:84px;bottom:12px;width:auto;transform:none}
+  .story-nav-label{display:none}
+  .story-nav a{grid-template-columns:26px;padding:5px}
+  .story-next{right:12px;bottom:12px;max-width:62px;min-width:62px;justify-content:center;padding:8px}
+  .story-next-copy{display:none}
+}
