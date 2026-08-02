@@ -20,81 +20,138 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="portfolio.css">
   <link rel="stylesheet" href="facilitation.css">
+  <link rel="stylesheet" href="ux.css">
 </head>
-<body class="workshops-page facilitation-page">
+<body class="workshops-page facilitation-page premium-facilitation-page">
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
-  <header class="site-header" id="top">
+  <header class="site-header premium-header" id="top">
     <div class="container nav-wrap">
       <a class="brand" href="index.html"><span class="brand-mark">AB</span><span><strong>Amar Banerjee</strong><small>Leadership · Innovation · Facilitation</small></span></a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="nav" class="nav" aria-label="Primary navigation">
         <a href="index.html">Portfolio home</a>
-        <a href="#approach">Approach</a>
         <a href="#corporate">Private companies</a>
         <a href="#academic">Academic programs</a>
         <a href="#modules">Modules</a>
         <a href="#facilitator">Facilitator</a>
-        <a href="#downloads">Downloads</a>
+        <a href="#downloads">Brochures</a>
       </nav>
+      <button class="site-search-trigger" type="button" aria-haspopup="dialog" aria-controls="site-search"><span aria-hidden="true">⌕</span><span>Find</span></button>
       <button class="theme-toggle" aria-label="Switch theme">◐</button>
     </div>
   </header>
 
+  <dialog class="site-search" id="site-search" aria-labelledby="site-search-title">
+    <div class="search-shell">
+      <div class="search-head"><div><small>Navigate the facilitation portfolio</small><h2 id="site-search-title">Find a program or module</h2></div><button class="search-close" type="button" aria-label="Close search">×</button></div>
+      <label class="search-field"><span class="sr-only">Search facilitation content</span><input id="site-search-input" type="search" autocomplete="off" placeholder="Try responsible AI, faculty, TRIZ, one day..."></label>
+      <div class="search-results" aria-live="polite">
+        <a data-search-item data-keywords="approach discover frame invent evaluate communicate act" href="#approach"><span>Facilitation approach</span><small>The six-step path from insight to action</small></a>
+        <a data-search-item data-keywords="company corporate leadership strategy portfolio" href="#corporate"><span>Programs for private companies</span><small>Leadership, AI, R&D and research-to-value programs</small></a>
+        <a data-search-item data-keywords="innovation strategy opportunity portfolio leadership" href="#corporate-strategy"><span>Innovation Strategy and Opportunity Portfolio</span><small>Leadership lab for opportunity selection and action</small></a>
+        <a data-search-item data-keywords="responsible ai productisation governance human oversight" href="#corporate-ai"><span>Responsible AI Innovation and Productisation</span><small>From AI ideas to governed business solutions</small></a>
+        <a data-search-item data-keywords="triz inventive problem solving r&d product" href="#corporate-triz"><span>Inventive Problem-Solving</span><small>Structured creativity for complex challenges</small></a>
+        <a data-search-item data-keywords="research business value partnerships commercialisation" href="#corporate-research"><span>Research Insight to Business Value</span><small>Research relevance, partnerships and executive narrative</small></a>
+        <a data-search-item data-keywords="faculty academia patents funding research" href="#innovation-academia"><span>Innovation in Academia</span><small>Faculty program for research novelty, IP and funding</small></a>
+        <a data-search-item data-keywords="students employability professional readiness" href="#modern-professional"><span>The Modern-Day Professional</span><small>Student and early-career capability program</small></a>
+        <a data-search-item data-keywords="emotions human centred technology trust responsible ai" href="#technology-emotions"><span>Connecting Technology to Emotions</span><small>Human-centred technology and responsible innovation</small></a>
+        <a data-search-item data-keywords="modules problem discovery triz reverse brainstorming storytelling ip" href="#modules"><span>Workshop module library</span><small>Eight focused modules that can be combined</small></a>
+        <a data-search-item data-keywords="format masterclass half day one day multi session" href="#formats"><span>Delivery formats</span><small>Masterclass, workshop, capability lab or journey</small></a>
+        <a data-search-item data-keywords="pdf download brochures" href="#downloads"><span>Download brochures</span><small>PDF outlines for the three academic programs</small></a>
+      </div>
+      <p class="search-hint"><kbd>/</kbd> to open · <kbd>Esc</kbd> to close</p>
+    </div>
+  </dialog>
+
+  <div class="page-subnav-wrap" aria-label="On this page">
+    <nav class="container page-subnav">
+      <a href="#finder">Find a program</a><a href="#approach">Approach</a><a href="#corporate">Companies</a><a href="#academic">Academia</a><a href="#modules">Modules</a><a href="#formats">Formats</a><a href="#facilitator">Facilitator</a><a href="#downloads">Brochures</a>
+    </nav>
+  </div>
+
   <main id="main">
-    <section class="workshop-hero facilitation-hero section">
+    <section class="workshop-hero facilitation-hero premium-hero section">
       <div class="container workshop-hero-grid">
         <div class="reveal">
+          <div class="availability-pill"><span></span>Customisable for different audiences and outcomes</div>
           <p class="eyebrow">Innovation facilitation portfolio</p>
           <h1>From ideas and conversations to practical innovation capability.</h1>
-          <p class="lead">I design and facilitate applied programs for private companies, universities, faculty, researchers, students and early-career professionals. Each engagement combines problem discovery, inventive thinking, responsible technology, evidence-based storytelling and a clear path to action.</p>
-          <div class="actions"><a class="btn primary" href="#corporate">Programs for private companies</a><a class="btn secondary" href="#academic">Programs for academia</a></div>
+          <p class="lead">I design and facilitate applied programs for private companies, universities, faculty, researchers, students and early-career professionals. Every engagement combines problem discovery, inventive thinking, responsible technology, evidence-based storytelling and a clear path to action.</p>
+          <div class="actions"><a class="btn primary btn-arrow" href="#corporate">Programs for private companies <span>→</span></a><a class="btn secondary btn-arrow" href="#academic">Programs for academia <span>→</span></a></div>
         </div>
         <aside class="hero-note reveal">
           <span>What makes the programs different</span>
-          <ol><li>Designed around participant-owned outputs</li><li>Adapted to the institution or business context</li><li>Built from practical leadership, research and teaching experience</li><li>Focused on action after the workshop</li></ol>
-          <p>Available as focused workshops, full-day programs or multi-session capability journeys.</p>
+          <ol><li>Participant-owned outputs, not passive attendance</li><li>Adapted to the business or institutional context</li><li>Built from practical leadership, research and teaching experience</li><li>Designed to continue after the session</li></ol>
+          <p>Available as focused masterclasses, half-day workshops, one-day capability labs or multi-session journeys.</p>
         </aside>
+      </div>
+    </section>
+
+    <section class="section" id="finder">
+      <div class="container">
+        <div class="program-finder reveal">
+          <div><span>Find the right engagement</span><h2>Start with your audience or desired depth.</h2><p>Use these shortcuts to reach the most relevant content immediately.</p></div>
+          <div class="finder-options">
+            <a href="#corporate">I represent a private company <span>→</span></a>
+            <a href="#academic">I represent an academic institution <span>→</span></a>
+            <a href="#modules">I need specific workshop modules <span>→</span></a>
+            <a href="#formats">I need to compare formats <span>→</span></a>
+            <a href="#downloads">I need a brochure <span>→</span></a>
+            <a href="#collaborate">I need a custom program <span>→</span></a>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section soft" id="approach">
       <div class="container">
-        <div class="section-head centered reveal"><span>Facilitation approach</span><h2>Every program follows a structured path from insight to action.</h2><p>The exact sequence is customised, but the core experience remains practical, collaborative and outcome-led.</p></div>
+        <div class="section-head centered reveal"><span>Facilitation approach</span><h2>A structured path from insight to action.</h2><p>The sequence is customised to the engagement, but the experience remains practical, collaborative and outcome-led.</p></div>
         <div class="facilitation-pathway reveal">
           <div><span>01</span><h3>Discover</h3><p>Surface strategic tensions, unmet needs, stakeholder pain points and underexplored opportunities.</p></div>
           <div><span>02</span><h3>Frame</h3><p>Translate observations into clear problem statements, decision questions and desired outcomes.</p></div>
           <div><span>03</span><h3>Invent</h3><p>Use structured creativity, TRIZ principles, reverse brainstorming and cross-domain analogies.</p></div>
           <div><span>04</span><h3>Evaluate</h3><p>Test value, feasibility, novelty, risk, ethics, trust, adoption and stakeholder relevance.</p></div>
-          <div><span>05</span><h3>Communicate</h3><p>Build an evidence-based narrative for leaders, partners, employers, funders or research reviewers.</p></div>
-          <div><span>06</span><h3>Act</h3><p>Define experiments, owners, milestones, decision gates and a practical 30, 60 or 90-day roadmap.</p></div>
+          <div><span>05</span><h3>Communicate</h3><p>Build an evidence-based narrative for leaders, partners, employers, funders or reviewers.</p></div>
+          <div><span>06</span><h3>Act</h3><p>Define experiments, owners, milestones, decision gates and a practical action roadmap.</p></div>
         </div>
       </div>
     </section>
 
     <section class="section" id="corporate">
       <div class="container">
-        <div class="section-head reveal"><span>For private companies</span><h2>Innovation programs for leadership, R&D, product and cross-functional teams.</h2><p>These engagements can be delivered as standalone workshops or combined into a tailored capability journey. Content is adapted to the organisation's domain, maturity, strategic priorities and expected outputs.</p></div>
+        <div class="section-head reveal"><span>For private companies</span><h2>Innovation programs for leadership, R&D, product and cross-functional teams.</h2><p>Programs can be delivered independently or combined into a tailored journey based on the organisation's domain, maturity and desired outputs.</p></div>
+        <div class="program-directory reveal" aria-label="Corporate program directory">
+          <a href="#corporate-strategy"><small>Leadership lab</small><h3>Innovation Strategy and Opportunity Portfolio</h3><p>Where to invest, what to validate and how to govern progress.</p><b>View program ↓</b></a>
+          <a href="#corporate-ai"><small>AI and technology</small><h3>Responsible AI Innovation and Productisation</h3><p>Move from AI ideas and pilots towards trusted solutions.</p><b>View program ↓</b></a>
+          <a href="#corporate-triz"><small>R&D and product</small><h3>Inventive Problem-Solving for Complex Challenges</h3><p>Reframe contradictions and generate differentiated concepts.</p><b>View program ↓</b></a>
+        </div>
         <div class="corporate-program-grid">
-          <article class="corporate-program reveal"><span>Leadership lab</span><h3>Innovation Strategy and Opportunity Portfolio</h3><p>For senior leaders and innovation teams who need a shared view of where to invest and how to move ideas towards evidence.</p><h4>Core modules</h4><ul><li>Strategic opportunity scanning</li><li>Problem and value-pool mapping</li><li>Portfolio selection and prioritisation</li><li>Experiment design and decision gates</li><li>Governance, ownership and value tracking</li></ul><h4>Typical outputs</h4><p>Opportunity portfolio, prioritisation criteria, experiment backlog and 90-day action plan.</p></article>
-          <article class="corporate-program reveal"><span>AI and technology</span><h3>Responsible AI Innovation and Productisation</h3><p>For teams moving from AI ideas or pilots towards governed, trusted and useful business solutions.</p><h4>Core modules</h4><ul><li>Business problem to AI opportunity</li><li>Data, model and workflow readiness</li><li>Human oversight and responsible AI</li><li>Adoption, operating model and measurement</li><li>Roadmap from pilot to product</li></ul><h4>Typical outputs</h4><p>AI opportunity canvas, risk and governance map, pilot definition and productisation roadmap.</p></article>
-          <article class="corporate-program reveal"><span>R&D and product teams</span><h3>Inventive Problem-Solving for Complex Challenges</h3><p>For teams facing technical contradictions, recurring constraints or incremental idea generation.</p><h4>Core modules</h4><ul><li>Problem reframing and contradiction mapping</li><li>TRIZ-inspired inventive principles</li><li>Reverse brainstorming and failure pathways</li><li>Cross-industry analogies</li><li>Idea evaluation and concept selection</li></ul><h4>Typical outputs</h4><p>Reframed challenge, differentiated concepts, evaluation matrix and experiment candidates.</p></article>
-          <article class="corporate-program reveal"><span>Research and partnerships</span><h3>From Research Insight to Business Value</h3><p>For R&D groups, technology teams and research partnerships that need stronger business relevance and stakeholder alignment.</p><h4>Core modules</h4><ul><li>Research contribution and business relevance</li><li>Evidence, beneficiaries and value narrative</li><li>IP, partnership and commercialisation lens</li><li>Technology maturity and validation</li><li>Executive communication and sponsorship</li></ul><h4>Typical outputs</h4><p>Research value story, partnership map, validation plan and leadership-ready pitch.</p></article>
+          <article class="corporate-program reveal" id="corporate-strategy"><span>Leadership lab</span><h3>Innovation Strategy and Opportunity Portfolio</h3><p>For senior leaders and innovation teams who need a shared view of where to invest and how to move ideas towards evidence.</p><h4>Core modules</h4><ul><li>Strategic opportunity scanning</li><li>Problem and value-pool mapping</li><li>Portfolio selection and prioritisation</li><li>Experiment design and decision gates</li><li>Governance, ownership and value tracking</li></ul><h4>Typical outputs</h4><p>Opportunity portfolio, prioritisation criteria, experiment backlog and 90-day action plan.</p></article>
+          <article class="corporate-program reveal" id="corporate-ai"><span>AI and technology</span><h3>Responsible AI Innovation and Productisation</h3><p>For teams moving from AI ideas or pilots towards governed, trusted and useful business solutions.</p><h4>Core modules</h4><ul><li>Business problem to AI opportunity</li><li>Data, model and workflow readiness</li><li>Human oversight and responsible AI</li><li>Adoption, operating model and measurement</li><li>Roadmap from pilot to product</li></ul><h4>Typical outputs</h4><p>AI opportunity canvas, risk and governance map, pilot definition and productisation roadmap.</p></article>
+          <article class="corporate-program reveal" id="corporate-triz"><span>R&D and product teams</span><h3>Inventive Problem-Solving for Complex Challenges</h3><p>For teams facing technical contradictions, recurring constraints or incremental idea generation.</p><h4>Core modules</h4><ul><li>Problem reframing and contradiction mapping</li><li>TRIZ-inspired inventive principles</li><li>Reverse brainstorming and failure pathways</li><li>Cross-industry analogies</li><li>Idea evaluation and concept selection</li></ul><h4>Typical outputs</h4><p>Reframed challenge, differentiated concepts, evaluation matrix and experiment candidates.</p></article>
+          <article class="corporate-program reveal" id="corporate-research"><span>Research and partnerships</span><h3>From Research Insight to Business Value</h3><p>For R&D groups, technology teams and research partnerships that need stronger business relevance and stakeholder alignment.</p><h4>Core modules</h4><ul><li>Research contribution and business relevance</li><li>Evidence, beneficiaries and value narrative</li><li>IP, partnership and commercialisation lens</li><li>Technology maturity and validation</li><li>Executive communication and sponsorship</li></ul><h4>Typical outputs</h4><p>Research value story, partnership map, validation plan and leadership-ready pitch.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section soft" id="academic">
       <div class="container">
-        <div class="section-head centered reveal"><span>For academic institutions</span><h2>Three signature programs with complete learning journeys.</h2><p>Each program includes participant activities, practical tools, visible takeaways and an optional downloadable PDF brochure.</p></div>
+        <div class="section-head centered reveal"><span>For academic institutions</span><h2>Three signature programs with complete learning journeys.</h2><p>Each program includes participant activities, practical tools, visible takeaways and a downloadable PDF brochure.</p></div>
+        <div class="program-directory reveal" aria-label="Academic program directory">
+          <a href="#innovation-academia"><small>Faculty innovation</small><h3>Innovation in Academia</h3><p>Research novelty, IP potential, funding and partnerships.</p><b>View program ↓</b></a>
+          <a href="#modern-professional"><small>Professional readiness</small><h3>The Modern-Day Professional</h3><p>Employability, communication and innovation confidence.</p><b>View program ↓</b></a>
+          <a href="#technology-emotions"><small>Human-centred technology</small><h3>Connecting Technology to Emotions</h3><p>Responsible AI, trust, inclusion and experience innovation.</p><b>View program ↓</b></a>
+        </div>
+        <div class="section-tools reveal"><button type="button" data-expand-programs="open">Expand all learning journeys</button><button type="button" data-expand-programs="close">Collapse all</button></div>
 
         <article class="workshop-program coral-program reveal" id="innovation-academia">
           <div class="program-cover"><div><span>01 · One-day applied learning program</span><h2>Innovation in Academia</h2><p>A faculty transformation lab for stronger patents, funded research and industry relevance.</p><strong>Research novelty · Patent potential · Fundable partnerships</strong></div></div>
           <div class="program-meta"><div><small>Audience</small><b>Teachers and academic leaders</b></div><div><small>Duration</small><b>1 day · 9:30 to 17:00</b></div><div><small>Format</small><b>Hands-on studio</b></div><div><small>Investment</small><b>INR 3,500 per person</b></div></div>
           <div class="program-content-grid"><div><h3>Why this matters now</h3><p class="program-hook">Turn faculty expertise into a visible pipeline of novel research, defensible IP and fundable partnerships.</p><h4>What participants gain</h4><ul><li>Identify consequential and underexplored problems.</li><li>Move beyond incremental publication towards defensible contribution.</li><li>Shape novel, non-obvious and patent-ready concepts.</li><li>Build credible pathways to industry and government funding.</li></ul><h4>What we will explore</h4><ul><li>Inventive thinking for research and institutional challenges</li><li>Genuine novelty versus routine extensions</li><li>Research storytelling, evidence, IP and stakeholder value</li></ul></div><aside><h4>Who should attend</h4><ul><li>University and college teachers</li><li>Heads of department and deans</li><li>Research supervisors and lab leaders</li><li>Curriculum and faculty-development teams</li></ul><h4>Takeaway toolkit</h4><ul><li>Mapped portfolio of research problems</li><li>Novelty and non-obviousness canvas</li><li>TRIZ and reverse-brainstorming concepts</li><li>30-day experiment, IP and engagement roadmap</li></ul></aside></div>
           <details><summary>View the complete one-day learning journey</summary><div class="details-grid"><div><ol class="agenda"><li><time>09:30 to 10:15</time><span><b>Beyond the next paper:</b> recognise the iterative publication trap and define meaningful impact.</span></li><li><time>10:15 to 11:15</time><span><b>Novel problem discovery:</b> scan tensions, unmet needs and emerging opportunities.</span></li><li><time>11:30 to 12:45</time><span><b>Storytelling for relevance:</b> connect evidence, beneficiaries and urgency.</span></li><li><time>13:45 to 15:00</time><span><b>Framework lab:</b> TRIZ contradictions and structured idea generation.</span></li><li><time>15:15 to 16:15</time><span><b>Reverse brainstorming and IP lens:</b> test novelty and non-obviousness.</span></li><li><time>16:15 to 17:00</time><span><b>Impact pathway:</b> map experiments, patents, partners and funding routes.</span></li></ol></div><div><h4>Methods and included value</h4><p>Novel problem landscapes, research storytelling, TRIZ, reverse brainstorming, publication-to-patent decision lens and industry collaboration canvas.</p><p>Workbook, innovation tool cards, IP lens, funding canvas and participation certificate are included. Institutional cohort pricing is available for 25 to 40 participants.</p></div></div></details>
-          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/innovation-in-academia.pdf.b64" data-filename="Innovation-in-Academia.pdf">Download Innovation in Academia PDF</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Innovation%20in%20Academia%20Workshop">Discuss this workshop</a></div>
+          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/innovation-in-academia.pdf.b64" data-filename="Innovation-in-Academia.pdf">Download PDF brochure</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Innovation%20in%20Academia%20Workshop">Discuss this workshop</a></div>
         </article>
 
         <article class="workshop-program teal-program reveal" id="modern-professional">
@@ -102,7 +159,7 @@
           <div class="program-meta"><div><small>Audience</small><b>Students and early-career talent</b></div><div><small>Duration</small><b>1 day · 9:30 to 17:00</b></div><div><small>Format</small><b>Interactive bootcamp</b></div><div><small>Investment</small><b>From INR 1,800</b></div></div>
           <div class="program-content-grid"><div><h3>Why this matters now</h3><p class="program-hook">Strengthen graduate employability and institutional industry relevance through applied problem-finding, storytelling and innovation.</p><h4>What participants gain</h4><ul><li>Recognise problems with academic and industry relevance.</li><li>Frame work around contribution and outcomes.</li><li>Develop digital fluency, ethical judgement and an IP mindset.</li><li>Communicate a credible value case to employers and funders.</li></ul><h4>What we will explore</h4><ul><li>The capability portfolio of an adaptable professional</li><li>Problem-finding, communication and responsible AI judgement</li><li>Translating academic work into employer-valued language</li></ul></div><aside><h4>Who should attend</h4><ul><li>Final-year undergraduate and postgraduate students</li><li>Doctoral scholars and research associates</li><li>Early-career faculty</li><li>Placement and student-development cohorts</li></ul><h4>Takeaway toolkit</h4><ul><li>T-shaped capability and opportunity map</li><li>Employer-ready professional story</li><li>Inventive solution developed through TRIZ</li><li>60-day learning and collaboration sprint</li></ul></aside></div>
           <details><summary>View the complete one-day learning journey</summary><div class="details-grid"><div><ol class="agenda"><li><time>09:30 to 10:15</time><span><b>The changing professional:</b> AI, ambiguity and the combination of human and digital strengths.</span></li><li><time>10:15 to 11:15</time><span><b>Find problems worth solving:</b> connect trends, stakeholder pain points and personal capability.</span></li><li><time>11:30 to 12:45</time><span><b>Storytelling that travels:</b> present evidence, contribution and impact.</span></li><li><time>13:45 to 15:00</time><span><b>Inventive problem-solving:</b> TRIZ patterns and practical idea selection.</span></li><li><time>15:15 to 16:15</time><span><b>Reverse brainstorming and IP awareness:</b> uncover risks and defensible elements.</span></li><li><time>16:15 to 17:00</time><span><b>Opportunity pitch:</b> create a 60-day collaboration and growth sprint.</span></li></ol></div><div><h4>Methods and included value</h4><p>Opportunity mapping, storytelling with evidence, feedback and influence, responsible AI judgement, TRIZ, reverse brainstorming and pitching.</p><p>Students: INR 1,800. Faculty and professionals: INR 2,800. Workbook, capability map, pitch template and certificate are included.</p></div></div></details>
-          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/modern-day-professional.pdf.b64" data-filename="The-Modern-Day-Professional.pdf">Download Modern-Day Professional PDF</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Modern-Day%20Professional%20Workshop">Discuss this workshop</a></div>
+          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/modern-day-professional.pdf.b64" data-filename="The-Modern-Day-Professional.pdf">Download PDF brochure</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Modern-Day%20Professional%20Workshop">Discuss this workshop</a></div>
         </article>
 
         <article class="workshop-program violet-program reveal" id="technology-emotions">
@@ -110,14 +167,14 @@
           <div class="program-meta"><div><small>Audience</small><b>Students, teachers and designers</b></div><div><small>Duration</small><b>1 day · 9:30 to 17:00</b></div><div><small>Format</small><b>Design and prototype lab</b></div><div><small>Investment</small><b>From INR 2,000</b></div></div>
           <div class="program-content-grid"><div><h3>Why this matters now</h3><p class="program-hook">Position participants at the intersection of human-centred AI, responsible technology and interdisciplinary innovation.</p><h4>What participants gain</h4><ul><li>Reveal human-technology problems worth researching.</li><li>Move beyond feature iterations to meaningful experience innovation.</li><li>Shape non-obvious concepts with patent potential.</li><li>Present an ethical, partner-ready case for collaboration.</li></ul><h4>What we will explore</h4><ul><li>Emotional tensions as sources of technology problems</li><li>Stories and empathy evidence for responsible design</li><li>Usefulness, privacy, trust and inclusion</li></ul></div><aside><h4>Who should attend</h4><ul><li>Engineering, design, management and psychology students</li><li>Teachers and researchers in HCI and AI</li><li>Product, UX and innovation teams in academic incubators</li></ul><h4>Takeaway toolkit</h4><ul><li>Emotion journey map grounded in evidence</li><li>Human-technology tensions and design principles</li><li>TRIZ-generated differentiated concepts</li><li>Prototype with trust, inclusion and ethics checks</li></ul></aside></div>
           <details><summary>View the complete one-day learning journey</summary><div class="details-grid"><div><ol class="agenda"><li><time>09:30 to 10:15</time><span><b>Technology is an emotional experience:</b> trust, anxiety, agency and belonging as innovation signals.</span></li><li><time>10:15 to 11:15</time><span><b>Find unmet needs:</b> empathy interviews and bias-aware observation.</span></li><li><time>11:30 to 12:45</time><span><b>Map the experience:</b> personas, emotion journeys and moments that matter.</span></li><li><time>13:45 to 15:00</time><span><b>Invent around tensions:</b> use TRIZ for privacy, personalisation, control and care.</span></li><li><time>15:15 to 16:15</time><span><b>Reverse brainstorm and IP lens:</b> turn failure modes into differentiated concepts.</span></li><li><time>16:15 to 17:00</time><span><b>Prototype with care:</b> pitch value, emotional signals and ethical safeguards.</span></li></ol></div><div><h4>Methods and included value</h4><p>Emotion-led problem discovery, empathy interviews, journey maps, inclusive design, affective computing foundations, TRIZ, IP lens and responsible testing.</p><p>Students: INR 2,000. Faculty and professionals: INR 3,000. Workbook, empathy, IP and ethics canvases, prototype materials and certificate are included.</p></div></div></details>
-          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/technology-to-emotions.pdf.b64" data-filename="Connecting-Technology-to-Emotions.pdf">Download Technology to Emotions PDF</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Technology%20to%20Emotions%20Workshop">Discuss this workshop</a></div>
+          <div class="program-actions"><a class="btn primary pdf-download" href="downloads/technology-to-emotions.pdf.b64" data-filename="Connecting-Technology-to-Emotions.pdf">Download PDF brochure</a><a class="text-link" href="mailto:amarbanerjee23@gmail.com?subject=Technology%20to%20Emotions%20Workshop">Discuss this workshop</a></div>
         </article>
       </div>
     </section>
 
     <section class="section" id="modules">
       <div class="container">
-        <div class="section-head centered reveal"><span>Modular workshop library</span><h2>Programs can be assembled from focused modules.</h2><p>Modules can be delivered independently or combined into a half-day, one-day or multi-session engagement.</p></div>
+        <div class="section-head centered reveal"><span>Modular workshop library</span><h2>Build a program from focused modules.</h2><p>Modules can be delivered independently or combined into a half-day, one-day or multi-session engagement.</p></div>
         <div class="module-library">
           <article class="module-card reveal"><span>Module 01</span><h3>Meaningful problem discovery</h3><p>Stakeholder tensions, unmet needs, opportunity signals and problem-framing canvases.</p></article>
           <article class="module-card reveal"><span>Module 02</span><h3>Inventive thinking and TRIZ</h3><p>Contradictions, inventive principles, analogies and structured concept generation.</p></article>
@@ -133,12 +190,12 @@
 
     <section class="section soft" id="formats">
       <div class="container">
-        <div class="section-head centered reveal"><span>Delivery formats</span><h2>Choose a format that matches the depth of change required.</h2></div>
+        <div class="section-head centered reveal"><span>Delivery formats</span><h2>Choose the depth of change required.</h2></div>
         <div class="format-grid">
           <article class="format-card reveal"><strong>90 to 120 minutes</strong><h3>Focused masterclass</h3><p>A concise introduction to one theme, with examples, a practical activity and a takeaway canvas.</p></article>
           <article class="format-card reveal"><strong>Half day</strong><h3>Applied workshop</h3><p>Two to three connected modules with group exercises and a defined participant output.</p></article>
-          <article class="format-card reveal"><strong>One day</strong><h3>Capability lab</h3><p>A complete learning journey from problem discovery through concept development and action planning.</p></article>
-          <article class="format-card reveal"><strong>3 to 6 sessions</strong><h3>Innovation journey</h3><p>A multi-session program with between-session assignments, coaching and progressive development of real challenges.</p></article>
+          <article class="format-card reveal"><strong>One day</strong><h3>Capability lab</h3><p>A complete journey from problem discovery through concept development and action planning.</p></article>
+          <article class="format-card reveal"><strong>3 to 6 sessions</strong><h3>Innovation journey</h3><p>A multi-session program with assignments, coaching and progressive development of real challenges.</p></article>
         </div>
       </div>
     </section>
@@ -149,7 +206,7 @@
         <div class="reveal">
           <div class="section-head"><span>Facilitator profile</span><h2>Leadership experience combined with research and teaching depth.</h2></div>
           <p class="large">I bring more than twelve years of experience across technology strategy, AI innovation, healthcare R&D, industrial systems, digital twins, applied research and capability building.</p>
-          <p>My facilitation style is structured but conversational. I use real decision situations, practical frameworks and participant-owned challenges rather than long lectures. The objective is to make complex innovation ideas understandable, usable and relevant to the audience.</p>
+          <p>My facilitation style is structured but conversational. I use real decision situations, practical frameworks and participant-owned challenges rather than long lectures. The objective is to make complex innovation ideas understandable, usable and relevant.</p>
           <div class="facilitator-points"><div><strong>Enterprise</strong><span>Technology strategy, AI transformation, R&D and innovation portfolios</span></div><div><strong>Academic</strong><span>Faculty development, research methods and student capability</span></div><div><strong>Research</strong><span>Publications, patents, knowledge graphs, Green AI and cyber-physical systems</span></div><div><strong>Global</strong><span>Cross-functional collaboration across India, Europe and the United States</span></div></div>
         </div>
       </div>
@@ -178,11 +235,12 @@
       </div>
     </section>
 
-    <section class="contact">
+    <section class="contact premium-contact">
       <div class="container contact-box reveal"><div><span>Discuss a program</span><h2>Looking for a customised innovation workshop or capability journey?</h2><p>Share the audience, organisational context and desired outcome. The program can then be shaped around your priorities.</p></div><div class="actions"><a class="btn light" href="mailto:amarbanerjee23@gmail.com?subject=Innovation%20Facilitation%20Program">Discuss an engagement</a><a class="btn outline" href="index.html">Return to portfolio</a><a class="btn outline" href="https://www.linkedin.com/in/amarbanerjee23" target="_blank" rel="noopener">Connect on LinkedIn</a></div></div>
     </section>
   </main>
 
+  <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
   <footer><div class="container footer-grid"><div class="brand"><span class="brand-mark">AB</span><span><strong>Dr. Amar Banerjee</strong><small>Innovation Leader · Researcher · Facilitator</small></span></div><div class="social"><a href="index.html">Portfolio</a><a href="mailto:amarbanerjee23@gmail.com">Email</a><a href="https://www.linkedin.com/in/amarbanerjee23">LinkedIn</a></div><p>© <span id="year">2026</span> Dr. Amar Banerjee.</p></div></footer>
   <script src="script.js" defer></script>
 </body>
