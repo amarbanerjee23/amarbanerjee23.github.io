@@ -1,3 +1,5 @@
+@import url("academic-conversion.css");
+
 /* Keep the story navigation clear of the main content on standard screens. */
 @media(max-width:1659px){
   .story-nav{
