@@ -1,0 +1,207 @@
+/* Layered story navigation: simple, progressive and easy to scan. */
+:root{
+  --story-accent:#45d3df;
+  --story-accent-warm:#f3c56b;
+  --story-rail-width:210px;
+}
+
+.story-nav{
+  position:fixed;
+  left:max(18px,calc((100vw - 1540px)/2));
+  top:50%;
+  z-index:105;
+  width:var(--story-rail-width);
+  transform:translateY(-50%);
+  padding:18px 14px 15px;
+  border:1px solid color-mix(in srgb,var(--line) 78%,transparent);
+  border-radius:22px;
+  background:color-mix(in srgb,var(--paper) 86%,transparent);
+  backdrop-filter:blur(22px) saturate(145%);
+  -webkit-backdrop-filter:blur(22px) saturate(145%);
+  box-shadow:0 20px 56px rgba(5,23,38,.14);
+}
+.story-nav:before,.story-nav:after{
+  content:"";
+  position:absolute;
+  inset:8px -8px -8px 8px;
+  z-index:-1;
+  border:1px solid color-mix(in srgb,var(--teal) 15%,var(--line));
+  border-radius:22px;
+  background:color-mix(in srgb,var(--paper) 62%,transparent);
+  pointer-events:none;
+}
+.story-nav:after{inset:16px -16px -16px 16px;opacity:.42}
+.story-nav-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:0 4px}
+.story-nav-head small{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.story-nav-count{color:var(--teal);font-size:10px;font-weight:800}
+.story-nav-list{display:grid;gap:5px;margin:0;padding:0;list-style:none}
+.story-nav a{
+  display:grid;
+  grid-template-columns:28px 1fr;
+  align-items:center;
+  gap:10px;
+  min-height:42px;
+  padding:6px 8px;
+  border-radius:12px;
+  color:var(--muted);
+  text-decoration:none;
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+}
+.story-nav a:hover{background:var(--soft);color:var(--text);transform:translateX(2px)}
+.story-nav a[aria-current="step"]{background:var(--navy);color:#fff}
+.story-nav-number{
+  display:grid;
+  place-items:center;
+  width:26px;
+  height:26px;
+  border:1px solid color-mix(in srgb,var(--line) 80%,transparent);
+  border-radius:9px;
+  background:color-mix(in srgb,var(--paper) 72%,transparent);
+  font-size:9px;
+  font-weight:800;
+}
+.story-nav a[aria-current="step"] .story-nav-number{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:var(--story-accent)}
+.story-nav-label{font-size:11px;font-weight:750;line-height:1.2}
+.story-progress-track{height:3px;margin:13px 4px 0;border-radius:999px;background:var(--line);overflow:hidden}
+.story-progress-bar{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--teal),var(--story-accent-warm));transition:width .28s ease}
+
+.story-next{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:104;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:54px;
+  max-width:270px;
+  padding:10px 13px 10px 16px;
+  border:1px solid color-mix(in srgb,var(--line) 78%,transparent);
+  border-radius:18px;
+  background:color-mix(in srgb,var(--paper) 89%,transparent);
+  color:var(--text);
+  text-decoration:none;
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 18px 48px rgba(5,23,38,.16);
+  transition:transform .18s ease,border-color .18s ease;
+}
+.story-next:before{
+  content:"";
+  position:absolute;
+  inset:6px -7px -7px 7px;
+  z-index:-1;
+  border:1px solid color-mix(in srgb,var(--teal) 18%,var(--line));
+  border-radius:18px;
+  background:color-mix(in srgb,var(--paper) 58%,transparent);
+}
+.story-next:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--teal) 50%,var(--line))}
+.story-next-copy{display:grid;gap:2px;min-width:0}
+.story-next-copy small{color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.story-next-copy strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
+.story-next-arrow{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:12px;background:var(--navy);color:#fff;font-size:16px}
+.story-next[hidden]{display:none}
+
+.story-layer{position:relative}
+.story-chapter-marker{
+  position:absolute;
+  top:18px;
+  left:max(20px,calc((100vw - var(--ux-max))/2));
+  z-index:3;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.story-chapter-marker:before{content:"";width:24px;height:1px;background:linear-gradient(90deg,var(--teal),transparent)}
+.premium-hero .story-chapter-marker,.workshop-hero .story-chapter-marker,.gallery-hero .story-chapter-marker{color:rgba(238,248,252,.78)}
+.premium-hero .story-chapter-marker:before,.workshop-hero .story-chapter-marker:before,.gallery-hero .story-chapter-marker:before{background:linear-gradient(90deg,var(--story-accent),transparent)}
+
+.story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.contact):after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:50%;
+  width:min(var(--ux-max),calc(100% - 40px));
+  height:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--line) 72%,transparent),transparent);
+  pointer-events:none;
+}
+
+/* SVG hero background: crisp at every screen size. */
+.portfolio-home .premium-hero,
+.workshops-page .workshop-hero,
+.gallery-page .gallery-hero{
+  background-image:
+    linear-gradient(90deg,rgba(3,17,31,.95) 0%,rgba(3,17,31,.84) 42%,rgba(3,17,31,.42) 71%,rgba(3,17,31,.25) 100%),
+    linear-gradient(180deg,rgba(3,17,31,.08),rgba(3,17,31,.70)),
+    url("assets/ai-innovation-network.svg")!important;
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+}
+
+@media(max-width:1390px){
+  .story-nav{
+    left:18px;
+    width:182px;
+  }
+  .story-nav-label{font-size:10px}
+}
+
+@media(max-width:1180px){
+  .story-nav{
+    top:auto;
+    left:50%;
+    bottom:16px;
+    width:min(720px,calc(100% - 148px));
+    transform:translateX(-50%);
+    padding:8px 10px;
+    border-radius:18px;
+  }
+  .story-nav:before,.story-nav:after{display:none}
+  .story-nav-head,.story-progress-track{display:none}
+  .story-nav-list{display:flex;gap:4px;overflow:auto;scrollbar-width:none;overscroll-behavior-inline:contain}
+  .story-nav-list::-webkit-scrollbar{display:none}
+  .story-nav li{flex:0 0 auto}
+  .story-nav a{grid-template-columns:26px auto;min-height:42px;padding:5px 9px}
+  .story-next{right:14px;bottom:16px;max-width:128px;min-height:58px;padding:9px}
+  .story-next-copy small{display:none}
+  .story-next-copy strong{max-width:64px;font-size:10px}
+  .story-next-arrow{width:34px;height:34px;flex-basis:34px}
+  .back-to-top{bottom:84px!important}
+}
+
+@media(max-width:700px){
+  .story-nav{left:12px;right:84px;bottom:12px;width:auto;transform:none}
+  .story-nav-label{display:none}
+  .story-nav a{grid-template-columns:26px;padding:5px}
+  .story-next{right:12px;bottom:12px;max-width:62px;min-width:62px;justify-content:center;padding:8px}
+  .story-next-copy{display:none}
+  .story-chapter-marker{top:14px;left:20px}
+  .portfolio-home .premium-hero,
+  .workshops-page .workshop-hero,
+  .gallery-page .gallery-hero{
+    background-image:
+      linear-gradient(180deg,rgba(3,17,31,.91),rgba(3,17,31,.72)),
+      url("assets/ai-innovation-network.svg")!important;
+    background-position:66% center!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .story-nav a,.story-next,.story-progress-bar{transition:none!important}
+}
+
+@media(prefers-reduced-data:reduce){
+  .portfolio-home .premium-hero,
+  .workshops-page .workshop-hero,
+  .gallery-page .gallery-hero{
+    background-image:linear-gradient(145deg,#041629,#0a3953)!important;
+  }
+}
