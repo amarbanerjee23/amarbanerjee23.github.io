@@ -1,0 +1,250 @@
+\RequirePackage{fix-cm}
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,top=6mm,bottom=6mm,left=10mm,right=10mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[default,proportional]{lato}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx,array}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{2em}
+\hbadness=10000
+\vbadness=10000
+\def\fontsubfuzz{0.5pt}
+
+\definecolor{Navy}{HTML}{102A43}
+\definecolor{Ink}{HTML}{243B53}
+\definecolor{Mist}{HTML}{F3F7FA}
+\definecolor{Slate}{HTML}{627D98}
+\definecolor{Coral}{HTML}{E85D5D}
+\definecolor{Teal}{HTML}{138A8A}
+\definecolor{Violet}{HTML}{6E5AA8}
+\definecolor{Gold}{HTML}{F0B44D}
+\colorlet{Accent}{Coral}
+\pagecolor{Mist!38!white}
+
+\hypersetup{
+  pdftitle={Academic Innovation Workshop Brochures},
+  pdfauthor={Dr. Amar Banerjee},
+  pdfsubject={Academic workshops on innovation, professional readiness, and human-centred technology}
+}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\setlist[itemize]{
+  leftmargin=4mm,
+  rightmargin=0mm,
+  topsep=1mm,
+  itemsep=0.8mm,
+  parsep=0pt,
+  label=\textcolor{Accent}{\bfseries\textbullet}
+}
+
+\newtcolorbox{brochurecard}[1][]{
+  enhanced,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  arc=3mm,
+  drop fuzzy shadow=black!9,
+  borderline west={1.15mm}{0mm}{Accent},
+  left=3mm,
+  right=2.8mm,
+  top=2.1mm,
+  bottom=2.1mm,
+  before skip=0mm,
+  after skip=2.5mm,
+  #1
+}
+
+\newtcolorbox{feecard}{
+  enhanced,
+  colback=Gold!13!white,
+  colframe=Gold!55!white,
+  boxrule=0.45pt,
+  arc=3mm,
+  drop fuzzy shadow=black!9,
+  borderline north={1.3mm}{0mm}{Gold},
+  left=3mm,right=3mm,top=2.4mm,bottom=2.4mm,
+  before skip=0mm,after skip=2.5mm
+}
+
+\newcommand{\SectionHead}[1]{%
+  {\color{Navy}\bfseries\fontsize{10.4}{11.5}\selectfont #1}\par
+  \vspace{0.4mm}{\color{Accent}\rule{11mm}{1.2pt}}\par\vspace{0.7mm}
+}
+
+\newcommand{\WorkshopHeader}[6]{%
+  \begingroup
+  \fontsize{8}{9.6}\selectfont
+  \begin{tcolorbox}[
+    enhanced,
+    colback=Navy,
+    colframe=Navy,
+    interior style={left color=Navy,right color=Navy!72!Accent},
+    boxrule=0pt,
+    arc=4mm,
+    height=44mm,
+    valign=center,
+    left=6mm,right=5mm,top=3.5mm,bottom=3.5mm,
+    before skip=0mm,after skip=2.5mm,
+    overlay={
+      \begin{scope}[opacity=0.13]
+        \fill[Accent] ([xshift=-13mm,yshift=7mm]frame.south east) circle (25mm);
+        \draw[white,line width=1.1pt]
+          ([xshift=-34mm,yshift=-3mm]frame.north east) circle (15mm);
+        \draw[Accent,line width=0.9pt]
+          ([xshift=-52mm,yshift=10mm]frame.south east) circle (8mm);
+        \foreach \x in {0,4,...,20}{
+          \draw[white!80,line width=0.35pt]
+            ([xshift=-58mm+\x mm,yshift=-6mm]frame.north east) --
+            ([xshift=-30mm+\x mm,yshift=8mm]frame.south east);
+        }
+      \end{scope}
+      \node[text=white,opacity=0.07,
+        font=\fontsize{48}{48}\selectfont]
+        at ([xshift=-61mm,yshift=-5mm]frame.north east) {#5};
+    }
+  ]
+    \begin{minipage}[c]{0.69\linewidth}
+      \tikz[baseline=(label.base)]
+        \node[fill=Accent,text=Navy,rounded corners=1.2mm,
+          inner xsep=2.2mm,inner ysep=0.7mm,
+          font=\bfseries\fontsize{7.4}{8}\selectfont] (label)
+          {ONE-DAY APPLIED LEARNING PROGRAM};\par
+      \vspace{1.4mm}
+      {\color{white}\bfseries\fontsize{22}{25}\selectfont
+        \RaggedRight\hyphenpenalty=10000\exhyphenpenalty=10000 #2}\par
+      \vspace{1.1mm}
+      {\color{white!78}\fontsize{8.8}{10.2}\selectfont #3}\par
+      \vspace{1.2mm}
+      {\color{Gold}\fontsize{8.4}{9.6}\selectfont\bfseries
+        \faBolt\hspace{1.3mm}VALUE PROMISE: #4}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.26\linewidth}
+      \centering
+      \begin{tikzpicture}
+        \fill[Accent] (0,0) circle (14.5mm);
+        \draw[white!45,line width=0.8pt] (0,0) circle (16mm);
+        \node[text=white,font=\bfseries\fontsize{31}{31}\selectfont] at (0,1.5mm) {#1};
+        \node[text=Navy,font=\bfseries\fontsize{6.7}{7}\selectfont] at (0,-7.2mm) {WORKSHOP};
+      \end{tikzpicture}
+    \end{minipage}
+  \end{tcolorbox}
+  \endgroup
+}
+
+\newcommand{\LeaderHook}[1]{%
+  \begin{tcolorbox}[
+    enhanced,colback=Accent!10!white,colframe=Accent!18!white,
+    boxrule=0.35pt,arc=2mm,
+    left=2mm,right=2mm,top=1.2mm,bottom=1.2mm,
+    before skip=0mm,after skip=1.5mm
+  ]
+    {\color{Accent}\bfseries\fontsize{6.5}{7}\selectfont
+      \faUniversity\hspace{1.1mm}FOR ACADEMIC LEADERS}\par
+    \vspace{0.35mm}
+    {\color{Navy}\bfseries\fontsize{8.15}{9.3}\selectfont #1}
+  \end{tcolorbox}
+}
+
+\newcommand{\WhyItMatters}[2]{%
+  \begin{tabularx}{\linewidth}{@{}Y@{\hspace{2mm}}Y@{}}
+    \begin{minipage}[t]{\linewidth}
+      {\color{Accent}\bfseries\fontsize{6.35}{6.9}\selectfont
+        \faUserGraduate\hspace{0.9mm}WHY STUDENTS NEED IT}\par
+      \vspace{0.4mm}
+      {\color{Ink}\fontsize{7.15}{8.55}\selectfont #1}
+    \end{minipage}
+    &
+    \begin{minipage}[t]{\linewidth}
+      {\color{Accent}\bfseries\fontsize{6.35}{6.9}\selectfont
+        \faChalkboardTeacher\hspace{0.9mm}WHY ACADEMICIANS NEED IT}\par
+      \vspace{0.4mm}
+      {\color{Ink}\fontsize{7.15}{8.55}\selectfont #2}
+    \end{minipage}
+  \end{tabularx}
+}
+
+\newcommand{\IconBubble}[1]{%
+  \tikz[baseline=(icon.base)]
+    \node[circle,fill=Accent,text=white,minimum size=5.8mm,
+      inner sep=0pt,font=\fontsize{7.6}{8}\selectfont] (icon) {#1};%
+}
+
+\newcommand{\MetaItem}[3]{%
+  \begin{minipage}[t]{\linewidth}
+    \IconBubble{#1}\hspace{1.4mm}%
+    {\color{Slate}\bfseries\fontsize{6.8}{7.3}\selectfont\MakeUppercase{#2}}\par
+    \vspace{0.5mm}{\color{Navy}\bfseries\fontsize{8.1}{9}\selectfont #3}
+  \end{minipage}
+}
+
+\newcommand{\MetaStrip}[4]{%
+  \begin{tcolorbox}[
+    colback=Accent!7!white,
+    colframe=white,
+    boxrule=0pt,
+    arc=3mm,
+    left=3mm,right=3mm,top=1.7mm,bottom=1.7mm,
+    before skip=0mm,after skip=2.5mm,
+    drop fuzzy shadow=black!8
+  ]
+    \begin{tabularx}{\linewidth}{Y@{\hspace{4mm}}Y@{\hspace{4mm}}Y@{\hspace{4mm}}Y}
+      \MetaItem{\faUsers}{Audience}{#1} &
+      \MetaItem{\faClock}{Duration}{#2} &
+      \MetaItem{\faChalkboardTeacher}{Format}{#3} &
+      \MetaItem{\faRupeeSign}{Investment}{#4}
+    \end{tabularx}
+  \end{tcolorbox}
+}
+
+\newcommand{\ScheduleRow}[2]{%
+  \noindent
+  \begin{minipage}[t]{0.235\linewidth}
+    {\color{Accent}\bfseries\fontsize{7.5}{8.5}\selectfont #1}
+  \end{minipage}\hfill%
+  \begin{minipage}[t]{0.735\linewidth}
+    {\color{Ink}\fontsize{7.7}{9}\selectfont #2}
+  \end{minipage}\par\vspace{1.25mm}
+}
+
+\newcommand{\Footer}{%
+  \vfill
+  \begin{tcolorbox}[
+    colback=Navy,colframe=Navy,boxrule=0pt,arc=2mm,
+    left=3mm,right=3mm,top=1.4mm,bottom=1.4mm,
+    before skip=1mm,after skip=0mm
+  ]
+    \begin{tabularx}{\linewidth}{Y r}
+      {\color{white}\bfseries\fontsize{8.4}{9}\selectfont
+        NOVEL PROBLEMS \textbullet\ DEFENSIBLE IDEAS \textbullet\ REAL-WORLD IMPACT}
+      &
+      {\color{white!82}\fontsize{7.8}{9}\selectfont
+        \faEnvelope\ amarbanerjee23@gmail.com\quad
+        \faGlobe\ amarbanerjee.com}
+    \end{tabularx}
+  \end{tcolorbox}
+}
+
+\begin{document}
+\fontsize{8.5}{10.2}\selectfont
+\RaggedRight
+
+\input{brochure-innovation-academia.tex}
+\newpage
+\input{brochure-modern-professional.tex}
+\newpage
+\input{brochure-technology-emotions.tex}
+
+\end{document}
