@@ -3,6 +3,26 @@
   const themeButton = document.querySelector('.theme-toggle');
   const navButton = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
+  const searchResults = document.querySelector('.search-results');
+
+  if (nav && !nav.querySelector('a[href="facilitation-gallery.html"]')) {
+    const galleryLink = document.createElement('a');
+    galleryLink.href = 'facilitation-gallery.html';
+    galleryLink.textContent = 'Gallery';
+    const facilitationLink = nav.querySelector('a[href="workshops.html"]');
+    if (facilitationLink) facilitationLink.insertAdjacentElement('afterend', galleryLink);
+    else nav.appendChild(galleryLink);
+  }
+
+  if (searchResults && !searchResults.querySelector('a[href="facilitation-gallery.html"]')) {
+    const galleryResult = document.createElement('a');
+    galleryResult.href = 'facilitation-gallery.html';
+    galleryResult.dataset.searchItem = '';
+    galleryResult.dataset.keywords = 'gallery linkedin posts facilitation workshop panel mentoring';
+    galleryResult.innerHTML = '<span>Facilitation gallery</span><small>Selected LinkedIn posts from workshops, panels and mentoring</small>';
+    searchResults.appendChild(galleryResult);
+  }
+
   const navLinks = [...document.querySelectorAll('.nav a')];
   const progress = document.getElementById('progress-bar');
   const year = document.getElementById('year');
