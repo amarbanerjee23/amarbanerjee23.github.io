@@ -2,12 +2,20 @@
   const root = document.documentElement;
   const body = document.body;
 
-  if (!document.querySelector('link[href="ux-state-of-art.css"]')) {
+  [
+    'ux-state-of-art.css',
+    'ai-bg-tl.css',
+    'ai-bg-tr.css',
+    'ai-bg-bl.css',
+    'ai-bg-br.css',
+    'ai-background.css'
+  ].forEach(href => {
+    if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = 'ux-state-of-art.css';
+    stylesheet.href = href;
     document.head.appendChild(stylesheet);
-  }
+  });
 
   const pageName = location.pathname.split('/').pop() || 'index.html';
   const page = pageName === 'workshops.html' ? 'workshops' : pageName === 'facilitation-gallery.html' ? 'gallery' : 'home';
