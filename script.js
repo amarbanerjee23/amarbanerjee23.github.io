@@ -3,9 +3,15 @@
   const themeButton = document.querySelector('.theme-toggle');
   const navButton = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
-  const links = [...document.querySelectorAll('.nav a')];
+  const navLinks = [...document.querySelectorAll('.nav a')];
   const progress = document.getElementById('progress-bar');
   const year = document.getElementById('year');
+  const backToTop = document.querySelector('.back-to-top');
+  const searchDialog = document.getElementById('site-search');
+  const searchTrigger = document.querySelector('.site-search-trigger');
+  const searchClose = document.querySelector('.search-close');
+  const searchInput = document.getElementById('site-search-input');
+  const searchItems = [...document.querySelectorAll('[data-search-item]')];
 
   const savedTheme = localStorage.getItem('portfolio-theme');
   const initialTheme = savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -24,18 +30,21 @@
     nav?.classList.toggle('open', !open);
   });
 
-  links.forEach(link => link.addEventListener('click', () => {
+  navLinks.forEach(link => link.addEventListener('click', () => {
     nav?.classList.remove('open');
     navButton?.setAttribute('aria-expanded', 'false');
   }));
 
-  const updateProgress = () => {
+  const updateScrollUI = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     const value = max > 0 ? Math.min(100, scrollY / max * 100) : 0;
     if (progress) progress.style.width = `${value}%`;
+    backToTop?.classList.toggle('visible', scrollY > 700);
   };
-  updateProgress();
-  addEventListener('scroll', updateProgress, { passive: true });
+  updateScrollUI();
+  addEventListener('scroll', updateScrollUI, { passive: true });
+
+  backToTop?.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
   const revealElements = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
@@ -46,23 +55,81 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px' });
     revealElements.forEach(element => observer.observe(element));
   } else {
     revealElements.forEach(element => element.classList.add('visible'));
   }
 
-  const anchorLinks = links.filter(link => link.getAttribute('href')?.startsWith('#'));
-  const sections = anchorLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
+  const allSectionLinks = [...document.querySelectorAll('.nav a[href^="#"], .page-subnav a[href^="#"]')];
+  const sectionMap = new Map();
+  allSectionLinks.forEach(link => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    const key = target.id;
+    if (!sectionMap.has(key)) sectionMap.set(key, { target, links: [] });
+    sectionMap.get(key).links.push(link);
+  });
+
+  if ('IntersectionObserver' in window && sectionMap.size) {
     const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        anchorLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
-      });
-    }, { rootMargin: '-35% 0px -55%' });
-    sections.forEach(section => sectionObserver.observe(section));
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      sectionMap.forEach(({ links }, key) => links.forEach(link => link.classList.toggle('active', key === visible.target.id)));
+      const activeSubnav = document.querySelector('.page-subnav a.active');
+      activeSubnav?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, { rootMargin: '-28% 0px -60%', threshold: [0, 0.1, 0.25] });
+    sectionMap.forEach(({ target }) => sectionObserver.observe(target));
   }
+
+  const openSearch = () => {
+    if (!searchDialog) return;
+    if (typeof searchDialog.showModal === 'function') searchDialog.showModal();
+    else searchDialog.setAttribute('open', '');
+    requestAnimationFrame(() => searchInput?.focus());
+  };
+
+  const closeSearch = () => {
+    if (!searchDialog) return;
+    if (typeof searchDialog.close === 'function') searchDialog.close();
+    else searchDialog.removeAttribute('open');
+  };
+
+  searchTrigger?.addEventListener('click', openSearch);
+  searchClose?.addEventListener('click', closeSearch);
+  searchDialog?.addEventListener('click', event => {
+    if (event.target === searchDialog) closeSearch();
+  });
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    searchItems.forEach(item => {
+      const haystack = `${item.textContent} ${item.dataset.keywords || ''}`.toLowerCase();
+      item.hidden = query.length > 0 && !haystack.includes(query);
+    });
+  });
+
+  searchItems.forEach(item => item.addEventListener('click', () => {
+    closeSearch();
+    searchInput.value = '';
+    searchItems.forEach(entry => { entry.hidden = false; });
+  }));
+
+  addEventListener('keydown', event => {
+    const activeTag = document.activeElement?.tagName?.toLowerCase();
+    const typing = activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.isContentEditable;
+    if (event.key === '/' && !typing && searchDialog && !searchDialog.open) {
+      event.preventDefault();
+      openSearch();
+    }
+  });
+
+  document.querySelectorAll('[data-expand-programs]').forEach(button => {
+    button.addEventListener('click', () => {
+      const shouldOpen = button.dataset.expandPrograms === 'open';
+      document.querySelectorAll('.workshop-program details').forEach(details => { details.open = shouldOpen; });
+    });
+  });
 
   document.querySelectorAll('.pdf-download').forEach(link => {
     link.addEventListener('click', async event => {
@@ -76,7 +143,7 @@
         const base64 = (await response.text()).replace(/\s/g, '');
         const binary = atob(base64);
         const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+        for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
         const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
         const anchor = document.createElement('a');
         anchor.href = url;
