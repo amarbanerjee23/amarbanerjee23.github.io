@@ -1,153 +1,187 @@
 (() => {
   const root = document.documentElement;
-  const themeButton = document.querySelector('.theme-toggle');
-  const navButton = document.querySelector('.nav-toggle');
+  const body = document.body;
+
+  if (!document.querySelector('link[href="ux-state-of-art.css"]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = 'ux-state-of-art.css';
+    document.head.appendChild(stylesheet);
+  }
+
+  const pageName = location.pathname.split('/').pop() || 'index.html';
+  const page = pageName === 'workshops.html' ? 'workshops' : pageName === 'facilitation-gallery.html' ? 'gallery' : 'home';
   const nav = document.querySelector('.nav');
-  const searchResults = document.querySelector('.search-results');
-
-  if (nav && !nav.querySelector('a[href="facilitation-gallery.html"]')) {
-    const galleryLink = document.createElement('a');
-    galleryLink.href = 'facilitation-gallery.html';
-    galleryLink.textContent = 'Gallery';
-    const facilitationLink = nav.querySelector('a[href="workshops.html"]');
-    if (facilitationLink) facilitationLink.insertAdjacentElement('afterend', galleryLink);
-    else nav.appendChild(galleryLink);
-  }
-
-  if (searchResults && !searchResults.querySelector('a[href="facilitation-gallery.html"]')) {
-    const galleryResult = document.createElement('a');
-    galleryResult.href = 'facilitation-gallery.html';
-    galleryResult.dataset.searchItem = '';
-    galleryResult.dataset.keywords = 'gallery linkedin posts facilitation workshop panel mentoring';
-    galleryResult.innerHTML = '<span>Facilitation gallery</span><small>Selected LinkedIn posts from workshops, panels and mentoring</small>';
-    searchResults.appendChild(galleryResult);
-  }
-
-  const navLinks = [...document.querySelectorAll('.nav a')];
+  const navButton = document.querySelector('.nav-toggle');
+  const themeButton = document.querySelector('.theme-toggle');
   const progress = document.getElementById('progress-bar');
-  const year = document.getElementById('year');
   const backToTop = document.querySelector('.back-to-top');
-  const searchDialog = document.getElementById('site-search');
-  const searchTrigger = document.querySelector('.site-search-trigger');
-  const searchClose = document.querySelector('.search-close');
-  const searchInput = document.getElementById('site-search-input');
-  const searchItems = [...document.querySelectorAll('[data-search-item]')];
+  const year = document.getElementById('year');
+
+  const navigation = {
+    home: [
+      ['Home', '#overview'],
+      ['Leadership', '#leadership'],
+      ['Programs', 'workshops.html'],
+      ['Gallery', 'facilitation-gallery.html'],
+      ['Contact', '#contact']
+    ],
+    workshops: [
+      ['Home', 'index.html'],
+      ['Programs', '#finder'],
+      ['Academia', '#academic'],
+      ['Gallery', 'facilitation-gallery.html'],
+      ['Brochures', '#downloads']
+    ],
+    gallery: [
+      ['Home', 'index.html'],
+      ['Programs', 'workshops.html'],
+      ['Gallery', 'facilitation-gallery.html'],
+      ['Posts', '#posts'],
+      ['Contact', '#contact']
+    ]
+  };
+
+  if (nav) {
+    nav.innerHTML = navigation[page].map(([label, href]) => {
+      const current = (page === 'gallery' && href === 'facilitation-gallery.html') || (page === 'workshops' && href === '#finder');
+      return `<a href="${href}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
+    }).join('');
+  }
+
+  document.querySelectorAll('.site-search-trigger,.site-search').forEach(element => element.remove());
+  document.querySelectorAll('.post-preview-button').forEach(element => element.remove());
+  document.getElementById('linkedin-preview')?.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'ux-toast';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  body.appendChild(toast);
+  let toastTimer;
+  const showToast = message => {
+    toast.textContent = message;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 2600);
+  };
 
   const savedTheme = localStorage.getItem('portfolio-theme');
-  const initialTheme = savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  root.dataset.theme = initialTheme;
+  root.dataset.theme = savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+  const updateThemeButton = () => {
+    if (!themeButton) return;
+    const dark = root.dataset.theme === 'dark';
+    themeButton.textContent = dark ? '☀' : '☾';
+    themeButton.setAttribute('aria-label', dark ? 'Use light theme' : 'Use dark theme');
+    themeButton.setAttribute('title', dark ? 'Use light theme' : 'Use dark theme');
+  };
+  updateThemeButton();
 
   themeButton?.addEventListener('click', () => {
-    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = next;
-    localStorage.setItem('portfolio-theme', next);
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('portfolio-theme', root.dataset.theme);
+    updateThemeButton();
   });
 
-  navButton?.addEventListener('click', () => {
-    const open = navButton.getAttribute('aria-expanded') === 'true';
-    navButton.setAttribute('aria-expanded', String(!open));
-    navButton.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
-    nav?.classList.toggle('open', !open);
-  });
+  const mobileQuery = matchMedia('(max-width: 960px)');
+  const backdrop = document.createElement('button');
+  backdrop.type = 'button';
+  backdrop.className = 'mobile-nav-backdrop';
+  backdrop.setAttribute('aria-label', 'Close navigation');
+  backdrop.tabIndex = -1;
+  document.querySelector('.site-header')?.insertAdjacentElement('afterend', backdrop);
 
-  navLinks.forEach(link => link.addEventListener('click', () => {
+  const closeNav = ({ returnFocus = false } = {}) => {
     nav?.classList.remove('open');
     navButton?.setAttribute('aria-expanded', 'false');
-  }));
+    navButton?.setAttribute('aria-label', 'Open navigation');
+    body.classList.remove('nav-open');
+    if (returnFocus) navButton?.focus();
+  };
+
+  const openNav = () => {
+    nav?.classList.add('open');
+    navButton?.setAttribute('aria-expanded', 'true');
+    navButton?.setAttribute('aria-label', 'Close navigation');
+    if (mobileQuery.matches) body.classList.add('nav-open');
+  };
+
+  navButton?.addEventListener('click', () => {
+    if (nav?.classList.contains('open')) closeNav();
+    else openNav();
+  });
+  backdrop.addEventListener('click', () => closeNav({ returnFocus: true }));
+  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeNav()));
+
+  addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav?.classList.contains('open')) {
+      event.preventDefault();
+      closeNav({ returnFocus: true });
+      return;
+    }
+    if (event.key !== 'Tab' || !mobileQuery.matches || !nav?.classList.contains('open')) return;
+    const links = [...nav.querySelectorAll('a[href]')];
+    if (!links.length) return;
+    const first = links[0];
+    const last = links[links.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  mobileQuery.addEventListener?.('change', () => {
+    if (!mobileQuery.matches) closeNav();
+  });
 
   const updateScrollUI = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
-    const value = max > 0 ? Math.min(100, scrollY / max * 100) : 0;
-    if (progress) progress.style.width = `${value}%`;
+    const percentage = max > 0 ? Math.min(100, scrollY / max * 100) : 0;
+    if (progress) progress.style.width = `${percentage}%`;
     backToTop?.classList.toggle('visible', scrollY > 700);
   };
   updateScrollUI();
   addEventListener('scroll', updateScrollUI, { passive: true });
-
   backToTop?.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
   const revealElements = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px' });
-    revealElements.forEach(element => observer.observe(element));
+    }, { threshold: 0.08, rootMargin: '0px 0px -35px' });
+    revealElements.forEach(element => revealObserver.observe(element));
   } else {
     revealElements.forEach(element => element.classList.add('visible'));
   }
 
-  const allSectionLinks = [...document.querySelectorAll('.nav a[href^="#"], .page-subnav a[href^="#"]')];
-  const sectionMap = new Map();
-  allSectionLinks.forEach(link => {
-    const target = document.querySelector(link.getAttribute('href'));
-    if (!target) return;
-    const key = target.id;
-    if (!sectionMap.has(key)) sectionMap.set(key, { target, links: [] });
-    sectionMap.get(key).links.push(link);
-  });
+  const sectionLinks = [...(nav?.querySelectorAll('a[href^="#"]') || [])];
+  const sectionEntries = sectionLinks.map(link => {
+    const section = document.querySelector(link.getAttribute('href'));
+    return section ? { link, section } : null;
+  }).filter(Boolean);
 
-  if ('IntersectionObserver' in window && sectionMap.size) {
+  if ('IntersectionObserver' in window && sectionEntries.length) {
     const sectionObserver = new IntersectionObserver(entries => {
-      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      sectionMap.forEach(({ links }, key) => links.forEach(link => link.classList.toggle('active', key === visible.target.id)));
-      const activeSubnav = document.querySelector('.page-subnav a.active');
-      activeSubnav?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }, { rootMargin: '-28% 0px -60%', threshold: [0, 0.1, 0.25] });
-    sectionMap.forEach(({ target }) => sectionObserver.observe(target));
+      const current = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!current) return;
+      sectionEntries.forEach(({ link, section }) => link.classList.toggle('active', section === current.target));
+    }, { rootMargin: '-30% 0px -58%', threshold: [0, .12, .3] });
+    sectionEntries.forEach(({ section }) => sectionObserver.observe(section));
   }
-
-  const openSearch = () => {
-    if (!searchDialog) return;
-    if (typeof searchDialog.showModal === 'function') searchDialog.showModal();
-    else searchDialog.setAttribute('open', '');
-    requestAnimationFrame(() => searchInput?.focus());
-  };
-
-  const closeSearch = () => {
-    if (!searchDialog) return;
-    if (typeof searchDialog.close === 'function') searchDialog.close();
-    else searchDialog.removeAttribute('open');
-  };
-
-  searchTrigger?.addEventListener('click', openSearch);
-  searchClose?.addEventListener('click', closeSearch);
-  searchDialog?.addEventListener('click', event => {
-    if (event.target === searchDialog) closeSearch();
-  });
-
-  searchInput?.addEventListener('input', () => {
-    const query = searchInput.value.trim().toLowerCase();
-    searchItems.forEach(item => {
-      const haystack = `${item.textContent} ${item.dataset.keywords || ''}`.toLowerCase();
-      item.hidden = query.length > 0 && !haystack.includes(query);
-    });
-  });
-
-  searchItems.forEach(item => item.addEventListener('click', () => {
-    closeSearch();
-    searchInput.value = '';
-    searchItems.forEach(entry => { entry.hidden = false; });
-  }));
-
-  addEventListener('keydown', event => {
-    const activeTag = document.activeElement?.tagName?.toLowerCase();
-    const typing = activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.isContentEditable;
-    if (event.key === '/' && !typing && searchDialog && !searchDialog.open) {
-      event.preventDefault();
-      openSearch();
-    }
-  });
 
   document.querySelectorAll('[data-expand-programs]').forEach(button => {
     button.addEventListener('click', () => {
-      const shouldOpen = button.dataset.expandPrograms === 'open';
-      document.querySelectorAll('.workshop-program details').forEach(details => { details.open = shouldOpen; });
+      const open = button.dataset.expandPrograms === 'open';
+      document.querySelectorAll('.workshop-program details').forEach(details => { details.open = open; });
+      showToast(open ? 'All learning journeys expanded.' : 'Learning journeys collapsed.');
     });
   });
 
@@ -156,7 +190,7 @@
       event.preventDefault();
       const originalText = link.textContent;
       link.setAttribute('aria-busy', 'true');
-      if (link.classList.contains('btn')) link.textContent = 'Preparing PDF...';
+      link.textContent = 'Preparing PDF…';
       try {
         const response = await fetch(link.href);
         if (!response.ok) throw new Error(`PDF source could not be loaded (${response.status})`);
@@ -164,30 +198,24 @@
         const binary = atob(base64);
         const bytes = new Uint8Array(binary.length);
         for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-        const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = link.dataset.filename || 'workshop-brochure.pdf';
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        const download = document.createElement('a');
+        download.href = objectUrl;
+        download.download = link.dataset.filename || 'workshop-brochure.pdf';
+        document.body.appendChild(download);
+        download.click();
+        download.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+        showToast('PDF download started.');
       } catch (error) {
         console.error(error);
-        alert('The PDF could not be prepared. Please try again or contact amarbanerjee23@gmail.com.');
+        showToast('The PDF could not be prepared. Please try again.');
       } finally {
         link.removeAttribute('aria-busy');
-        if (link.classList.contains('btn')) link.textContent = originalText;
+        link.textContent = originalText;
       }
     });
   });
 
   if (year) year.textContent = new Date().getFullYear();
 })();
-
-const enhancedStyles = document.createElement('link');
-enhancedStyles.rel = 'stylesheet';
-enhancedStyles.href = 'ux-state-of-art.css';
-document.head.appendChild(enhancedStyles);
-
-import('./ux-state-of-art.js').catch(error => console.error('Enhanced UX layer failed to load', error));
