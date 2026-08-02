@@ -4,11 +4,8 @@
 
   [
     'ux-state-of-art.css',
-    'ai-bg-tl.css',
-    'ai-bg-tr.css',
-    'ai-bg-bl.css',
-    'ai-bg-br.css',
-    'ai-background.css'
+    'ai-background.css',
+    'story-ui.css'
   ].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
@@ -227,3 +224,5 @@
 
   if (year) year.textContent = new Date().getFullYear();
 })();
+
+import('./story-ui.js').catch(error => console.error('Story navigation failed to load', error));
