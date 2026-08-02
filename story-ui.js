@@ -1,4 +1,11 @@
 (() => {
+  if (!document.querySelector('link[href="story-ui-responsive.css"]')) {
+    const responsiveStyles = document.createElement('link');
+    responsiveStyles.rel = 'stylesheet';
+    responsiveStyles.href = 'story-ui-responsive.css';
+    document.head.appendChild(responsiveStyles);
+  }
+
   const body = document.body;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
