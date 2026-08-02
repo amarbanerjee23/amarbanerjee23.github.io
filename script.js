@@ -184,3 +184,5 @@
 
   if (year) year.textContent = new Date().getFullYear();
 })();
+
+import('./ux-state-of-art.js').catch(error => console.error('Enhanced UX layer failed to load', error));
