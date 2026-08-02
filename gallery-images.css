@@ -1,0 +1,36 @@
+.linkedin-card.has-post-images{grid-template-columns:.48fr .52fr}
+.linkedin-media-gallery{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:430px;background:#071a2b;overflow:hidden}
+.gallery-image-button{position:relative;display:block;width:100%;padding:0;border:0;background:#0b2032;cursor:zoom-in;overflow:hidden}
+.gallery-image-button img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s var(--ease),opacity .2s ease}
+.gallery-image-button:hover img,.gallery-image-button:focus-visible img{transform:scale(1.035)}
+.gallery-image-button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.featured-image{min-height:330px}
+.featured-image:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(5,17,28,.62));pointer-events:none}
+.image-count,.image-open-label{position:absolute;z-index:2;bottom:18px;padding:8px 11px;border-radius:999px;background:rgba(5,17,28,.68);backdrop-filter:blur(12px);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+.image-count{left:18px}.image-open-label{right:18px}
+.image-thumbnails{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;height:102px;background:#071a2b}
+.image-thumbnails.five-images{grid-template-columns:repeat(4,1fr)}
+.image-thumbnails .gallery-image-button{min-width:0}
+.image-thumbnails img{aspect-ratio:1.25/1}
+.gallery-image-button.image-failed{display:grid;place-items:center;background:linear-gradient(145deg,#102a43,#173b59);color:#fff;min-height:110px}
+.gallery-image-button.image-failed:before{content:"Image unavailable";padding:18px;font:800 11px Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.gallery-image-button.image-failed img{display:none}
+.text-only-visual{flex-direction:column;gap:18px;padding:36px;text-align:center}
+.text-only-visual p{position:relative;z-index:3;max-width:230px;margin:0;color:rgba(255,255,255,.78);font-size:12px;line-height:1.6}
+.image-preview-dialog{width:min(1120px,calc(100% - 24px));height:min(92vh,920px);padding:0;border:0;border-radius:28px;background:#07131f;color:#fff;box-shadow:0 50px 160px rgba(0,0,0,.5)}
+.image-preview-dialog::backdrop{background:rgba(4,13,22,.82);backdrop-filter:blur(10px)}
+.image-preview-shell{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100%;padding:20px}
+.image-preview-head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:4px 4px 16px}
+.image-preview-head small{display:block;color:var(--gold);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+.image-preview-head h2{font:400 32px/1.1 "DM Serif Display",Georgia,serif;margin:7px 0 0;color:#fff}
+.image-preview-close{width:44px;height:44px;border:1px solid rgba(255,255,255,.18);border-radius:13px;background:rgba(255,255,255,.06);color:#fff;font-size:25px;cursor:pointer}
+.image-preview-stage{position:relative;display:grid;place-items:center;min-height:0;border-radius:20px;overflow:hidden;background:#02080e}
+.image-preview-stage img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;opacity:0;transition:opacity .2s ease}
+.image-preview-dialog.loaded .image-preview-stage img{opacity:1}
+.image-preview-loading{position:absolute;color:rgba(255,255,255,.68);font-size:12px;font-weight:700}
+.image-preview-dialog.loaded .image-preview-loading{display:none}
+.image-preview-actions{display:flex;justify-content:flex-end;padding-top:15px}
+.image-preview-actions a{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px;color:#fff;text-decoration:none;font-size:11px;font-weight:800}
+.image-preview-actions a:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:1050px){.linkedin-card.has-post-images{grid-template-columns:1fr}.linkedin-media-gallery{min-height:0}.featured-image{min-height:420px}.image-thumbnails{height:120px}}
+@media(max-width:700px){.featured-image{min-height:290px}.image-thumbnails,.image-thumbnails.five-images{height:86px}.image-count,.image-open-label{bottom:12px}.image-count{left:12px}.image-open-label{right:12px}.image-preview-shell{padding:12px}.image-preview-head h2{font-size:25px}.image-preview-actions{justify-content:stretch}.image-preview-actions a{width:100%;justify-content:center}}
