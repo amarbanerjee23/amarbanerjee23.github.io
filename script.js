@@ -46,22 +46,54 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
     revealElements.forEach(element => observer.observe(element));
   } else {
     revealElements.forEach(element => element.classList.add('visible'));
   }
 
-  const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
-  if ('IntersectionObserver' in window) {
+  const anchorLinks = links.filter(link => link.getAttribute('href')?.startsWith('#'));
+  const sections = anchorLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  if ('IntersectionObserver' in window && sections.length) {
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+        anchorLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
       });
     }, { rootMargin: '-35% 0px -55%' });
     sections.forEach(section => sectionObserver.observe(section));
   }
+
+  document.querySelectorAll('.pdf-download').forEach(link => {
+    link.addEventListener('click', async event => {
+      event.preventDefault();
+      const originalText = link.textContent;
+      link.setAttribute('aria-busy', 'true');
+      if (link.classList.contains('btn')) link.textContent = 'Preparing PDF...';
+      try {
+        const response = await fetch(link.href);
+        if (!response.ok) throw new Error(`PDF source could not be loaded (${response.status})`);
+        const base64 = (await response.text()).replace(/\s/g, '');
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+        const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = link.dataset.filename || 'workshop-brochure.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      } catch (error) {
+        console.error(error);
+        alert('The PDF could not be prepared. Please try again or contact amarbanerjee23@gmail.com.');
+      } finally {
+        link.removeAttribute('aria-busy');
+        if (link.classList.contains('btn')) link.textContent = originalText;
+      }
+    });
+  });
 
   if (year) year.textContent = new Date().getFullYear();
 })();
