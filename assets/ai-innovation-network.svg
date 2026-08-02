@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc" preserveAspectRatio="xMidYMid slice">
+  <title id="title">Abstract artificial intelligence and innovation network</title>
+  <desc id="desc">A scalable deep-blue technology background with flowing data paths, connected nodes and subtle gold highlights.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#031426"/>
+      <stop offset="0.48" stop-color="#062a45"/>
+      <stop offset="1" stop-color="#02101e"/>
+    </linearGradient>
+    <radialGradient id="cyanGlow" cx="76%" cy="34%" r="54%">
+      <stop offset="0" stop-color="#18c8df" stop-opacity="0.34"/>
+      <stop offset="0.46" stop-color="#087da5" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#031426" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldGlow" cx="88%" cy="18%" r="28%">
+      <stop offset="0" stop-color="#f7c76a" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#f7c76a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0e6e9a" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#18c8df" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#63e6ec" stop-opacity="0.86"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7bdff2" stop-opacity="0"/>
+      <stop offset="1" stop-color="#1ba7d5" stop-opacity="0.45"/>
+    </linearGradient>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#5bcfe4" stroke-opacity="0.08" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.5" fill="#5bcfe4" fill-opacity="0.18"/>
+    </pattern>
+    <pattern id="micro" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#9debf4" fill-opacity="0.16"/>
+    </pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#cyanGlow)"/>
+  <rect width="1920" height="1080" fill="url(#goldGlow)"/>
+  <rect width="1920" height="1080" fill="url(#grid)" opacity="0.7"/>
+  <rect x="720" width="1200" height="1080" fill="url(#micro)" opacity="0.75"/>
+
+  <g opacity="0.42" stroke="#55cfe5" fill="none">
+    <path d="M980 0V210L1090 320V485"/>
+    <path d="M1120 0V150L1235 265V450"/>
+    <path d="M1310 0V118L1450 258V412"/>
+    <path d="M1515 0V182L1640 307V520"/>
+    <path d="M1720 0V120L1848 248V430"/>
+  </g>
+
+  <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M650 940C840 820 970 866 1135 720C1285 588 1430 610 1620 398C1735 270 1810 202 1920 150" stroke="url(#wave)" stroke-width="8" opacity="0.78"/>
+    <path d="M540 1005C770 875 940 1010 1150 820C1328 660 1490 720 1715 455C1805 350 1868 280 1920 244" stroke="url(#wave2)" stroke-width="3" opacity="0.7"/>
+    <path d="M720 1030C930 905 1040 954 1240 800C1398 678 1550 665 1760 520C1838 466 1880 440 1920 420" stroke="#32bdda" stroke-opacity="0.24" stroke-width="22" filter="url(#soft)"/>
+  </g>
+
+  <g fill="none" stroke="#36c5df" stroke-opacity="0.46" stroke-width="1.4">
+    <path d="M1050 660L1180 540L1312 588L1435 430L1570 500L1688 330L1840 375"/>
+    <path d="M970 780L1110 700L1244 760L1398 650L1518 720L1655 610L1800 650"/>
+    <path d="M1180 540L1244 760M1312 588L1398 650M1435 430L1518 720M1570 500L1655 610M1688 330L1800 650"/>
+    <path d="M1110 700L1312 588M1244 760L1435 430M1398 650L1570 500M1518 720L1688 330M1655 610L1840 375"/>
+  </g>
+
+  <g fill="#66d9eb" filter="url(#glow)">
+    <circle cx="1050" cy="660" r="4"/><circle cx="1180" cy="540" r="5"/><circle cx="1312" cy="588" r="4"/>
+    <circle cx="1435" cy="430" r="6"/><circle cx="1570" cy="500" r="4"/><circle cx="1688" cy="330" r="6"/>
+    <circle cx="1840" cy="375" r="4"/><circle cx="970" cy="780" r="3"/><circle cx="1110" cy="700" r="4"/>
+    <circle cx="1244" cy="760" r="4"/><circle cx="1398" cy="650" r="5"/><circle cx="1518" cy="720" r="4"/>
+    <circle cx="1655" cy="610" r="5"/><circle cx="1800" cy="650" r="3"/>
+  </g>
+
+  <g fill="#f4c56a" filter="url(#glow)">
+    <circle cx="1435" cy="430" r="3.2"/><circle cx="1688" cy="330" r="3.2"/><circle cx="1840" cy="375" r="2.8"/>
+    <circle cx="1518" cy="720" r="2.5"/><circle cx="1795" cy="248" r="3"/>
+  </g>
+
+  <g fill="none" stroke="#f3c56c" stroke-opacity="0.42" stroke-width="1.7">
+    <path d="M0 850H190L245 905H460L520 965H690"/>
+    <path d="M0 920H140L190 970H365L420 1022H620"/>
+    <path d="M1515 145L1625 145L1685 205H1795L1850 260H1920"/>
+  </g>
+  <g fill="#f4c56a">
+    <circle cx="190" cy="850" r="3"/><circle cx="245" cy="905" r="3"/><circle cx="520" cy="965" r="3"/>
+    <circle cx="1625" cy="145" r="3"/><circle cx="1685" cy="205" r="3"/><circle cx="1850" cy="260" r="3"/>
+  </g>
+
+  <g opacity="0.25" fill="none" stroke="#55d2e8">
+    <polygon points="1210,120 1340,210 1260,350 1100,300"/>
+    <polygon points="1540,70 1740,120 1680,300 1480,250"/>
+    <polygon points="1320,790 1450,710 1580,820 1435,930"/>
+  </g>
+
+  <g fill="#7de2ef" opacity="0.26">
+    <circle cx="890" cy="180" r="2"/><circle cx="1020" cy="250" r="3"/><circle cx="1185" cy="160" r="2"/>
+    <circle cx="1370" cy="220" r="2.5"/><circle cx="1495" cy="325" r="2"/><circle cx="1760" cy="180" r="2.5"/>
+    <circle cx="925" cy="540" r="2"/><circle cx="1080" cy="450" r="2.5"/><circle cx="1850" cy="820" r="2"/>
+  </g>
+
+  <rect width="930" height="1080" fill="url(#bg)" opacity="0.34"/>
+  <rect width="1920" height="1080" fill="none" stroke="#5ed4e8" stroke-opacity="0.08"/>
+</svg>
