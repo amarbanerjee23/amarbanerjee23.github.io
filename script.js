@@ -5,7 +5,8 @@
   [
     'ux-state-of-art.css',
     'ai-background.css',
-    'story-ui.css'
+    'story-ui.css',
+    'academic-partnerships.css'
   ].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
@@ -15,7 +16,13 @@
   });
 
   const pageName = location.pathname.split('/').pop() || 'index.html';
-  const page = pageName === 'workshops.html' ? 'workshops' : pageName === 'facilitation-gallery.html' ? 'gallery' : 'home';
+  const page = pageName === 'workshops.html'
+    ? 'workshops'
+    : pageName === 'facilitation-gallery.html'
+      ? 'gallery'
+      : pageName === 'academic-partnerships.html'
+        ? 'academic'
+        : 'home';
   const nav = document.querySelector('.nav');
   const navButton = document.querySelector('.nav-toggle');
   const themeButton = document.querySelector('.theme-toggle');
@@ -27,12 +34,14 @@
     home: [
       ['Home', '#overview'],
       ['Leadership', '#leadership'],
+      ['Academic Leaders', 'academic-partnerships.html'],
       ['Programs', 'workshops.html'],
       ['Gallery', 'facilitation-gallery.html'],
       ['Contact', '#contact']
     ],
     workshops: [
       ['Home', 'index.html'],
+      ['Academic Leaders', 'academic-partnerships.html'],
       ['Programs', '#finder'],
       ['Academia', '#academic'],
       ['Gallery', 'facilitation-gallery.html'],
@@ -40,16 +49,27 @@
     ],
     gallery: [
       ['Home', 'index.html'],
+      ['Academic Leaders', 'academic-partnerships.html'],
       ['Programs', 'workshops.html'],
       ['Gallery', 'facilitation-gallery.html'],
       ['Posts', '#posts'],
       ['Contact', '#contact']
+    ],
+    academic: [
+      ['Home', 'index.html'],
+      ['Why this matters', '#institutional-case'],
+      ['Outcomes', '#outcomes'],
+      ['Partnership model', '#pathway'],
+      ['Programs', '#programs'],
+      ['Contact', '#conversation']
     ]
   };
 
   if (nav) {
     nav.innerHTML = navigation[page].map(([label, href]) => {
-      const current = (page === 'gallery' && href === 'facilitation-gallery.html') || (page === 'workshops' && href === '#finder');
+      const current = (page === 'gallery' && href === 'facilitation-gallery.html')
+        || (page === 'workshops' && href === '#finder')
+        || (page === 'academic' && href === '#institutional-case');
       return `<a href="${href}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
     }).join('');
   }
@@ -57,6 +77,38 @@
   document.querySelectorAll('.site-search-trigger,.site-search').forEach(element => element.remove());
   document.querySelectorAll('.post-preview-button').forEach(element => element.remove());
   document.getElementById('linkedin-preview')?.remove();
+
+  if (page === 'home' && !document.querySelector('.academic-leader-invite')) {
+    const target = document.querySelector('.quick-paths');
+    const invite = document.createElement('section');
+    invite.className = 'section academic-leader-invite';
+    invite.innerHTML = `
+      <div class="container academic-invite-shell reveal">
+        <div>
+          <small>For Vice-Chancellors, Principals, Deans and HoDs</small>
+          <h2>Build a visible innovation pipeline, not another isolated academic event.</h2>
+          <p>Connect faculty research, student readiness, responsible AI and industry relevance through an outcome-led institutional engagement.</p>
+        </div>
+        <div class="academic-invite-points">
+          <span>Research and IP opportunity map</span>
+          <span>Student industry-readiness sprint</span>
+          <span>30, 60 or 90-day action plan</span>
+        </div>
+        <a class="btn light btn-arrow" href="academic-partnerships.html">View the academic leadership case <span>→</span></a>
+      </div>`;
+    target?.insertAdjacentElement('beforebegin', invite);
+  }
+
+  if (page === 'workshops' && !document.querySelector('.academic-decision-strip')) {
+    const academicContainer = document.querySelector('#academic .container');
+    const academicHead = academicContainer?.querySelector('.section-head');
+    const strip = document.createElement('aside');
+    strip.className = 'academic-decision-strip reveal';
+    strip.innerHTML = `
+      <div><small>For academic decision-makers</small><h3>Start with the institutional outcome before comparing agendas or fees.</h3><p>Review the leadership case, expected outputs, evidence and low-risk partnership model.</p></div>
+      <a class="btn primary btn-arrow" href="academic-partnerships.html">Open the decision brief <span>→</span></a>`;
+    academicHead?.insertAdjacentElement('afterend', strip);
+  }
 
   const toast = document.createElement('div');
   toast.className = 'ux-toast';
