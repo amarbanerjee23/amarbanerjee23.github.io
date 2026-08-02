@@ -13,7 +13,9 @@
     ? 'workshops'
     : body.classList.contains('gallery-page')
       ? 'gallery'
-      : 'home';
+      : body.classList.contains('academic-page')
+        ? 'academic'
+        : 'home';
 
   const stories = {
     home: [
@@ -39,6 +41,15 @@
       { selector: '#posts', label: 'Facilitation in action' },
       { selector: '.gallery-next', id: 'gallery-programs', label: 'From moments to programs' },
       { selector: '#contact', label: 'Start a conversation' }
+    ],
+    academic: [
+      { selector: '#academic-opening', label: 'The leadership decision' },
+      { selector: '#institutional-case', label: 'The institutional gap' },
+      { selector: '#outcomes', label: 'What changes' },
+      { selector: '#pathway', label: 'How the partnership works' },
+      { selector: '#programs', label: 'Starting points' },
+      { selector: '#evidence', label: 'Evidence before commitment' },
+      { selector: '#conversation', label: 'Start with one challenge' }
     ]
   };
 
