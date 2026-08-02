@@ -185,4 +185,9 @@
   if (year) year.textContent = new Date().getFullYear();
 })();
 
+const enhancedStyles = document.createElement('link');
+enhancedStyles.rel = 'stylesheet';
+enhancedStyles.href = 'ux-state-of-art.css';
+document.head.appendChild(enhancedStyles);
+
 import('./ux-state-of-art.js').catch(error => console.error('Enhanced UX layer failed to load', error));
