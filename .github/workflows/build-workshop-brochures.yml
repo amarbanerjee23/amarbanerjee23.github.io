@@ -1,0 +1,63 @@
+name: Build workshop brochure PDFs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "brochures-src/**"
+      - ".github/workflows/build-workshop-brochures.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: workshop-brochure-build
+  cancel-in-progress: true
+
+jobs:
+  build-brochures:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+
+      - name: Compile brochure pack
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: brochure-pack.tex
+          working_directory: brochures-src
+          latexmk_use_xelatex: false
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Install PDF utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Create individual downloadable brochures
+        run: |
+          mkdir -p downloads
+          rm -f downloads/brochure-page-*.pdf
+          pdfseparate brochures-src/brochure-pack.pdf downloads/brochure-page-%d.pdf
+          mv downloads/brochure-page-1.pdf downloads/innovation-in-academia.pdf
+          mv downloads/brochure-page-2.pdf downloads/modern-day-professional.pdf
+          mv downloads/brochure-page-3.pdf downloads/technology-to-emotions.pdf
+          pdfinfo downloads/innovation-in-academia.pdf | grep "Pages:"
+          pdfinfo downloads/modern-day-professional.pdf | grep "Pages:"
+          pdfinfo downloads/technology-to-emotions.pdf | grep "Pages:"
+
+      - name: Publish generated PDFs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/innovation-in-academia.pdf \
+                  downloads/modern-day-professional.pdf \
+                  downloads/technology-to-emotions.pdf
+          if git diff --cached --quiet; then
+            echo "Brochure PDFs are already current."
+          else
+            git commit -m "Build downloadable workshop brochure PDFs"
+            git push
+          fi
