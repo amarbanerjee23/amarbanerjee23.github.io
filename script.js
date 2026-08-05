@@ -96,7 +96,7 @@
           <span>30, 60 or 90-day action plan</span>
         </div>
         <div class="actions">
-          <a class="btn light btn-arrow" href="academic-partnerships.html#diagnose">Identify the priority <span>→</span></a>
+          <a class="btn light btn-arrow" href="academic-partnerships.html#conversation">Discuss an institutional priority <span>→</span></a>
           <a class="btn outline pdf-download" href="downloads/institutional-innovation-readiness-canvas.pdf.b64" data-filename="Institutional-Innovation-Readiness-Canvas.pdf">Download readiness canvas</a>
         </div>
       </div>`;
@@ -114,7 +114,7 @@
         <h3>Start with the institutional outcome before comparing agendas or fees.</h3>
         <p>Use the self-diagnosis, decision brief and evidence wall to identify the most credible starting point.</p>
       </div>
-      <a class="btn primary btn-arrow" href="academic-partnerships.html#diagnose">Identify the institutional priority <span>→</span></a>`;
+      <a class="btn primary btn-arrow" href="academic-partnerships.html#conversation">Discuss an institutional priority <span>→</span></a>`;
     academicHead?.insertAdjacentElement('afterend', strip);
   }
 
@@ -254,8 +254,10 @@
     link.addEventListener('click', async event => {
       event.preventDefault();
       const originalText = link.textContent;
+      const complexContent = link.childElementCount > 0;
       link.setAttribute('aria-busy', 'true');
-      link.textContent = 'Preparing PDF…';
+      if (complexContent) link.classList.add('is-preparing');
+      else link.textContent = 'Preparing PDF…';
       try {
         const response = await fetch(link.href);
         if (!response.ok) throw new Error(`PDF source could not be loaded (${response.status})`);
@@ -277,7 +279,8 @@
         showToast('The PDF could not be prepared. Please try again.');
       } finally {
         link.removeAttribute('aria-busy');
-        link.textContent = originalText;
+        link.classList.remove('is-preparing');
+        if (!complexContent) link.textContent = originalText;
       }
     });
   });
