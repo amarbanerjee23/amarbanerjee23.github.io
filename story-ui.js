@@ -44,12 +44,13 @@
     ],
     academic: [
       { selector: '#academic-opening', label: 'The leadership decision' },
-      { selector: '#institutional-case', label: 'The institutional gap' },
-      { selector: '#outcomes', label: 'What changes' },
-      { selector: '#pathway', label: 'How the partnership works' },
-      { selector: '#programs', label: 'Starting points' },
-      { selector: '#evidence', label: 'Evidence before commitment' },
-      { selector: '#conversation', label: 'Start with one challenge' }
+      { selector: '#diagnose', label: 'Identify the priority' },
+      { selector: '#outcomes', label: 'See the future state' },
+      { selector: '#mechanism', label: 'Understand the mechanism' },
+      { selector: '#programs', label: 'Choose a starting point' },
+      { selector: '#evidence', label: 'Review the evidence' },
+      { selector: '#pathway', label: 'Reduce commitment risk' },
+      { selector: '#conversation', label: 'Discuss one priority' }
     ]
   };
 
