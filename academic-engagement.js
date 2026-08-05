@@ -81,6 +81,38 @@
     observer.observe(evidence);
   }
 
+  const resourceDownload = document.querySelector('.evidence-card.pdf-download');
+  resourceDownload?.addEventListener('click', async event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const label = resourceDownload.querySelector('b');
+    const originalLabel = label?.textContent || '';
+    resourceDownload.setAttribute('aria-busy', 'true');
+    if (label) label.textContent = 'Preparing the canvas…';
+    try {
+      const response = await fetch(resourceDownload.href);
+      if (!response.ok) throw new Error(`Canvas source could not be loaded (${response.status})`);
+      const binary = atob((await response.text()).replace(/\s/g, ''));
+      const bytes = new Uint8Array(binary.length);
+      for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+      const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+      const download = document.createElement('a');
+      download.href = objectUrl;
+      download.download = resourceDownload.dataset.filename || 'Institutional-Innovation-Readiness-Canvas.pdf';
+      document.body.appendChild(download);
+      download.click();
+      download.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    } catch (error) {
+      console.error(error);
+      if (label) label.textContent = 'Please try the download again';
+      setTimeout(() => { if (label) label.textContent = originalLabel; }, 2400);
+    } finally {
+      resourceDownload.removeAttribute('aria-busy');
+      if (label && label.textContent !== 'Please try the download again') label.textContent = originalLabel;
+    }
+  }, true);
+
   document.querySelectorAll('.academic-primary-cta').forEach(link => {
     link.addEventListener('click', () => {
       try {
