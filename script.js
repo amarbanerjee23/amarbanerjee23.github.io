@@ -23,6 +23,7 @@
       : pageName === 'academic-partnerships.html'
         ? 'academic'
         : 'home';
+
   const nav = document.querySelector('.nav');
   const navButton = document.querySelector('.nav-toggle');
   const themeButton = document.querySelector('.theme-toggle');
@@ -57,11 +58,11 @@
     ],
     academic: [
       ['Home', 'index.html'],
-      ['Why this matters', '#institutional-case'],
+      ['Diagnose', '#diagnose'],
       ['Outcomes', '#outcomes'],
-      ['Partnership model', '#pathway'],
+      ['Evidence', '#evidence'],
       ['Programs', '#programs'],
-      ['Contact', '#conversation']
+      ['Discuss priority', '#conversation']
     ]
   };
 
@@ -69,7 +70,7 @@
     nav.innerHTML = navigation[page].map(([label, href]) => {
       const current = (page === 'gallery' && href === 'facilitation-gallery.html')
         || (page === 'workshops' && href === '#finder')
-        || (page === 'academic' && href === '#institutional-case');
+        || (page === 'academic' && href === '#diagnose');
       return `<a href="${href}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
     }).join('');
   }
@@ -94,7 +95,10 @@
           <span>Student industry-readiness sprint</span>
           <span>30, 60 or 90-day action plan</span>
         </div>
-        <a class="btn light btn-arrow" href="academic-partnerships.html">View the academic leadership case <span>→</span></a>
+        <div class="actions">
+          <a class="btn light btn-arrow" href="academic-partnerships.html#diagnose">Identify the priority <span>→</span></a>
+          <a class="btn outline pdf-download" href="downloads/institutional-innovation-readiness-canvas.pdf.b64" data-filename="Institutional-Innovation-Readiness-Canvas.pdf">Download readiness canvas</a>
+        </div>
       </div>`;
     target?.insertAdjacentElement('beforebegin', invite);
   }
@@ -105,8 +109,12 @@
     const strip = document.createElement('aside');
     strip.className = 'academic-decision-strip reveal';
     strip.innerHTML = `
-      <div><small>For academic decision-makers</small><h3>Start with the institutional outcome before comparing agendas or fees.</h3><p>Review the leadership case, expected outputs, evidence and low-risk partnership model.</p></div>
-      <a class="btn primary btn-arrow" href="academic-partnerships.html">Open the decision brief <span>→</span></a>`;
+      <div>
+        <small>For academic decision-makers</small>
+        <h3>Start with the institutional outcome before comparing agendas or fees.</h3>
+        <p>Use the self-diagnosis, decision brief and evidence wall to identify the most credible starting point.</p>
+      </div>
+      <a class="btn primary btn-arrow" href="academic-partnerships.html#diagnose">Identify the institutional priority <span>→</span></a>`;
     academicHead?.insertAdjacentElement('afterend', strip);
   }
 
