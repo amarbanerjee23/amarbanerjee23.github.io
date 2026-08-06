@@ -7,10 +7,13 @@ on:
       - "brochures-latex/**"
       - "headshot.png"
       - ".github/workflows/build-latex-brochures.yml"
+  issues:
+    types: [opened]
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: latex-brochures-main
@@ -18,6 +21,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'issues' || github.event.issue.title == 'Build LaTeX brochures'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -89,7 +93,13 @@ jobs:
           git add downloads/*.pdf downloads/*.pdf.b64
           if git diff --cached --quiet; then
             echo "Generated brochures are already current."
-            exit 0
+          else
+            git commit -m "Build modern LaTeX brochure PDFs [skip ci]"
+            git push
           fi
-          git commit -m "Build modern LaTeX brochure PDFs [skip ci]"
-          git push
+
+      - name: Close build trigger issue
+        if: github.event_name == 'issues'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue close "${{ github.event.issue.number }}" --comment "The modern LaTeX brochures have been compiled and published to the website downloads directory."
