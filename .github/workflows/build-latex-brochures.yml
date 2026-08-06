@@ -9,11 +9,17 @@ on:
       - ".github/workflows/build-latex-brochures.yml"
   issues:
     types: [opened]
+  pull_request_target:
+    branches: [main]
+    types: [opened]
+    paths:
+      - "brochures-latex/.build-trigger"
   workflow_dispatch:
 
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 concurrency:
   group: latex-brochures-main
@@ -21,13 +27,16 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name != 'issues' || github.event.issue.title == 'Build LaTeX brochures'
+    if: >-
+      (github.event_name != 'issues' || github.event.issue.title == 'Build LaTeX brochures') &&
+      (github.event_name != 'pull_request_target' || github.event.pull_request.title == 'Build LaTeX brochures')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Install LaTeX and PDF validation tools
         run: |
@@ -95,7 +104,7 @@ jobs:
             echo "Generated brochures are already current."
           else
             git commit -m "Build modern LaTeX brochure PDFs [skip ci]"
-            git push
+            git push origin HEAD:main
           fi
 
       - name: Close build trigger issue
@@ -103,3 +112,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh issue close "${{ github.event.issue.number }}" --comment "The modern LaTeX brochures have been compiled and published to the website downloads directory."
+
+      - name: Close build trigger pull request
+        if: github.event_name == 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr close "${{ github.event.pull_request.number }}" --comment "The modern LaTeX brochures have been compiled and published to the website downloads directory."
