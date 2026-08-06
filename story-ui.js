@@ -1,10 +1,11 @@
 (() => {
-  if (!document.querySelector('link[href="story-ui-responsive.css"]')) {
-    const responsiveStyles = document.createElement('link');
-    responsiveStyles.rel = 'stylesheet';
-    responsiveStyles.href = 'story-ui-responsive.css';
-    document.head.appendChild(responsiveStyles);
-  }
+  ['story-ui-responsive.css','story-unfold.css'].forEach(href => {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = href;
+    document.head.appendChild(stylesheet);
+  });
 
   const body = document.body;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -19,33 +20,33 @@
 
   const stories = {
     home: [
-      { selector: '#overview', label: 'Opening' },
-      { selector: '#leadership', label: 'How I create value' },
-      { selector: '#experience', label: 'The journey' },
-      { selector: '#facilitation-preview', label: 'Turning insight into capability' },
+      { selector: '#overview', label: 'Meet the work' },
+      { selector: '#leadership', label: 'How value is created' },
+      { selector: '#experience', label: 'See the journey' },
+      { selector: '#facilitation-preview', label: 'Build capability' },
       { selector: '#research', label: 'Research and IP' },
-      { selector: '#about', label: 'The philosophy' },
+      { selector: '#about', label: 'Working philosophy' },
       { selector: '#contact', label: 'Start a conversation' }
     ],
     workshops: [
       { selector: '.workshop-hero', id: 'programs-opening', label: 'Choose the outcome' },
-      { selector: '#approach', label: 'The method' },
+      { selector: '#approach', label: 'See the method' },
       { selector: '#corporate', label: 'For organisations' },
       { selector: '#academic', label: 'For academia' },
       { selector: '#modules', label: 'Build the experience' },
-      { selector: '#facilitator', label: 'Who facilitates' },
-      { selector: '#downloads', label: 'Take the next step' }
+      { selector: '#facilitator', label: 'Meet the facilitator' },
+      { selector: '#downloads', label: 'Take the brochure' }
     ],
     gallery: [
-      { selector: '.gallery-hero', id: 'gallery-opening', label: 'Opening' },
-      { selector: '#posts', label: 'Facilitation in action' },
-      { selector: '.gallery-next', id: 'gallery-programs', label: 'From moments to programs' },
+      { selector: '.gallery-hero', id: 'gallery-opening', label: 'Open the story' },
+      { selector: '#posts', label: 'See facilitation in action' },
+      { selector: '.gallery-next', id: 'gallery-programs', label: 'Move from moments to programs' },
       { selector: '#contact', label: 'Start a conversation' }
     ],
     academic: [
-      { selector: '#academic-opening', label: 'The leadership decision' },
+      { selector: '#academic-opening', label: 'See the leadership decision' },
       { selector: '#diagnose', label: 'Identify the priority' },
-      { selector: '#outcomes', label: 'See the future state' },
+      { selector: '#outcomes', label: 'Picture the future state' },
       { selector: '#mechanism', label: 'Understand the mechanism' },
       { selector: '#programs', label: 'Choose a starting point' },
       { selector: '#evidence', label: 'Review the evidence' },
@@ -79,7 +80,7 @@
   nav.setAttribute('aria-label', 'Story chapters');
   nav.innerHTML = `
     <div class="story-nav-head">
-      <small>Story flow</small>
+      <small>Your journey</small>
       <span class="story-nav-count">01 / ${String(chapters.length).padStart(2, '0')}</span>
     </div>
     <ol class="story-nav-list">
@@ -164,3 +165,5 @@
   const hashIndex = chapters.findIndex(chapter => `#${chapter.id}` === location.hash);
   activate(hashIndex >= 0 ? hashIndex : 0);
 })();
+
+import('./story-unfold.js').catch(error => console.error('Story unfolding layer failed to load', error));
