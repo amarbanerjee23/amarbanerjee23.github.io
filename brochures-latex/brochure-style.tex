@@ -1,0 +1,303 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper,margin=0mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.96]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,shapes.geometric}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{paracol}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{ifthen}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{eso-pic}
+\usepackage{etoolbox}
+
+\definecolor{Navy}{HTML}{071B2D}
+\definecolor{Blue}{HTML}{0D3550}
+\definecolor{Teal}{HTML}{28C4C7}
+\definecolor{Gold}{HTML}{E8B95A}
+\definecolor{OffWhite}{HTML}{F7FAFB}
+\definecolor{Ink}{HTML}{172633}
+\definecolor{Muted}{HTML}{637581}
+\definecolor{Line}{HTML}{DCE6EA}
+\definecolor{SoftSky}{HTML}{E7F6FB}
+\definecolor{SoftMint}{HTML}{EAF8F1}
+\definecolor{SoftSun}{HTML}{FFF4CC}
+\definecolor{SoftLavender}{HTML}{F1ECFF}
+\definecolor{SoftCoral}{HTML}{FFE7DF}
+\definecolor{Accent}{HTML}{\BrochureAccentHex}
+\definecolor{AccentSoft}{HTML}{\BrochureAccentSoftHex}
+
+\hypersetup{colorlinks=true,urlcolor=Accent,linkcolor=Accent,pdfauthor={Dr. Amar Banerjee},pdftitle={\BrochureTitle}}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=5mm,itemsep=1.6mm,topsep=1.2mm,label=\textcolor{Accent}{\small\textbullet}}
+\setlist[enumerate]{leftmargin=0mm,labelsep=0mm,itemsep=2.2mm,topsep=1mm}
+
+\newcommand{\PagePad}{15mm}
+\newcommand{\SectionLabel}[1]{{\color{Accent}\fontsize{8.6}{10}\selectfont\bfseries\MakeUppercase{#1}\par}}
+\newcommand{\DisplayTitle}[1]{{\color{Navy}\fontsize{28}{30}\selectfont\bfseries #1\par}}
+\newcommand{\PageTitle}[1]{{\color{Navy}\fontsize{20.5}{23}\selectfont\bfseries #1\par}}
+\newcommand{\BodyText}[1]{{\color{Muted}\fontsize{10.2}{15}\selectfont #1\par}}
+\newcommand{\SmallText}[1]{{\color{Muted}\fontsize{8.8}{12}\selectfont #1\par}}
+
+\newtcolorbox{FlatCard}[1][]{
+  enhanced,
+  colback=white,
+  colframe=Line,
+  boxrule=0.5pt,
+  arc=3.2mm,
+  left=4.3mm,right=4.3mm,top=3.4mm,bottom=3.4mm,
+  #1
+}
+\newtcolorbox{AccentCard}[1][]{
+  enhanced,
+  colback=AccentSoft,
+  colframe=Accent!28,
+  boxrule=0.5pt,
+  arc=3.2mm,
+  left=4.3mm,right=4.3mm,top=3.4mm,bottom=3.4mm,
+  #1
+}
+\newtcolorbox{DarkCard}[1][]{
+  enhanced,
+  colback=Navy,
+  colframe=Navy,
+  boxrule=0pt,
+  arc=3.2mm,
+  left=4.8mm,right=4.8mm,top=4.2mm,bottom=4.2mm,
+  #1
+}
+
+\newcommand{\FlatChip}[1]{\tikz[baseline=(n.base)]\node[fill=AccentSoft,draw=Accent!24,rounded corners=2.3mm,inner xsep=3mm,inner ysep=1.5mm,text=Accent,font=\fontsize{7.6}{9}\selectfont\bfseries] (n) {#1};}
+
+\newcommand{\Outcome}[2]{%
+\begin{FlatCard}
+\begin{minipage}[t]{0.13\linewidth}
+\tikz\node[circle,fill=Accent,text=white,minimum size=8mm,font=\fontsize{8}{8}\selectfont\bfseries]{#1};
+\end{minipage}\hfill
+\begin{minipage}[t]{0.82\linewidth}
+{\color{Ink}\fontsize{10.2}{12}\selectfont\bfseries #2\par}
+\end{minipage}
+\end{FlatCard}
+}
+
+\newcommand{\JourneyStep}[3]{%
+\noindent\begin{minipage}[t]{0.14\linewidth}
+\tikz\node[rounded corners=2mm,fill=Accent,text=white,minimum width=9mm,minimum height=9mm,font=\fontsize{8}{8}\selectfont\bfseries]{#1};
+\end{minipage}\hfill
+\begin{minipage}[t]{0.82\linewidth}
+{\color{Ink}\fontsize{10.7}{12}\selectfont\bfseries #2\par}
+\vspace{1mm}{\color{Muted}\fontsize{9}{12.2}\selectfont #3\par}
+\end{minipage}\par\vspace{3.3mm}
+}
+
+\newcommand{\Stat}[2]{%
+\begin{minipage}[t]{0.47\linewidth}
+{\color{Accent}\fontsize{18}{19}\selectfont\bfseries #1\par}
+\vspace{1mm}{\color{Muted}\fontsize{8.6}{11}\selectfont #2\par}
+\end{minipage}}
+
+\newcommand{\HeadshotCircle}[1]{%
+\begin{tikzpicture}
+  \pgfmathsetlengthmacro{\headshotwidth}{2.45*#1}
+  \clip (0,0) circle (#1);
+  \IfFileExists{../headshot.png}{\node at (0,0) {\includegraphics[width=\headshotwidth]{../headshot.png}};}{%
+    \fill[AccentSoft] (-#1,-#1) rectangle (#1,#1);
+    \node[text=Accent,font=\fontsize{22}{22}\selectfont\bfseries] at (0,0) {AB};}
+\end{tikzpicture}}
+
+\newcommand{\PageBackground}[1]{%
+\AddToShipoutPictureBG*{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[#1] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}}}
+
+\newcommand{\FlatFooter}[1]{%
+\begin{tikzpicture}[remember picture,overlay]
+\draw[Line,line width=0.45pt] ($(current page.south west)+(15mm,13mm)$) -- ($(current page.south east)+(-15mm,13mm)$);
+\node[anchor=west,text=Muted,font=\fontsize{7.4}{9}\selectfont] at ($(current page.south west)+(15mm,7mm)$) {Dr. Amar Banerjee \textbullet\ Innovation Leader \textbullet\ Researcher \textbullet\ Facilitator};
+\node[anchor=east,text=Accent,font=\fontsize{7.4}{9}\selectfont\bfseries] at ($(current page.south east)+(-15mm,7mm)$) {#1};
+\end{tikzpicture}}
+
+\newcommand{\ContactLine}{\href{mailto:amarbanerjee23@gmail.com}{amarbanerjee23@gmail.com} \quad \textbullet\quad \href{https://www.linkedin.com/in/amarbanerjee23}{linkedin.com/in/amarbanerjee23}}
+
+\newcommand{\CoverPage}{%
+\PageBackground{OffWhite}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[Navy] (current page.north west) rectangle ($(current page.south west)+(112mm,0)$);
+  \fill[Accent] ($(current page.north west)+(0,-17mm)$) rectangle ($(current page.north west)+(112mm,-21mm)$);
+  \fill[AccentSoft] ($(current page.north east)+(-58mm,-24mm)$) circle (48mm);
+  \fill[SoftSun] ($(current page.south east)+(-12mm,23mm)$) circle (28mm);
+  \draw[Accent!38,line width=1.2pt] ($(current page.north east)+(-72mm,-26mm)$) -- ($(current page.south east)+(-15mm,26mm)$);
+  \foreach \x/\y in {145/-35,165/-55,152/-82,180/-104,137/-125,170/-148}{\fill[Accent] ($(current page.north west)+(\x mm,\y mm)$) circle (1.25mm);}
+  \foreach \a/\b/\c/\d in {145/-35/165/-55,165/-55/152/-82,152/-82/180/-104,152/-82/137/-125,137/-125/170/-148}{\draw[Accent!44,line width=.55pt] ($(current page.north west)+(\a mm,\b mm)$) -- ($(current page.north west)+(\c mm,\d mm)$);}
+\end{tikzpicture}
+
+\vspace*{21mm}
+\hspace*{16mm}\begin{minipage}[t]{84mm}\RaggedRight\hyphenpenalty=10000\exhyphenpenalty=10000
+{\color{Accent}\fontsize{8.6}{10}\selectfont\bfseries\MakeUppercase{\BrochureCategory}\par}
+\vspace{7mm}
+{\color{white}\fontsize{27.5}{30}\selectfont\bfseries \BrochureTitle\par}
+\vspace{6mm}
+{\color{white!78}\fontsize{13.2}{18}\selectfont \BrochureSubtitle\par}
+\vspace{10mm}
+\FlatChip{\BrochureAudience}
+\vfill
+{\color{white}\fontsize{11}{13}\selectfont\bfseries Dr. Amar Banerjee\par}
+\vspace{1.5mm}
+{\color{white!68}\fontsize{8.8}{12}\selectfont Innovation Leader \textbullet\ Researcher \textbullet\ Facilitator\par}
+\vspace{5mm}
+{\color{white!78}\fontsize{8.2}{11}\selectfont \ContactLine\par}
+\end{minipage}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node at ($(current page.north east)+(-44mm,-71mm)$) {\HeadshotCircle{28mm}};
+\node[anchor=west,text=Navy,font=\fontsize{9}{11}\selectfont\bfseries] at ($(current page.north east)+(-82mm,-111mm)$) {\BrochurePromise};
+\node[anchor=west,text=Muted,text width=67mm,font=\fontsize{8.8}{12}\selectfont] at ($(current page.north east)+(-82mm,-124mm)$) {\BrochureIntro};
+\node[anchor=west,text=Accent,font=\fontsize{8}{10}\selectfont\bfseries] at ($(current page.south east)+(-76mm,18mm)$) {OUTCOME-LED \textbullet\ CONTEXT-SPECIFIC \textbullet\ ACTION-READY};
+\end{tikzpicture}
+\newpage}
+
+\newcommand{\ChallengeOutcomesPage}{%
+\PageBackground{OffWhite}
+\vspace*{12mm}
+\hspace*{\PagePad}\begin{minipage}{180mm}
+\SectionLabel{Why this matters}
+\vspace{3mm}\PageTitle{\BrochureChallengeTitle}
+\vspace{4mm}\BodyText{\BrochureChallengeText}
+\vspace{7mm}
+\begin{minipage}[t]{0.47\linewidth}
+\begin{DarkCard}
+{\color{Gold}\fontsize{8}{10}\selectfont\bfseries THE SHIFT\par}
+\vspace{3mm}
+{\color{white}\fontsize{15.5}{18}\selectfont\bfseries \BrochureShiftTitle\par}
+\vspace{4mm}
+{\color{white!74}\fontsize{8.7}{12.5}\selectfont \BrochureShiftText\par}
+\vspace{6mm}
+{\color{Accent}\fontsize{8}{10}\selectfont\bfseries WHAT LEADERSHIP SEES\par}
+\vspace{2mm}
+{\color{white}\fontsize{8.7}{12.5}\selectfont \BrochureLeadershipView\par}
+\end{DarkCard}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\SectionLabel{Visible outcomes}
+\vspace{3mm}
+\BrochureOutcomes
+\end{minipage}
+\vspace{6mm}
+\begin{AccentCard}
+\begin{minipage}[t]{0.68\linewidth}
+{\color{Ink}\fontsize{10.5}{12}\selectfont\bfseries \BrochureValueTitle\par}
+\vspace{2mm}{\color{Muted}\fontsize{8.4}{11.6}\selectfont \BrochureValueText\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.27\linewidth}\RaggedLeft
+\FlatChip{\BrochureFormat}
+\end{minipage}
+\end{AccentCard}
+\end{minipage}
+\FlatFooter{02 / 04}
+\newpage}
+
+\newcommand{\JourneyPage}{%
+\PageBackground{white}
+\vspace*{16mm}
+\hspace*{\PagePad}\begin{minipage}{180mm}
+\SectionLabel{The learning journey}
+\vspace{3mm}\PageTitle{A structured path from insight to action.}
+\vspace{4mm}\BodyText{\BrochureJourneyIntro}
+\vspace{7mm}
+\begin{minipage}[t]{0.47\linewidth}
+\BrochureJourneyA
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\BrochureJourneyB
+\end{minipage}
+\vspace{4mm}
+\begin{DarkCard}
+\begin{minipage}[t]{0.22\linewidth}
+{\color{Gold}\fontsize{8}{10}\selectfont\bfseries INCLUDED\par}
+\vspace{3mm}{\color{white}\fontsize{14}{16}\selectfont\bfseries Practical tools, not passive attendance.\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.72\linewidth}
+{\color{white!78}\fontsize{9.2}{14}\selectfont \BrochureIncludedValue\par}
+\end{minipage}
+\end{DarkCard}
+\vspace{6mm}
+\SectionLabel{Who should participate}
+\vspace{3mm}
+\begin{AccentCard}
+{\color{Ink}\fontsize{9.4}{14}\selectfont \BrochureWho\par}
+\end{AccentCard}
+\end{minipage}
+\FlatFooter{03 / 04}
+\newpage}
+
+\newcommand{\FacilitatorPage}{%
+\PageBackground{OffWhite}
+\vspace*{16mm}
+\hspace*{\PagePad}\begin{minipage}{180mm}
+\SectionLabel{Facilitator and partnership}
+\vspace{3mm}\PageTitle{Research depth, leadership context and practical facilitation.}
+\vspace{7mm}
+\begin{FlatCard}
+\begin{minipage}[c]{0.24\linewidth}\centering
+\HeadshotCircle{17mm}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.71\linewidth}
+{\color{Ink}\fontsize{16}{18}\selectfont\bfseries Dr. Amar Banerjee\par}
+\vspace{1mm}{\color{Accent}\fontsize{8.2}{10}\selectfont\bfseries INNOVATION LEADER \textbullet\ RESEARCHER \textbullet\ FACILITATOR\par}
+\vspace{3mm}{\color{Muted}\fontsize{9.1}{13.5}\selectfont \BrochureBio\par}
+\end{minipage}
+\end{FlatCard}
+\vspace{6mm}
+\begin{minipage}[t]{0.47\linewidth}
+\SectionLabel{Why this facilitation model works}
+\vspace{3mm}
+\begin{itemize}
+\item Context is shaped around a real institutional or organisational challenge.
+\item Participants create visible outputs and decisions during the engagement.
+\item Complex innovation ideas are translated into practical, usable tools.
+\item Every program ends with a continuation path, owners and next steps.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\SectionLabel{Engagement pathway}
+\vspace{3mm}
+\JourneyStep{01}{Clarify the priority}{Audience, context, evidence, constraints and desired outcome.}
+\JourneyStep{02}{Shape the experience}{Select the right modules, format, examples and participant outputs.}
+\JourneyStep{03}{Facilitate and continue}{Produce action-ready work and a 30, 60 or 90-day path.}
+\end{minipage}
+\vspace{4mm}
+\begin{DarkCard}
+\begin{minipage}[t]{0.64\linewidth}
+{\color{Gold}\fontsize{8}{10}\selectfont\bfseries START WITH ONE REAL CHALLENGE\par}
+\vspace{3mm}
+{\color{white}\fontsize{17}{20}\selectfont\bfseries \BrochureCTA\par}
+\vspace{3mm}
+{\color{white!74}\fontsize{9}{13}\selectfont The first conversation focuses on whether there is a credible path to value. Scope and investment follow the agreed outcome.\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.31\linewidth}\RaggedLeft
+{\color{Accent}\fontsize{9}{12}\selectfont\bfseries \href{mailto:amarbanerjee23@gmail.com}{START A CONVERSATION}\par}
+\vspace{5mm}{\color{white!75}\fontsize{8.2}{11}\selectfont \ContactLine\par}
+\end{minipage}
+\end{DarkCard}
+\end{minipage}
+\FlatFooter{04 / 04}
+}
+
+\begin{document}
+\CoverPage
+\ChallengeOutcomesPage
+\JourneyPage
+\FacilitatorPage
+\end{document}
