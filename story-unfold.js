@@ -1,4 +1,4 @@
-(() => {
+(async () => {
   const body = document.body;
   body.classList.add('story-unfolding');
 
@@ -60,8 +60,17 @@
     decisionCard.prepend(profile);
   }
 
+  const partnershipBrochure = 'downloads/academic-innovation-partnership.pdf.b64';
+  let partnershipBrochureAvailable = false;
+  try {
+    const response = await fetch(partnershipBrochure, { method: 'HEAD', cache: 'no-store' });
+    partnershipBrochureAvailable = response.ok;
+  } catch (_) {
+    partnershipBrochureAvailable = false;
+  }
+
   const downloadGrid = document.querySelector('#downloads .download-grid');
-  if (downloadGrid && !downloadGrid.querySelector('[data-academic-partnership-brochure]')) {
+  if (partnershipBrochureAvailable && downloadGrid && !downloadGrid.querySelector('[data-academic-partnership-brochure]')) {
     const card = document.createElement('article');
     card.className = 'download-card gold reveal visible';
     card.dataset.academicPartnershipBrochure = '';
@@ -69,17 +78,17 @@
       <span>Institutional decision brief</span>
       <h3>Academic Innovation Partnership</h3>
       <p>Research, IP, student readiness and a managed institutional innovation pathway.</p>
-      <a class="btn primary pdf-download" href="downloads/academic-innovation-partnership.pdf.b64" data-filename="Academic-Innovation-Partnership.pdf">Download PDF</a>`;
+      <a class="btn primary pdf-download" href="${partnershipBrochure}" data-filename="Academic-Innovation-Partnership.pdf">Download PDF</a>`;
     downloadGrid.prepend(card);
     bindPdfDownload(card.querySelector('.pdf-download'));
   }
 
   const evidenceWall = document.querySelector('.academic-page .evidence-wall');
-  if (evidenceWall && !evidenceWall.querySelector('[data-partnership-brochure]')) {
+  if (partnershipBrochureAvailable && evidenceWall && !evidenceWall.querySelector('[data-partnership-brochure]')) {
     const card = document.createElement('a');
     card.className = 'evidence-card reveal visible pdf-download';
     card.dataset.partnershipBrochure = '';
-    card.href = 'downloads/academic-innovation-partnership.pdf.b64';
+    card.href = partnershipBrochure;
     card.dataset.filename = 'Academic-Innovation-Partnership.pdf';
     card.innerHTML = '<span class="evidence-index">05</span><small>LATEX DECISION BRIEF</small><h3>Academic Innovation Partnership</h3><p>A four-page leadership brochure aligned with the institutional story and engagement model.</p><b>Download brochure →</b>';
     evidenceWall.appendChild(card);
