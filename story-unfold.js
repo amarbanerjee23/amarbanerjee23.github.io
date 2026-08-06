@@ -86,6 +86,10 @@
     bindPdfDownload(card);
   }
 
+  const storyNav = document.querySelector('.story-nav');
+  const siteHeader = document.querySelector('.site-header');
+  if (storyNav && siteHeader) siteHeader.insertAdjacentElement('afterend', storyNav);
+
   const chapters = [...document.querySelectorAll('.story-layer')];
   const navLinks = [...document.querySelectorAll('.story-nav a')];
   if (!chapters.length || !navLinks.length) return;
@@ -133,8 +137,7 @@
   };
   syncCurrent();
 
-  const nav = document.querySelector('.story-nav');
-  if (nav && 'MutationObserver' in window) {
-    new MutationObserver(syncCurrent).observe(nav, { subtree:true, attributes:true, attributeFilter:['aria-current'] });
+  if (storyNav && 'MutationObserver' in window) {
+    new MutationObserver(syncCurrent).observe(storyNav, { subtree:true, attributes:true, attributeFilter:['aria-current'] });
   }
 })();
