@@ -2,6 +2,49 @@
   const body = document.body;
   body.classList.add('story-unfolding');
 
+  const bindPdfDownload = link => {
+    if (!link || link.dataset.dynamicPdfBound === 'true') return;
+    link.dataset.dynamicPdfBound = 'true';
+    link.addEventListener('click', async event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (link.getAttribute('aria-busy') === 'true') return;
+      const originalText = link.textContent;
+      const complexContent = link.childElementCount > 0;
+      link.setAttribute('aria-busy', 'true');
+      if (complexContent) link.classList.add('is-preparing');
+      else link.textContent = 'Preparing PDF…';
+      try {
+        const response = await fetch(link.href);
+        if (!response.ok) throw new Error(`PDF source could not be loaded (${response.status})`);
+        let bytes;
+        if (link.href.endsWith('.b64')) {
+          const binary = atob((await response.text()).replace(/\s/g, ''));
+          bytes = new Uint8Array(binary.length);
+          for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+        } else {
+          bytes = new Uint8Array(await response.arrayBuffer());
+        }
+        const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        const download = document.createElement('a');
+        download.href = objectUrl;
+        download.download = link.dataset.filename || 'brochure.pdf';
+        document.body.appendChild(download);
+        download.click();
+        download.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+      } catch (error) {
+        console.error(error);
+        link.classList.add('download-error');
+        setTimeout(() => link.classList.remove('download-error'), 2200);
+      } finally {
+        link.removeAttribute('aria-busy');
+        link.classList.remove('is-preparing');
+        if (!complexContent) link.textContent = originalText;
+      }
+    });
+  };
+
   document.querySelectorAll('.profile-visual img, .facilitator-photo > img').forEach(image => {
     image.src = 'headshot.png';
     image.removeAttribute('srcset');
@@ -28,6 +71,7 @@
       <p>Research, IP, student readiness and a managed institutional innovation pathway.</p>
       <a class="btn primary pdf-download" href="downloads/academic-innovation-partnership.pdf.b64" data-filename="Academic-Innovation-Partnership.pdf">Download PDF</a>`;
     downloadGrid.prepend(card);
+    bindPdfDownload(card.querySelector('.pdf-download'));
   }
 
   const evidenceWall = document.querySelector('.academic-page .evidence-wall');
@@ -39,6 +83,7 @@
     card.dataset.filename = 'Academic-Innovation-Partnership.pdf';
     card.innerHTML = '<span class="evidence-index">05</span><small>LATEX DECISION BRIEF</small><h3>Academic Innovation Partnership</h3><p>A four-page leadership brochure aligned with the institutional story and engagement model.</p><b>Download brochure →</b>';
     evidenceWall.appendChild(card);
+    bindPdfDownload(card);
   }
 
   const chapters = [...document.querySelectorAll('.story-layer')];
