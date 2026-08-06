@@ -111,7 +111,7 @@
 \begin{tikzpicture}
   \pgfmathsetlengthmacro{\headshotwidth}{2.45*#1}
   \clip (0,0) circle (#1);
-  \IfFileExists{../headshot.png}{\node at (0,0) {\includegraphics[width=\headshotwidth]{../headshot.png}};}{%
+  \IfFileExists{../headshot.png}{\node[yshift=-14mm] at (0,0) {\includegraphics[width=\headshotwidth]{../headshot.png}};}{%
     \fill[AccentSoft] (-#1,-#1) rectangle (#1,#1);
     \node[text=Accent,font=\fontsize{22}{22}\selectfont\bfseries] at (0,0) {AB};}
 \end{tikzpicture}}
@@ -170,7 +170,7 @@
 
 \newcommand{\ChallengeOutcomesPage}{%
 \PageBackground{OffWhite}
-\vspace*{12mm}
+\vspace*{16mm}
 \hspace*{\PagePad}\begin{minipage}{180mm}
 \SectionLabel{Why this matters}
 \vspace{3mm}\PageTitle{\BrochureChallengeTitle}
