@@ -3,9 +3,10 @@
 
 Public HTML routes stay at repository root. CSS and JavaScript are moved into
 flat assets/css and assets/js directories so relative module relationships
-remain simple. Media is grouped beneath assets/media. Every known local
-reference is rewritten before the old paths disappear, then CI validates the
-result before it can be committed by the migration workflow.
+remain simple. Media is grouped beneath assets/media. Every public-site local
+reference is rewritten before old paths disappear. GitHub workflow files are
+intentionally excluded from the automated rewrite because the Actions token is
+not allowed to modify workflows; those references are updated separately.
 """
 
 from __future__ import annotations
@@ -19,7 +20,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 IMAGE_SUFFIXES = {".svg", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico"}
 TEXT_SUFFIXES = {".html", ".css", ".js", ".mjs", ".json", ".jsonc", ".yml", ".yaml", ".md", ".py", ".xml", ".txt", ".toml"}
 WEB_SUFFIXES = {".html", ".css", ".js", ".mjs"}
-SKIP_PARTS = {".git", "node_modules", "analytics-worker", "brochures-latex", ".wrangler", ".venv", "venv"}
+SKIP_PARTS = {".git", ".github", "node_modules", "analytics-worker", "brochures-latex", ".wrangler", ".venv", "venv"}
 SELF = pathlib.Path("scripts/migrate-frontend-assets.py")
 
 
@@ -81,8 +82,6 @@ def rewrite_moved_references(text: str, source: pathlib.Path, mapping: dict[str,
     def replace(match: re.Match[str]) -> str:
         destination = mapping[match.group("asset")]
         prefix = match.group("prefix") or ""
-        # Browser-facing source files use site-root URLs. This makes moved files
-        # independent of their own directory and prevents future relative-path drift.
         if web_source or prefix == "/":
             return "/" + destination
         return destination
@@ -145,20 +144,6 @@ def write_layout_checker() -> None:
         '''#!/usr/bin/env python3\n"""Keep frontend implementation assets out of the repository root."""\nfrom pathlib import Path\nimport sys\nROOT = Path(__file__).resolve().parents[1]\nIMAGE_SUFFIXES = {".svg", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico"}\nloose = sorted(path.name for path in ROOT.iterdir() if path.is_file() and (path.suffix.lower() in {".css", ".js", ".mjs"} or path.suffix.lower() in IMAGE_SUFFIXES))\nif loose:\n    print("ASSET LAYOUT: FAIL")\n    print("Move frontend implementation assets under assets/: " + ", ".join(loose))\n    sys.exit(1)\nrequired = [ROOT / "assets/css", ROOT / "assets/js", ROOT / "assets/media"]\nmissing = [str(path.relative_to(ROOT)) for path in required if not path.is_dir()]\nif missing:\n    print("ASSET LAYOUT: FAIL")\n    print("Missing asset directories: " + ", ".join(missing))\n    sys.exit(1)\nprint("ASSET LAYOUT: PASS")\nprint("CSS, JavaScript and media are segregated under assets/.")\n''', encoding="utf-8")
 
 
-def patch_integrity_workflow() -> None:
-    workflow = ROOT / ".github/workflows/static-site-integrity.yml"
-    if not workflow.exists():
-        return
-    text = workflow.read_text(encoding="utf-8")
-    marker = "      - name: Validate frontend asset layout\n        run: python scripts/check-asset-layout.py\n"
-    if marker not in text:
-        anchor = "      - name: Validate HTML, CSS and JavaScript asset references\n        run: python scripts/check-static-assets.py\n"
-        if anchor not in text:
-            raise RuntimeError("Could not find static asset validation step")
-        text = text.replace(anchor, anchor + "\n" + marker)
-    workflow.write_text(text, encoding="utf-8")
-
-
 def write_assets_readme() -> None:
     (ROOT / "assets/README.md").write_text(
         """# Website assets\n\nPublic HTML routes remain at repository root so existing page URLs stay stable. Frontend implementation files are segregated here.\n\n```text\nassets/\n├── css/          # all site stylesheets\n├── js/           # all browser JavaScript\n└── media/\n    ├── portraits/\n    ├── icons/\n    ├── illustrations/\n    └── misc/\n```\n\nOther responsibilities deliberately remain separate: `downloads/` for downloadable brochures/resources, `analytics/` for privacy-safe exports, `analytics-worker/` for the Cloudflare Worker, `brochures-latex/` for source documents, `scripts/` for repository tooling, and `.github/` for CI/CD.\n\n## Guardrails\n\n`python scripts/check-static-assets.py` verifies local references. `python scripts/check-asset-layout.py` prevents CSS, JavaScript and image implementation files from drifting back into repository root.\n""", encoding="utf-8")
@@ -176,7 +161,6 @@ def main() -> None:
     else:
         print("No loose frontend assets found; layout already organized.")
     write_layout_checker()
-    patch_integrity_workflow()
     write_assets_readme()
 
 
