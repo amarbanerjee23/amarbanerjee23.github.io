@@ -1,5 +1,5 @@
 (() => {
-  ['story-ui-responsive.css','story-unfold.css'].forEach(href => {
+  ['ux-calm.css'].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
@@ -8,6 +8,7 @@
   });
 
   const body = document.body;
+  body.classList.add('ux-calm');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const page = body.classList.contains('workshops-page')
@@ -20,47 +21,44 @@
           ? 'research'
           : 'home';
 
+  /*
+    Keep the story idea, but surface only the decisions a visitor is most likely
+    to need. The page itself can remain rich without turning navigation into a
+    second table of contents.
+  */
   const stories = {
     home: [
-      { selector: '#overview', label: 'Meet the work' },
-      { selector: '#leadership', label: 'How value is created' },
-      { selector: '#experience', label: 'See the journey' },
-      { selector: '#facilitation-preview', label: 'Build capability' },
-      { selector: '#research', label: 'Research and IP' },
-      { selector: '#about', label: 'Working philosophy' },
-      { selector: '#contact', label: 'Start a conversation' }
+      { selector: '#overview', label: 'Overview' },
+      { selector: '#leadership', label: 'Leadership' },
+      { selector: '#experience', label: 'Journey' },
+      { selector: '#research', label: 'Research & IP' },
+      { selector: '#contact', label: 'Contact' }
     ],
     workshops: [
-      { selector: '.workshop-hero', id: 'programs-opening', label: 'Choose the outcome' },
-      { selector: '#approach', label: 'See the method' },
-      { selector: '#corporate', label: 'For organisations' },
-      { selector: '#academic', label: 'For academia' },
-      { selector: '#modules', label: 'Build the experience' },
-      { selector: '#facilitator', label: 'Meet the facilitator' },
-      { selector: '#downloads', label: 'Take the brochure' }
+      { selector: '.workshop-hero', id: 'programs-opening', label: 'Programs' },
+      { selector: '#corporate', label: 'Organisations' },
+      { selector: '#academic', label: 'Academia' },
+      { selector: '#facilitator', label: 'Facilitator' },
+      { selector: '#downloads', label: 'Brochures' }
     ],
     gallery: [
-      { selector: '.gallery-hero', id: 'gallery-opening', label: 'Open the story' },
-      { selector: '#posts', label: 'See facilitation in action' },
-      { selector: '.gallery-next', id: 'gallery-programs', label: 'Move from moments to programs' },
-      { selector: '#contact', label: 'Start a conversation' }
+      { selector: '.gallery-hero', id: 'gallery-opening', label: 'Gallery' },
+      { selector: '#posts', label: 'In action' },
+      { selector: '#contact', label: 'Contact' }
     ],
     academic: [
-      { selector: '#academic-opening', label: 'See the leadership decision' },
-      { selector: '#diagnose', label: 'Identify the priority' },
-      { selector: '#outcomes', label: 'Picture the future state' },
-      { selector: '#mechanism', label: 'Understand the mechanism' },
-      { selector: '#programs', label: 'Choose a starting point' },
-      { selector: '#evidence', label: 'Review the evidence' },
-      { selector: '#pathway', label: 'Reduce commitment risk' },
-      { selector: '#conversation', label: 'Discuss one priority' }
+      { selector: '#academic-opening', label: 'Institutional focus' },
+      { selector: '#diagnose', label: 'Priority' },
+      { selector: '#outcomes', label: 'Outcomes' },
+      { selector: '#evidence', label: 'Evidence' },
+      { selector: '#conversation', label: 'Discuss' }
     ],
     research: [
-      { selector: '#research-opening', label: 'See the research landscape' },
-      { selector: '#themes', label: 'Choose a research theme' },
-      { selector: '#publications', label: 'Explore publications' },
-      { selector: '#patents', label: 'Understand the inventions' },
-      { selector: '#engage', label: 'Start a research conversation' }
+      { selector: '#research-opening', label: 'Research' },
+      { selector: '#themes', label: 'Themes' },
+      { selector: '#publications', label: 'Publications' },
+      { selector: '#patents', label: 'Patents' },
+      { selector: '#engage', label: 'Collaborate' }
     ]
   };
 
@@ -70,27 +68,22 @@
     if (!element.id) element.id = chapter.id || `story-chapter-${index + 1}`;
     element.classList.add('story-layer');
     element.dataset.storyIndex = String(index);
-
-    if (!element.querySelector(':scope > .story-chapter-marker')) {
-      const marker = document.createElement('span');
-      marker.className = 'story-chapter-marker';
-      marker.textContent = `Chapter ${String(index + 1).padStart(2, '0')}`;
-      marker.setAttribute('aria-hidden', 'true');
-      element.prepend(marker);
-    }
-
+    element.dataset.surface = index % 2 === 0 ? 'plain' : 'soft';
     return { ...chapter, element, id: element.id, index };
   }).filter(Boolean);
 
-  if (chapters.length < 2) return;
+  if (chapters.length < 2) {
+    import('./story-unfold.js').catch(error => console.error('Story support failed to load', error));
+    return;
+  }
 
-  const nav = document.createElement('aside');
+  const nav = document.createElement('nav');
   nav.className = 'story-nav';
-  nav.setAttribute('aria-label', 'Story chapters');
+  nav.setAttribute('aria-label', 'On this page');
   nav.innerHTML = `
     <div class="story-nav-head">
-      <small>Your journey</small>
-      <span class="story-nav-count">01 / ${String(chapters.length).padStart(2, '0')}</span>
+      <small>On this page</small>
+      <span class="story-nav-count">1 / ${chapters.length}</span>
     </div>
     <ol class="story-nav-list">
       ${chapters.map((chapter, index) => `
@@ -104,14 +97,6 @@
     <div class="story-progress-track" aria-hidden="true"><span class="story-progress-bar"></span></div>`;
   body.appendChild(nav);
 
-  const next = document.createElement('a');
-  next.className = 'story-next';
-  next.href = `#${chapters[1].id}`;
-  next.innerHTML = `
-    <span class="story-next-copy"><small>Next chapter</small><strong>${chapters[1].label}</strong></span>
-    <span class="story-next-arrow" aria-hidden="true">→</span>`;
-  body.appendChild(next);
-
   const links = [...nav.querySelectorAll('a')];
   const count = nav.querySelector('.story-nav-count');
   const bar = nav.querySelector('.story-progress-bar');
@@ -123,32 +108,28 @@
       if (linkIndex === currentIndex) link.setAttribute('aria-current', 'step');
       else link.removeAttribute('aria-current');
     });
-
-    if (count) count.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
+    if (count) count.textContent = `${currentIndex + 1} / ${chapters.length}`;
     if (bar) bar.style.width = `${((currentIndex + 1) / chapters.length) * 100}%`;
 
-    const nextChapter = chapters[currentIndex + 1];
-    if (nextChapter) {
-      next.hidden = false;
-      next.href = `#${nextChapter.id}`;
-      next.querySelector('strong').textContent = nextChapter.label;
-    } else {
-      next.hidden = true;
+    const active = links[currentIndex];
+    if (active && active.parentElement && nav.scrollWidth > nav.clientWidth) {
+      active.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'nearest',
+        inline: 'nearest'
+      });
     }
-
-    links[currentIndex]?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
   };
 
-  const scrollToChapter = (event, chapter) => {
-    event.preventDefault();
-    chapter.element.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    history.replaceState(null, '', `#${chapter.id}`);
-  };
-
-  links.forEach((link, index) => link.addEventListener('click', event => scrollToChapter(event, chapters[index])));
-  next.addEventListener('click', event => {
-    const chapter = chapters[currentIndex + 1];
-    if (chapter) scrollToChapter(event, chapter);
+  links.forEach((link, index) => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      chapters[index].element.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start'
+      });
+      history.replaceState(null, '', `#${chapters[index].id}`);
+    });
   });
 
   if ('IntersectionObserver' in window) {
@@ -157,14 +138,16 @@
         .filter(entry => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (!visible) return;
-      const index = Number(visible.target.dataset.storyIndex || 0);
-      activate(index);
-    }, { rootMargin: '-25% 0px -58%', threshold: [0, .08, .2, .45] });
+      activate(Number(visible.target.dataset.storyIndex || 0));
+    }, { rootMargin: '-22% 0px -62%', threshold: [0, .08, .2, .4] });
     chapters.forEach(chapter => observer.observe(chapter.element));
   } else {
     const update = () => {
-      const marker = innerHeight * .36;
-      const index = chapters.reduce((active, chapter, chapterIndex) => chapter.element.getBoundingClientRect().top <= marker ? chapterIndex : active, 0);
+      const marker = innerHeight * .34;
+      const index = chapters.reduce(
+        (active, chapter, chapterIndex) => chapter.element.getBoundingClientRect().top <= marker ? chapterIndex : active,
+        0
+      );
       activate(index);
     };
     update();
@@ -173,6 +156,6 @@
 
   const hashIndex = chapters.findIndex(chapter => `#${chapter.id}` === location.hash);
   activate(hashIndex >= 0 ? hashIndex : 0);
-})();
 
-import('./story-unfold.js').catch(error => console.error('Story unfolding layer failed to load', error));
+  import('./story-unfold.js').catch(error => console.error('Story support failed to load', error));
+})();
