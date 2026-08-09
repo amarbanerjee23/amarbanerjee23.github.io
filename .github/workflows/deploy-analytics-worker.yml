@@ -24,7 +24,7 @@ jobs:
           cache: npm
           cache-dependency-path: analytics-worker/package.json
 
-      - name: Validate the only two required Cloudflare credentials
+      - name: Validate Cloudflare credentials without printing them
         shell: bash
         run: |
           set -euo pipefail
@@ -34,10 +34,19 @@ jobs:
               exit 1
             fi
           done
+          if ! [[ "$CLOUDFLARE_ACCOUNT_ID" =~ ^[0-9a-fA-F]{32}$ ]]; then
+            echo "CLOUDFLARE_ACCOUNT_ID must be the 32-character Cloudflare account identifier, not an email address." >&2
+            exit 1
+          fi
+          echo "Cloudflare credential variables are present and the account ID format is valid."
 
       - name: Install Wrangler
         working-directory: analytics-worker
         run: npm install
+
+      - name: Verify Cloudflare authentication
+        working-directory: analytics-worker
+        run: npx wrangler whoami
 
       - name: Deploy Worker, auto-provision D1, and initialise schema
         working-directory: analytics-worker
