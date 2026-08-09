@@ -17,7 +17,7 @@ errors = []
 if "credentials: 'omit'" not in client and 'credentials: "omit"' not in client:
     errors.append("analytics.js must use fetch credentials:'omit'.")
 
-if 'navigator.sendBeacon' in client and 'without sendBeacon' not in client:
+if 'navigator.sendBeacon(' in client:
     errors.append('analytics.js must not send cross-origin analytics with navigator.sendBeacon().')
 
 required_worker_fragments = [
