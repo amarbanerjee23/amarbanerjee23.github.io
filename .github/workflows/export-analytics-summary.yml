@@ -1,6 +1,11 @@
 name: Export public-safe analytics summary
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'analytics/last-health-check.json'
+      - '.github/workflows/export-analytics-summary.yml'
   schedule:
     - cron: '15 2 * * *'
   workflow_dispatch:
@@ -13,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Resolve deployed analytics endpoint
         id: endpoint
@@ -40,9 +47,20 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p analytics
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 6 --retry-delay 5 \
             "${{ steps.endpoint.outputs.base }}/summary.json?days=30" \
             --output analytics/summary.json
+
+      - name: Validate aggregate response
+        if: steps.endpoint.outputs.configured == 'true'
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          data=json.loads(Path('analytics/summary.json').read_text())
+          assert isinstance(data.get('headline'), dict)
+          assert all(key in data['headline'] for key in ('visitors','sessions','events'))
+          assert 'aggregate-public-safe' in data.get('privacy','')
 
       - name: Create simple CSV summary
         if: steps.endpoint.outputs.configured == 'true'
