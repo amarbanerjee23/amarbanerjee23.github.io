@@ -34,27 +34,39 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Organize frontend assets
-        run: python scripts/migrate-frontend-assets.py
-
-      - name: Validate static references
-        run: python scripts/check-static-assets.py
-
-      - name: Validate asset layout
-        run: python scripts/check-asset-layout.py
-
-      - name: Validate JavaScript syntax
+      - name: Migrate and verify frontend assets
         shell: bash
         run: |
           set -euo pipefail
-          while IFS= read -r -d '' file; do
-            node --check "$file"
-          done < <(find assets/js -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          {
+            python scripts/migrate-frontend-assets.py
+            python scripts/check-static-assets.py
+            python scripts/check-asset-layout.py
+            while IFS= read -r -d '' file; do
+              node --check "$file"
+            done < <(find assets/js -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          } 2>&1 | tee /tmp/frontend-asset-migration.log
+
+      - name: Commit migration diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git reset --hard HEAD
+          cp /tmp/frontend-asset-migration.log asset-migration-diagnostics.txt || echo 'Migration failed before diagnostics were captured.' > asset-migration-diagnostics.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add asset-migration-diagnostics.txt
+          git commit -m 'Record frontend asset migration diagnostics' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
 
       - name: Commit migration
+        if: success()
         shell: bash
         run: |
           set -euo pipefail
+          rm -f asset-migration-diagnostics.txt
           if git diff --quiet && git diff --cached --quiet; then
             echo 'No asset migration changes were required.'
             exit 0
