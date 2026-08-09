@@ -1,0 +1,78 @@
+name: Export public-safe analytics summary
+
+on:
+  schedule:
+    - cron: '15 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    env:
+      ANALYTICS_EXPORT_URL: ${{ secrets.ANALYTICS_EXPORT_URL }}
+      ANALYTICS_EXPORT_TOKEN: ${{ secrets.ANALYTICS_EXPORT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip until analytics is configured
+        id: ready
+        shell: bash
+        run: |
+          if [ -n "${ANALYTICS_EXPORT_URL:-}" ] && [ -n "${ANALYTICS_EXPORT_TOKEN:-}" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Analytics export secrets are not configured yet; leaving summary files unchanged."
+          fi
+
+      - name: Fetch protected 30-day aggregate summary
+        if: steps.ready.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p analytics
+          curl --fail --silent --show-error \
+            --header "Authorization: Bearer ${ANALYTICS_EXPORT_TOKEN}" \
+            "${ANALYTICS_EXPORT_URL%/}/admin/summary.json?days=30" \
+            --output analytics/summary.json
+
+      - name: Create simple CSV summary
+        if: steps.ready.outputs.configured == 'true'
+        shell: python
+        run: |
+          import csv, json
+          from pathlib import Path
+
+          path = Path('analytics/summary.json')
+          data = json.loads(path.read_text())
+          rows = []
+          rows.append(['meta', 'generated_at', data.get('generated_at', '')])
+          rows.append(['meta', 'window_days', data.get('window_days', '')])
+          for key, value in data.get('headline', {}).items():
+              rows.append(['headline', key, value])
+          for section in ['top_pages', 'countries', 'cities', 'referrers', 'events']:
+              for item in data.get(section, []):
+                  rows.append([section, item.get('label', ''), item.get('count', 0)])
+
+          with Path('analytics/summary.csv').open('w', newline='', encoding='utf-8') as handle:
+              writer = csv.writer(handle)
+              writer.writerow(['category', 'label', 'count_or_value'])
+              writer.writerows(rows)
+
+      - name: Commit updated aggregate summary
+        if: steps.ready.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analytics/summary.json analytics/summary.csv
+          if git diff --cached --quiet; then
+            echo "No analytics summary changes."
+          else
+            git commit -m "Update privacy-safe website analytics summary [skip ci]"
+            git push
+          fi
