@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   contract:
@@ -40,13 +40,18 @@ jobs:
     needs: contract
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Wait for Cloudflare deployment and verify CORS end to end
         shell: python
         run: |
+          import datetime
           import json
           import time
-          import urllib.error
           import urllib.request
+          from pathlib import Path
 
           origin = 'https://amarbanerjee23.github.io'
           base = 'https://amarbanerjee23-github-io.amarbanerjee23.workers.dev'
@@ -114,13 +119,43 @@ jobs:
                   errors.append(f'dry-run POST failed: {exc}')
 
               if not errors:
+                  report = {
+                      'checked_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                      'overall': 'pass',
+                      'origin': origin,
+                      'endpoint': collect,
+                      'checks': {
+                          'preflight_http_204': 'success',
+                          'allow_origin_exact_match': 'success',
+                          'allow_credentials_true': 'success',
+                          'allow_post_method': 'success',
+                          'allow_content_type_header': 'success',
+                          'dry_run_post': 'success',
+                      },
+                      'note': 'Credentialed-preflight compatibility is retained for older cached clients; current analytics.js sends with credentials omitted.'
+                  }
+                  Path('analytics/cors-health-check.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
                   print(f'ANALYTICS CORS LIVE CHECK: PASS on attempt {attempt}')
-                  raise SystemExit(0)
+                  break
 
               print(f'Attempt {attempt}/9 not ready:')
               for error in errors:
                   print(f'- {error}')
               if attempt < 9:
                   time.sleep(20)
+          else:
+              raise SystemExit('ANALYTICS CORS LIVE CHECK: FAIL after deployment retry window')
 
-          raise SystemExit('ANALYTICS CORS LIVE CHECK: FAIL after deployment retry window')
+      - name: Commit live CORS verification result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analytics/cors-health-check.json
+          if git diff --cached --quiet; then
+            echo "CORS health report is unchanged."
+          else
+            git commit -m "Update live analytics CORS report [skip ci]"
+            git push
+          fi
