@@ -93,17 +93,17 @@ import config from './analytics-config.js';
     firstEventSent = true;
 
     try {
-      const body = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        const ok = navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
-        if (ok) return;
-      }
+      // Analytics never needs third-party cookies or HTTP authentication. Using
+      // fetch with credentials omitted avoids credentialed cross-origin requests.
+      // keepalive preserves delivery for navigations without sendBeacon's
+      // credentialed CORS behaviour.
       await fetch(endpoint, {
         method: 'POST',
         mode: 'cors',
+        credentials: 'omit',
         keepalive: true,
         headers: { 'Content-Type': 'application/json' },
-        body
+        body: JSON.stringify(payload)
       });
     } catch (_) {}
   };
