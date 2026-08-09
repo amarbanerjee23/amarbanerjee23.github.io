@@ -56,7 +56,7 @@
   if (decisionCard && !decisionCard.querySelector('.academic-profile-mini')) {
     const profile = document.createElement('div');
     profile.className = 'academic-profile-mini';
-    profile.innerHTML = '<img src="headshot.png" alt="Dr. Amar Banerjee" width="116" height="116"><div><small>YOUR FACILITATOR</small><strong>Dr. Amar Banerjee</strong></div>';
+    profile.innerHTML = '<img src="headshot.png" alt="Dr Amar Banerjee" width="116" height="116"><div><small>YOUR FACILITATOR</small><strong>Dr Amar Banerjee</strong></div>';
     decisionCard.prepend(profile);
   }
 
