@@ -1,6 +1,6 @@
 export default {
   enabled: true,
-  endpoint: '',
+  endpoint: 'https://amarbanerjee23-github-io.amarbanerjee23.workers.dev/collect',
   privacyPage: 'privacy.html',
   consentStorageKey: 'portfolio-analytics-consent-v1',
   visitorStorageKey: 'portfolio-anon-visitor-v1',
