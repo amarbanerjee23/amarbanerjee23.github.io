@@ -1,0 +1,14 @@
+# Never commit local secrets or Cloudflare credentials
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+analytics-worker/.wrangler/
+analytics-worker/wrangler.local.jsonc
+analytics-worker/secrets.local
+
+# Local build/runtime files
+node_modules/
+.DS_Store
