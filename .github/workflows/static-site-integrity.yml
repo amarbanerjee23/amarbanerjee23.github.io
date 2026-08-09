@@ -59,6 +59,8 @@ jobs:
             script.js
             story-ui.js
             story-unfold.js
+            academic-home.js
+            academic-programs.js
             analytics-bootstrap.js
             analytics.js
             academic-engagement.js
@@ -88,6 +90,10 @@ jobs:
           paths = [
               '/',
               '/index.html',
+              '/academic-future.css',
+              '/academic-home.js',
+              '/academic-programs.css',
+              '/academic-programs.js',
               '/story-ui-responsive.css',
               '/story-ui.css',
               '/story-ui.js',
