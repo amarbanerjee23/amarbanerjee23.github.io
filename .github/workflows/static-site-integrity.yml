@@ -94,6 +94,7 @@ jobs:
               '/story-unfold.css',
               '/story-unfold.js',
               '/ux-calm-v2.css',
+              '/sticky-nav-fix.css',
               '/script.js',
               '/analytics.js',
               '/analytics-config.js',
