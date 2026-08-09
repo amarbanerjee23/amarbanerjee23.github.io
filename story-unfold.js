@@ -139,4 +139,5 @@
 })();
 
 import('./academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
+import('./contact-intake.js').catch(error => console.error('Contact form failed to load', error));
 import('./analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
