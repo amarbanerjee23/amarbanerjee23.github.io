@@ -1,5 +1,5 @@
 (() => {
-  ['ux-calm.css'].forEach(href => {
+  ['ux-calm-v2.css'].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
