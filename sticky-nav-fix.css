@@ -1,0 +1,23 @@
+/* Keep the compact "On this page" navigation fully visible below the live header height. */
+:root{
+  --live-header-height:70px;
+  --story-nav-gap:6px;
+}
+
+body.ux-calm .story-nav{
+  top:calc(var(--live-header-height) + var(--story-nav-gap))!important;
+}
+
+html{
+  scroll-padding-top:calc(var(--live-header-height) + 64px)!important;
+}
+
+body.ux-calm section,[id]{
+  scroll-margin-top:calc(var(--live-header-height) + 64px)!important;
+}
+
+@media(max-width:620px){
+  :root{--story-nav-gap:4px}
+  html{scroll-padding-top:calc(var(--live-header-height) + 58px)!important}
+  body.ux-calm section,[id]{scroll-margin-top:calc(var(--live-header-height) + 58px)!important}
+}
