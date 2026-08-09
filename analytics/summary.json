@@ -1,0 +1,11 @@
+{
+  "status": "Analytics not deployed yet",
+  "generated_at": null,
+  "window_days": 30,
+  "headline": {"visitors": 0, "sessions": 0, "events": 0},
+  "top_pages": [],
+  "countries": [],
+  "cities": [],
+  "referrers": [],
+  "events": []
+}
