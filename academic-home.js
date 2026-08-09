@@ -19,6 +19,13 @@
     ['Contact', '#contact']
   ];
 
+  const promoteStyles = () => {
+    ['academic-future.css', 'sticky-nav-fix.css'].forEach(href => {
+      const link = document.querySelector(`link[href="${href}"]`);
+      if (link) document.head.appendChild(link);
+    });
+  };
+
   const updateHeaderMetric = () => {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -108,6 +115,7 @@
 
   const init = () => {
     document.querySelector('.academic-leader-invite')?.remove();
+    promoteStyles();
     resetPrimaryNav();
     updateHeaderMetric();
     installStoryNav();
