@@ -97,11 +97,21 @@
     activate(hashIndex >= 0 ? hashIndex : 0);
   };
 
+  const addVenueAmbition = () => {
+    const note = document.querySelector('.integrity-note p');
+    if (!note || note.querySelector('.venue-ambition')) return;
+    const extra = document.createElement('span');
+    extra.className = 'venue-ambition';
+    extra.textContent = ' For Indian student research in particular, the aim should not be to treat Q2 or Q3 as the automatic stopping point. Students should understand what Q1 journals and leading conferences demand, then decide whether the problem, contribution and evidence are strong enough to compete there.';
+    note.appendChild(extra);
+  };
+
   const init = () => {
     document.querySelector('.academic-leader-invite')?.remove();
     resetPrimaryNav();
     updateHeaderMetric();
     installStoryNav();
+    addVenueAmbition();
 
     const header = document.querySelector('.site-header');
     if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
