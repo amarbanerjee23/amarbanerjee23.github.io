@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#071b2d">
+  <title>Analytics Status | Dr Amar Banerjee</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="portfolio.css">
+  <link rel="stylesheet" href="ux.css">
+  <style>
+    body{background:#f5f8fa;color:#172633}.status-wrap{max-width:980px;margin:0 auto;padding:64px 20px 90px}.status-head{padding:34px;border-radius:28px;background:linear-gradient(145deg,#071b2d,#0d3550);color:#fff}.status-head h1{margin:8px 0 10px;color:#fff;font-size:clamp(2.4rem,5vw,4rem)}.status-head p{max-width:70ch;color:rgba(255,255,255,.75)}.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.status-card{padding:24px;border:1px solid #dce6ea;border-radius:20px;background:#fff}.status-card small{font-weight:800;letter-spacing:.12em;color:#637581}.status-card strong{display:block;margin:12px 0 8px;font-size:22px}.ok{color:#087f5b}.warn{color:#a15c00}.bad{color:#b42318}.detail{margin-top:18px;padding:24px;border:1px solid #dce6ea;border-radius:20px;background:#fff}.detail code{display:block;overflow-wrap:anywhere;padding:12px;border-radius:10px;background:#eef4f6}.steps{line-height:1.75}.steps li{margin:8px 0}@media(max-width:760px){.status-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="status-wrap">
+    <section class="status-head">
+      <small>DR AMAR BANERJEE · WEBSITE DIAGNOSTICS</small>
+      <h1>Analytics status</h1>
+      <p>This page checks whether the public website is connected to the Cloudflare analytics Worker, whether the Worker is healthy, and whether the D1-backed summary endpoint is responding.</p>
+    </section>
+
+    <section class="status-grid" aria-live="polite">
+      <article class="status-card"><small>WEBSITE CONFIG</small><strong id="config-state">Checking…</strong><p id="config-detail"></p></article>
+      <article class="status-card"><small>WORKER HEALTH</small><strong id="worker-state">Waiting…</strong><p id="worker-detail"></p></article>
+      <article class="status-card"><small>D1 / SUMMARY</small><strong id="db-state">Waiting…</strong><p id="db-detail"></p></article>
+    </section>
+
+    <section class="detail">
+      <h2>Configured collector</h2>
+      <code id="endpoint">Not configured</code>
+      <h2>What to do if this page says “Not connected”</h2>
+      <ol class="steps">
+        <li>Open Cloudflare → Workers &amp; Pages → <strong>dr-amar-banerjee-portfolio-analytics</strong> → Builds.</li>
+        <li>Open the latest production build triggered from the GitHub <strong>main</strong> branch.</li>
+        <li>The build is self-verifying. Near the end of its log, look for <code>ANALYTICS_READY=true</code>.</li>
+        <li>Copy the line beginning <code>COLLECT_URL=</code>. It will end in <code>/collect</code>.</li>
+        <li>Send only that public COLLECT_URL back in this chat. It is not a secret. I can then wire it into the website and verify the live endpoints.</li>
+      </ol>
+      <p>The Cloudflare API token is not needed in the public repository and should not be pasted into this page.</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import config from './analytics-config.js';
+
+    const set = (id, text, cls = '') => {
+      const element = document.getElementById(id);
+      element.textContent = text;
+      element.className = cls;
+    };
+
+    const endpoint = String(config.endpoint || '').trim();
+    document.getElementById('endpoint').textContent = endpoint || 'Not configured';
+
+    if (!endpoint) {
+      set('config-state', 'Not connected', 'warn');
+      document.getElementById('config-detail').textContent = 'The Cloudflare Worker URL has not yet been written into analytics-config.js.';
+      set('worker-state', 'Not testable', 'warn');
+      document.getElementById('worker-detail').textContent = 'A collector URL is required first.';
+      set('db-state', 'Not testable', 'warn');
+      document.getElementById('db-detail').textContent = 'D1 is verified by the Cloudflare build and then rechecked through summary.json.';
+    } else {
+      set('config-state', 'Connected', 'ok');
+      document.getElementById('config-detail').textContent = 'The website has a collector endpoint.';
+      const base = endpoint.replace(/\/collect\/?$/, '');
+
+      try {
+        const health = await fetch(`${base}/health`, { cache: 'no-store' });
+        const payload = await health.json();
+        if (!health.ok || payload.ok !== true) throw new Error('Health endpoint returned an unexpected response.');
+        set('worker-state', 'Healthy', 'ok');
+        document.getElementById('worker-detail').textContent = 'The deployed Worker is responding.';
+      } catch (error) {
+        set('worker-state', 'Failed', 'bad');
+        document.getElementById('worker-detail').textContent = String(error);
+      }
+
+      try {
+        const summary = await fetch(`${base}/summary.json?days=30`, { cache: 'no-store' });
+        const payload = await summary.json();
+        if (!summary.ok || !payload.headline) throw new Error('Summary endpoint did not return the expected D1-backed response.');
+        set('db-state', 'Healthy', 'ok');
+        document.getElementById('db-detail').textContent = `${payload.headline.visitors ?? 0} anonymous visitors · ${payload.headline.events ?? 0} events in the current summary window.`;
+      } catch (error) {
+        set('db-state', 'Failed', 'bad');
+        document.getElementById('db-detail').textContent = String(error);
+      }
+    }
+  </script>
+</body>
+</html>
