@@ -30,8 +30,10 @@ async function sha256(value) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-async function pseudonym(rawId, salt) {
-  return sha256(`${salt}:${rawId}`);
+async function pseudonym(rawId) {
+  // The browser identifier is already a random UUID. Hash it again before storage
+  // so the value stored in D1 is never the same value present in the browser.
+  return sha256(`dr-amar-banerjee-portfolio-v1:${rawId}`);
 }
 
 function csvEscape(value) {
@@ -43,7 +45,6 @@ async function collect(request, env) {
   const allowedOrigin = env.ALLOWED_ORIGIN || DEFAULT_ORIGIN;
   const origin = request.headers.get('Origin') || '';
   if (origin !== allowedOrigin) return json({ ok: false, error: 'origin_not_allowed' }, 403, corsHeaders(allowedOrigin));
-  if (!env.ANON_SALT) return json({ ok: false, error: 'collector_not_configured' }, 503, corsHeaders(allowedOrigin));
 
   const length = Number(request.headers.get('Content-Length') || 0);
   if (length > 8192) return json({ ok: false, error: 'payload_too_large' }, 413, corsHeaders(allowedOrigin));
@@ -59,8 +60,8 @@ async function collect(request, env) {
   const sessionId = text(input.session_id, 96);
   if (!visitorId || !sessionId) return json({ ok: false, error: 'missing_pseudonymous_id' }, 400, corsHeaders(allowedOrigin));
 
-  const visitorHash = await pseudonym(visitorId, env.ANON_SALT);
-  const sessionHash = await pseudonym(sessionId, env.ANON_SALT);
+  const visitorHash = await pseudonym(visitorId);
+  const sessionHash = await pseudonym(sessionId);
   const now = new Date().toISOString();
   const existing = await env.DB.prepare('SELECT visit_count FROM visitors WHERE visitor_hash = ?1').bind(visitorHash).first();
   const isReturning = existing ? 1 : 0;
@@ -112,22 +113,8 @@ function authorized(request, env) {
 async function exportRecent(env, days = 30) {
   const boundedDays = Math.max(1, Math.min(Number(days) || 30, 90));
   const result = await env.DB.prepare(`
-    SELECT
-      occurred_at,
-      substr(visitor_hash, 1, 12) AS visitor,
-      substr(session_hash, 1, 12) AS session,
-      event_type,
-      page,
-      target,
-      referrer_domain,
-      country,
-      region,
-      city,
-      device,
-      browser,
-      os,
-      language,
-      is_returning
+    SELECT occurred_at, substr(visitor_hash, 1, 12) AS visitor, substr(session_hash, 1, 12) AS session,
+      event_type, page, target, referrer_domain, country, region, city, device, browser, os, language, is_returning
     FROM events
     WHERE occurred_at >= datetime('now', ?1)
     ORDER BY occurred_at DESC
@@ -140,21 +127,22 @@ async function exportRecent(env, days = 30) {
   return rows.join('\n');
 }
 
-async function aggregateSummary(env, days = 30) {
+async function aggregateSummary(env, days = 30, publicSafe = false) {
   const boundedDays = Math.max(1, Math.min(Number(days) || 30, 90));
   const since = `-${boundedDays} days`;
   const [headline, pages, countries, cities, referrers, events] = await Promise.all([
     env.DB.prepare(`SELECT COUNT(*) AS events, COUNT(DISTINCT visitor_hash) AS visitors, COUNT(DISTINCT session_hash) AS sessions FROM events WHERE occurred_at >= datetime('now', ?1)`).bind(since).first(),
     env.DB.prepare(`SELECT page AS label, COUNT(*) AS count FROM events WHERE event_type='page_view' AND occurred_at >= datetime('now', ?1) GROUP BY page ORDER BY count DESC LIMIT 20`).bind(since).all(),
     env.DB.prepare(`SELECT COALESCE(NULLIF(country,''),'Unknown') AS label, COUNT(DISTINCT visitor_hash) AS count FROM events WHERE occurred_at >= datetime('now', ?1) GROUP BY country ORDER BY count DESC LIMIT 20`).bind(since).all(),
-    env.DB.prepare(`SELECT CASE WHEN city='' THEN 'Unknown' ELSE city || CASE WHEN region='' THEN '' ELSE ', ' || region END END AS label, COUNT(DISTINCT visitor_hash) AS count FROM events WHERE occurred_at >= datetime('now', ?1) GROUP BY city, region ORDER BY count DESC LIMIT 20`).bind(since).all(),
-    env.DB.prepare(`SELECT COALESCE(NULLIF(referrer_domain,''),'Direct / unknown') AS label, COUNT(DISTINCT session_hash) AS count FROM events WHERE event_type='page_view' AND occurred_at >= datetime('now', ?1) GROUP BY referrer_domain ORDER BY count DESC LIMIT 20`).bind(since).all(),
+    env.DB.prepare(`SELECT CASE WHEN city='' THEN 'Unknown' ELSE city || CASE WHEN region='' THEN '' ELSE ', ' || region END END AS label, COUNT(DISTINCT visitor_hash) AS count FROM events WHERE occurred_at >= datetime('now', ?1) GROUP BY city, region HAVING COUNT(DISTINCT visitor_hash) >= ?2 ORDER BY count DESC LIMIT 20`).bind(since, publicSafe ? 3 : 1).all(),
+    env.DB.prepare(`SELECT COALESCE(NULLIF(referrer_domain,''),'Direct / unknown') AS label, COUNT(DISTINCT session_hash) AS count FROM events WHERE event_type='page_view' AND occurred_at >= datetime('now', ?1) GROUP BY referrer_domain HAVING COUNT(DISTINCT session_hash) >= ?2 ORDER BY count DESC LIMIT 20`).bind(since, publicSafe ? 3 : 1).all(),
     env.DB.prepare(`SELECT event_type AS label, COUNT(*) AS count FROM events WHERE occurred_at >= datetime('now', ?1) GROUP BY event_type ORDER BY count DESC`).bind(since).all()
   ]);
 
   return {
     generated_at: new Date().toISOString(),
     window_days: boundedDays,
+    privacy: publicSafe ? 'aggregate-public-safe; city/referrer groups under 3 omitted' : 'administrator',
     headline: {
       visitors: Number(headline?.visitors || 0),
       sessions: Number(headline?.sessions || 0),
@@ -182,18 +170,24 @@ export default {
     if (request.method === 'POST' && url.pathname === '/collect') return collect(request, env);
 
     if (request.method === 'GET' && url.pathname === '/health') {
-      return json({ ok: true, service: 'portfolio-analytics', stores_raw_ip: false });
+      return json({ ok: true, service: 'portfolio-analytics', stores_raw_ip: false, google_identity: false });
+    }
+
+    if (request.method === 'GET' && url.pathname === '/summary.json') {
+      return json(await aggregateSummary(env, url.searchParams.get('days'), true), 200, {
+        'Cache-Control': 'public, max-age=300'
+      });
     }
 
     if (request.method === 'GET' && url.pathname === '/admin/export.csv') {
-      if (!authorized(request, env)) return json({ ok: false, error: 'unauthorized' }, 401);
+      if (!authorized(request, env)) return json({ ok: false, error: 'admin_export_not_configured' }, 401);
       const csv = await exportRecent(env, url.searchParams.get('days'));
       return new Response(csv, { headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Cache-Control': 'no-store' } });
     }
 
     if (request.method === 'GET' && url.pathname === '/admin/summary.json') {
-      if (!authorized(request, env)) return json({ ok: false, error: 'unauthorized' }, 401);
-      return json(await aggregateSummary(env, url.searchParams.get('days')), 200, { 'Cache-Control': 'no-store' });
+      if (!authorized(request, env)) return json({ ok: false, error: 'admin_export_not_configured' }, 401);
+      return json(await aggregateSummary(env, url.searchParams.get('days'), false), 200, { 'Cache-Control': 'no-store' });
     }
 
     return json({ ok: false, error: 'not_found' }, 404);
