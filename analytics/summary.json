@@ -1,11 +1,1 @@
-{
-  "status": "Analytics not deployed yet",
-  "generated_at": null,
-  "window_days": 30,
-  "headline": {"visitors": 0, "sessions": 0, "events": 0},
-  "top_pages": [],
-  "countries": [],
-  "cities": [],
-  "referrers": [],
-  "events": []
-}
+{"generated_at":"2026-08-09T06:16:18.028Z","window_days":30,"privacy":"aggregate-public-safe; city/referrer groups under 3 omitted","headline":{"visitors":0,"sessions":0,"events":0},"top_pages":[],"countries":[],"cities":[],"referrers":[],"events":[]}

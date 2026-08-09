@@ -1,2 +1,7 @@
 category,label,count_or_value
-meta,status,Analytics not deployed yet
+meta,generated_at,2026-08-09T06:16:18.028Z
+meta,window_days,30
+meta,privacy,aggregate-public-safe; city/referrer groups under 3 omitted
+headline,visitors,0
+headline,sessions,0
+headline,events,0
