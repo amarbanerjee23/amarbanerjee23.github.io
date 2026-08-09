@@ -13,6 +13,10 @@ const text = (value, max = 180) => String(value ?? '').replace(/[\u0000-\u001f\u
 
 const corsHeaders = origin => ({
   'Access-Control-Allow-Origin': origin,
+  // Compatibility for older cached analytics.js versions that used
+  // navigator.sendBeacon(), whose cross-origin request may use credentials.
+  // The collector itself does not read cookies or authentication state.
+  'Access-Control-Allow-Credentials': 'true',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Max-Age': '86400',
