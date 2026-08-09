@@ -31,8 +31,6 @@ async function sha256(value) {
 }
 
 async function pseudonym(rawId) {
-  // The browser identifier is already a random UUID. Hash it again before storage
-  // so the value stored in D1 is never the same value present in the browser.
   return sha256(`dr-amar-banerjee-portfolio-v1:${rawId}`);
 }
 
@@ -62,6 +60,12 @@ async function collect(request, env) {
 
   const visitorHash = await pseudonym(visitorId);
   const sessionHash = await pseudonym(sessionId);
+
+  if (input.dry_run === true) {
+    const probe = await env.DB.prepare('SELECT 1 AS ok').first();
+    return json({ ok: probe?.ok === 1, dry_run: true, database: probe?.ok === 1 }, 202, corsHeaders(allowedOrigin));
+  }
+
   const now = new Date().toISOString();
   const existing = await env.DB.prepare('SELECT visit_count FROM visitors WHERE visitor_hash = ?1').bind(visitorHash).first();
   const isReturning = existing ? 1 : 0;
@@ -170,7 +174,19 @@ export default {
     if (request.method === 'POST' && url.pathname === '/collect') return collect(request, env);
 
     if (request.method === 'GET' && url.pathname === '/health') {
-      return json({ ok: true, service: 'portfolio-analytics', stores_raw_ip: false, google_identity: false });
+      try {
+        const probe = await env.DB.prepare('SELECT COUNT(*) AS event_count FROM events').first();
+        return json({
+          ok: true,
+          service: 'portfolio-analytics',
+          database: true,
+          event_count: Number(probe?.event_count || 0),
+          stores_raw_ip: false,
+          google_identity: false
+        });
+      } catch (error) {
+        return json({ ok: false, service: 'portfolio-analytics', database: false, error: 'database_unavailable' }, 503);
+      }
     }
 
     if (request.method === 'GET' && url.pathname === '/summary.json') {
