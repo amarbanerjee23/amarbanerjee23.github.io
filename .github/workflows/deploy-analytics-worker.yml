@@ -1,25 +1,22 @@
-name: Deploy privacy-aware analytics worker
+name: Bootstrap and deploy privacy-aware analytics
 
 on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: analytics-worker
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      D1_DATABASE_ID: ${{ secrets.CLOUDFLARE_D1_DATABASE_ID }}
-      ANON_SALT: ${{ secrets.ANALYTICS_ANON_SALT }}
-      EXPORT_TOKEN: ${{ secrets.ANALYTICS_EXPORT_TOKEN }}
+      WRANGLER_OUTPUT_FILE_PATH: ${{ github.workspace }}/analytics-worker/wrangler-output.ndjson
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -27,11 +24,11 @@ jobs:
           cache: npm
           cache-dependency-path: analytics-worker/package.json
 
-      - name: Validate required secrets
+      - name: Validate the only two required Cloudflare credentials
         shell: bash
         run: |
           set -euo pipefail
-          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID D1_DATABASE_ID ANON_SALT EXPORT_TOKEN; do
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
             if [ -z "${!name:-}" ]; then
               echo "Missing required GitHub Actions secret: $name" >&2
               exit 1
@@ -39,23 +36,84 @@ jobs:
           done
 
       - name: Install Wrangler
+        working-directory: analytics-worker
         run: npm install
 
-      - name: Build Wrangler config
+      - name: Deploy Worker, auto-provision D1, and initialise schema
+        working-directory: analytics-worker
+        run: npm run deploy
+
+      - name: Resolve deployed workers.dev URL
+        id: deployed
+        shell: python
+        run: |
+          import json, os
+          from pathlib import Path
+
+          output = Path('analytics-worker/wrangler-output.ndjson')
+          targets = []
+          if output.exists():
+              for line in output.read_text(encoding='utf-8').splitlines():
+                  try:
+                      record = json.loads(line)
+                  except json.JSONDecodeError:
+                      continue
+                  if record.get('type') == 'deploy':
+                      targets.extend(record.get('targets') or [])
+
+          worker_url = next((item.rstrip('/') for item in reversed(targets) if item.startswith('https://')), '')
+          if not worker_url:
+              raise SystemExit('Could not resolve deployed Worker URL from Wrangler structured output.')
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as handle:
+              handle.write(f'worker_url={worker_url}\n')
+          print('Worker deployment URL resolved successfully.')
+
+      - name: Activate website analytics endpoint automatically
+        shell: python
+        env:
+          WORKER_URL: ${{ steps.deployed.outputs.worker_url }}
+        run: |
+          import os, re
+          from pathlib import Path
+
+          path = Path('analytics-config.js')
+          text = path.read_text(encoding='utf-8')
+          endpoint = os.environ['WORKER_URL'].rstrip('/') + '/collect'
+          updated, count = re.subn(
+              r"endpoint:\s*['\"][^'\"]*['\"]",
+              f"endpoint: '{endpoint}'",
+              text,
+              count=1
+          )
+          if count != 1:
+              raise SystemExit('Could not update analytics-config.js endpoint.')
+          path.write_text(updated, encoding='utf-8')
+
+          Path('analytics/worker-url.txt').write_text(os.environ['WORKER_URL'].rstrip('/') + '\n', encoding='utf-8')
+
+      - name: Verify collector health
         shell: bash
         run: |
-          sed "s/__D1_DATABASE_ID__/${D1_DATABASE_ID}/g" wrangler.jsonc.template > wrangler.jsonc
+          set -euo pipefail
+          curl --fail --silent --show-error "${{ steps.deployed.outputs.worker_url }}/health"
 
-      - name: Apply D1 schema
-        run: npx wrangler d1 execute portfolio-analytics --remote --file=./schema.sql --config=./wrangler.jsonc --yes
-
-      - name: Deploy collector
-        run: npx wrangler deploy --config=./wrangler.jsonc
-
-      - name: Configure pseudonymisation secret
+      - name: Commit automatic activation back to the website
         shell: bash
-        run: printf '%s' "$ANON_SALT" | npx wrangler secret put ANON_SALT --config=./wrangler.jsonc
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f analytics-worker/wrangler-output.ndjson
+          git add analytics-config.js analytics/worker-url.txt analytics-worker/wrangler.jsonc
+          if git diff --cached --quiet; then
+            echo "Analytics endpoint is already activated."
+          else
+            git commit -m "Activate privacy-aware website analytics [skip ci]"
+            git push
+          fi
 
-      - name: Configure protected export token
-        shell: bash
-        run: printf '%s' "$EXPORT_TOKEN" | npx wrangler secret put EXPORT_TOKEN --config=./wrangler.jsonc
+      - name: Summary
+        run: |
+          echo "Analytics collector deployed and website endpoint activated."
+          echo "The daily summary workflow now needs no analytics export secrets."
