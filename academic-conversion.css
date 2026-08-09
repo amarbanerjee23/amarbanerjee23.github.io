@@ -1,0 +1,4 @@
+/* Compatibility shim.
+   Academic conversion styles were consolidated into academic-partnerships.css.
+   This file intentionally remains available so older cached stylesheets that
+   imported academic-conversion.css receive HTTP 200 instead of a 404. */
