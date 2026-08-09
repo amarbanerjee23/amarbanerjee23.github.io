@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/migrate-frontend-assets.py'
+      - '.github/asset-migration-trigger.txt'
   workflow_dispatch:
 
 permissions:
