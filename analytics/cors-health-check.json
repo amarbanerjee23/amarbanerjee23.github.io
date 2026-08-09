@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-08-09T06:29:53.894014+00:00",
+  "overall": "pass",
+  "origin": "https://amarbanerjee23.github.io",
+  "endpoint": "https://amarbanerjee23-github-io.amarbanerjee23.workers.dev/collect",
+  "checks": {
+    "preflight_http_204": "success",
+    "allow_origin_exact_match": "success",
+    "allow_credentials_true": "success",
+    "allow_post_method": "success",
+    "allow_content_type_header": "success",
+    "dry_run_post": "success"
+  },
+  "note": "Credentialed-preflight compatibility is retained for older cached clients; current analytics.js sends with credentials omitted."
+}
