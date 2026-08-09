@@ -1,0 +1,23 @@
+/* Four brochure-backed academic innovation offerings. */
+.academic-offerings{background:var(--read-soft,#f3f7f8)}
+.academic-offerings .section-head{max-width:820px}
+.academic-offerings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:30px}
+.academic-offering-card{display:flex;flex-direction:column;min-height:290px;padding:26px;border:1px solid var(--read-border,#dce6e9);border-radius:18px;background:var(--read-card,#fff)}
+.academic-offering-card>small{color:var(--read-link,#126f73);font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.academic-offering-card h3{margin:14px 0 9px;font-size:25px;line-height:1.12;letter-spacing:-.025em;color:var(--read-heading,#18323f)}
+.academic-offering-card p{margin:0;color:var(--read-body,#425965);font-size:13px;line-height:1.72}
+.academic-offering-card .offering-audience{display:block;margin-top:14px;color:var(--read-muted,#677b86);font-size:11px;line-height:1.5}
+.academic-offering-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:auto;padding-top:22px}
+.academic-offering-actions .btn{min-height:42px;padding:0 15px;font-size:11px}
+.academic-offering-actions .btn.primary{background:#0e6f73;color:#fff}
+.academic-offering-actions .btn.secondary{background:transparent;color:var(--read-heading,#18323f);border-color:var(--read-border,#dce6e9)}
+.academic-offerings-note{display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:15px 17px;border-left:3px solid #d3a84f;border-radius:0 12px 12px 0;background:color-mix(in srgb,#e8b95a 12%,var(--read-card,#fff))}
+.academic-offerings-note strong{flex:0 0 auto;color:var(--read-heading,#18323f)}
+.academic-offerings-note span{color:var(--read-body,#425965);font-size:12px;line-height:1.62}
+
+html[data-theme="dark"] .academic-offering-actions .btn.secondary{color:var(--read-heading);background:rgba(255,255,255,.025)}
+html[data-theme="dark"] .academic-offerings-note{background:#29251c}
+html[data-theme="dark"] .academic-offerings-note strong,html[data-theme="dark"] .academic-offerings-note span{color:#d9cfb8}
+
+@media(max-width:760px){.academic-offerings-grid{grid-template-columns:1fr}.academic-offering-card{min-height:0}.academic-offerings-note{display:grid;gap:4px}}
+@media(max-width:520px){.academic-offering-card{padding:21px}.academic-offering-actions{display:grid;grid-template-columns:1fr}.academic-offering-actions .btn{width:100%}}
