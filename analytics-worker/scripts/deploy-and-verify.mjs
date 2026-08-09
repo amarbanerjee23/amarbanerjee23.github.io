@@ -22,6 +22,13 @@ run('npx', ['wrangler', 'deploy'], { WRANGLER_OUTPUT_FILE_PATH: outputFile });
 console.log('\n[analytics] Applying D1 schema...');
 run('npx', ['wrangler', 'd1', 'execute', 'DB', '--remote', '--file=./schema.sql', '--yes']);
 
+console.log('\n[analytics] Verifying D1 tables are queryable...');
+run('npx', [
+  'wrangler', 'd1', 'execute', 'DB', '--remote', '--yes',
+  '--command=SELECT COUNT(*) AS events_count FROM events; SELECT COUNT(*) AS visitors_count FROM visitors;'
+]);
+console.log('[analytics] D1 schema check: PASS');
+
 if (!fs.existsSync(outputFile)) {
   throw new Error('Wrangler structured deployment output was not created.');
 }
@@ -48,9 +55,8 @@ for (let attempt = 1; attempt <= 8; attempt += 1) {
   try {
     const response = await fetch(`${baseUrl}/health`, { headers: { 'Cache-Control': 'no-cache' } });
     const payload = await response.json();
-    if (response.ok && payload.ok === true && payload.database === true) {
-      console.log('[analytics] Health check: PASS');
-      console.log('[analytics] D1 schema check: PASS');
+    if (response.ok && payload.ok === true) {
+      console.log('[analytics] Worker health check: PASS');
       console.log(`[analytics] COLLECT_URL=${baseUrl}/collect`);
       console.log(`[analytics] SUMMARY_URL=${baseUrl}/summary.json?days=30`);
       console.log('[analytics] ANALYTICS_READY=true');
