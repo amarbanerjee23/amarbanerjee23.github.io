@@ -2,12 +2,13 @@
   const body = document.body;
   body.classList.add('story-unfolding', 'ux-calm');
 
-  if (!document.querySelector('link[href="sticky-nav-fix.css"]')) {
+  ['sticky-nav-fix.css', 'reading-comfort.css', 'academic-offerings.css'].forEach(href => {
+    if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = 'sticky-nav-fix.css';
+    stylesheet.href = href;
     document.head.appendChild(stylesheet);
-  }
+  });
 
   const bindPdfDownload = link => {
     if (!link || link.dataset.dynamicPdfBound === 'true') return;
@@ -137,4 +138,5 @@
   }
 })();
 
+import('./academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
 import('./analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
