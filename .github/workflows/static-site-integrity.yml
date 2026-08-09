@@ -56,7 +56,6 @@ jobs:
         shell: python
         run: |
           import time
-          import urllib.error
           import urllib.request
 
           base = 'https://amarbanerjee23.github.io'
@@ -73,6 +72,7 @@ jobs:
               '/analytics-config.js',
               '/academic-partnerships.html',
               '/academic-partnerships.css',
+              '/academic-conversion.css',
               '/research-ip.html',
               '/workshops.html',
               '/facilitation-gallery.html',
