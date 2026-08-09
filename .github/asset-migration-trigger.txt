@@ -1,1 +1,1 @@
-frontend-asset-layout-v2
+frontend-asset-layout-v4
