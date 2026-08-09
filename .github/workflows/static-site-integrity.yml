@@ -61,6 +61,7 @@ jobs:
             story-unfold.js
             academic-home.js
             academic-programs.js
+            academic-offerings.js
             profile-page.js
             analytics-bootstrap.js
             analytics.js
@@ -85,6 +86,21 @@ jobs:
                   raise SystemExit(f'{name}: passive story navigation must not use scrollIntoView on both axes')
           print('Story navigation vertical-scroll guard: PASS')
 
+      - name: Verify all four brochure-backed academic programs
+        shell: python
+        run: |
+          from pathlib import Path
+          required = [
+              'downloads/innovation-in-academia.pdf.b64',
+              'downloads/modern-day-professional.pdf.b64',
+              'downloads/technology-to-emotions.pdf.b64',
+              'downloads/academic-innovation-partnership.pdf.b64',
+          ]
+          missing = [name for name in required if not Path(name).is_file() or Path(name).stat().st_size == 0]
+          if missing:
+              raise SystemExit('Missing or empty brochure assets: ' + ', '.join(missing))
+          print('Four academic brochure assets: PASS')
+
   live-pages-smoke-check:
     name: Live GitHub Pages smoke check
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -105,6 +121,9 @@ jobs:
               '/academic-home.js',
               '/academic-programs.css',
               '/academic-programs.js',
+              '/academic-offerings.css',
+              '/academic-offerings.js',
+              '/reading-comfort.css',
               '/profile.html',
               '/profile-page.css',
               '/profile-page.js',
@@ -126,6 +145,10 @@ jobs:
               '/facilitation-gallery.html',
               '/headshot.png',
               '/assets/ai-innovation-network.svg',
+              '/downloads/innovation-in-academia.pdf.b64',
+              '/downloads/modern-day-professional.pdf.b64',
+              '/downloads/technology-to-emotions.pdf.b64',
+              '/downloads/academic-innovation-partnership.pdf.b64',
           ]
 
           def status(url):
