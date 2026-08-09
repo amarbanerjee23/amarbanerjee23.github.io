@@ -44,11 +44,16 @@
     promoteStyles();
     resetPrimary();
     updateHeaderMetric();
-    const header = document.querySelector('.site-header');
-    if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
-    addEventListener('resize', updateHeaderMetric, { passive:true });
-    addEventListener('orientationchange', updateHeaderMetric, { passive:true });
   };
 
-  addEventListener('load', () => setTimeout(init, 60), { once:true });
+  init();
+
+  addEventListener('load', () => {
+    init();
+    const header = document.querySelector('.site-header');
+    if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
+  }, { once:true });
+
+  addEventListener('resize', updateHeaderMetric, { passive:true });
+  addEventListener('orientationchange', updateHeaderMetric, { passive:true });
 })();
