@@ -16,7 +16,9 @@
       ? 'gallery'
       : body.classList.contains('academic-page')
         ? 'academic'
-        : 'home';
+        : body.classList.contains('research-page')
+          ? 'research'
+          : 'home';
 
   const stories = {
     home: [
@@ -52,6 +54,13 @@
       { selector: '#evidence', label: 'Review the evidence' },
       { selector: '#pathway', label: 'Reduce commitment risk' },
       { selector: '#conversation', label: 'Discuss one priority' }
+    ],
+    research: [
+      { selector: '#research-opening', label: 'See the research landscape' },
+      { selector: '#themes', label: 'Choose a research theme' },
+      { selector: '#publications', label: 'Explore publications' },
+      { selector: '#patents', label: 'Understand the inventions' },
+      { selector: '#engage', label: 'Start a research conversation' }
     ]
   };
 
