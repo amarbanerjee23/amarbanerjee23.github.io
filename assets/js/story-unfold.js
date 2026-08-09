@@ -141,3 +141,4 @@
 import('/assets/js/academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
 import('/assets/js/contact-intake.js').catch(error => console.error('Contact form failed to load', error));
 import('/assets/js/analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
+import('/assets/js/trust-conversion.js').catch(error => console.error('Trust and conversion layer failed to load', error));
