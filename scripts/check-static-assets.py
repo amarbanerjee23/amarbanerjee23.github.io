@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Fail CI when a public page references a local static asset that is missing.
 
-This protects GitHub Pages from silent 404s caused by stale HTML/CSS/JS references.
-External URLs, anchors, mailto/tel links, data URLs and runtime templates are ignored.
+The checker distinguishes source-relative imports/CSS URLs from browser runtime
+URLs embedded in JavaScript. Browser strings such as `downloads/file.pdf.b64`
+or `workshops.html` are document-root resources even when the JavaScript file
+itself lives under assets/js/.
 """
 
 from __future__ import annotations
@@ -64,15 +66,19 @@ def normalise_reference(raw: str) -> str | None:
     return path
 
 
-def resolve_reference(source: pathlib.Path, raw: str) -> pathlib.Path | None:
+def resolve_reference(source: pathlib.Path, kind: str, raw: str) -> pathlib.Path | None:
     path = normalise_reference(raw)
     if path is None:
         return None
     if path.startswith("/"):
-        candidate = ROOT / path.lstrip("/")
-    else:
-        candidate = source.parent / path
-    return candidate.resolve()
+        return (ROOT / path.lstrip("/")).resolve()
+
+    # JS imports are source-relative. Other JS asset strings are browser/document
+    # resources, so a plain URL is rooted at the public site rather than assets/js.
+    if kind == "js asset string" and not path.startswith(("./", "../")):
+        return (ROOT / path).resolve()
+
+    return (source.parent / path).resolve()
 
 
 class HTMLReferences(html.parser.HTMLParser):
@@ -96,23 +102,24 @@ class HTMLReferences(html.parser.HTMLParser):
 def collect_references(source: pathlib.Path) -> list[tuple[str, str]]:
     text = source.read_text(encoding="utf-8", errors="replace")
     refs: list[tuple[str, str]] = []
-
     if source.suffix.lower() == ".html":
         parser = HTMLReferences()
         parser.feed(text)
         refs.extend(parser.refs)
-
     elif source.suffix.lower() == ".css":
         refs.extend(("css url()", match.group(2)) for match in CSS_URL_RE.finditer(text))
         refs.extend(("css @import", match.group(1)) for match in CSS_IMPORT_RE.finditer(text))
-
     elif source.suffix.lower() in {".js", ".mjs"}:
+        import_targets: set[str] = set()
         for match in JS_IMPORT_RE.finditer(text):
             target = next((group for group in match.groups() if group), None)
             if target:
                 refs.append(("js import", target))
-        refs.extend(("js asset string", match.group(1)) for match in JS_ASSET_STRING_RE.finditer(text))
-
+                import_targets.add(target)
+        for match in JS_ASSET_STRING_RE.finditer(text):
+            target = match.group(1)
+            if target not in import_targets:
+                refs.append(("js asset string", target))
     return refs
 
 
@@ -125,7 +132,6 @@ def should_validate(raw: str) -> bool:
 
 
 def is_runtime_download_filename(kind: str, raw: str) -> bool:
-    """Ignore JS-only download names such as `Brochure.pdf` that are not fetch URLs."""
     if kind != "js asset string":
         return False
     path = normalise_reference(raw)
@@ -137,26 +143,21 @@ def is_runtime_download_filename(kind: str, raw: str) -> bool:
 def main() -> int:
     sources = [
         path for path in ROOT.rglob("*")
-        if path.is_file()
-        and not is_skipped(path)
-        and path.suffix.lower() in PUBLIC_SUFFIXES
+        if path.is_file() and not is_skipped(path) and path.suffix.lower() in PUBLIC_SUFFIXES
     ]
-
     errors: list[str] = []
     checked = 0
-    seen: set[tuple[pathlib.Path, str]] = set()
+    seen: set[tuple[pathlib.Path, str, str]] = set()
 
     for source in sorted(sources):
         for kind, raw in collect_references(source):
-            if is_runtime_download_filename(kind, raw):
+            if is_runtime_download_filename(kind, raw) or not should_validate(raw):
                 continue
-            if not should_validate(raw):
-                continue
-            key = (source, raw)
+            key = (source, kind, raw)
             if key in seen:
                 continue
             seen.add(key)
-            target = resolve_reference(source, raw)
+            target = resolve_reference(source, kind, raw)
             if target is None:
                 continue
             checked += 1
