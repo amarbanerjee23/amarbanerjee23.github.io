@@ -61,6 +61,7 @@ jobs:
             story-unfold.js
             academic-home.js
             academic-programs.js
+            profile-page.js
             analytics-bootstrap.js
             analytics.js
             academic-engagement.js
@@ -73,6 +74,16 @@ jobs:
               node --check "$file"
             fi
           done
+
+      - name: Guard against passive vertical story-nav scrolling
+        shell: python
+        run: |
+          from pathlib import Path
+          for name in ('story-ui.js', 'academic-home.js', 'academic-programs.js'):
+              text = Path(name).read_text(encoding='utf-8')
+              if "block: 'nearest', inline: 'nearest'" in text or 'block:"nearest",inline:"nearest"' in text:
+                  raise SystemExit(f'{name}: passive story navigation must not use scrollIntoView on both axes')
+          print('Story navigation vertical-scroll guard: PASS')
 
   live-pages-smoke-check:
     name: Live GitHub Pages smoke check
@@ -94,6 +105,9 @@ jobs:
               '/academic-home.js',
               '/academic-programs.css',
               '/academic-programs.js',
+              '/profile.html',
+              '/profile-page.css',
+              '/profile-page.js',
               '/story-ui-responsive.css',
               '/story-ui.css',
               '/story-ui.js',
