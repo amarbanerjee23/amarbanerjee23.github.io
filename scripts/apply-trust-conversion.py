@@ -39,6 +39,13 @@ replace('index.html', '<span>Student innovation program</span><h2>Move students 
 replace('workshops.html', '<small>ONE CONNECTED JOURNEY</small>', '<small>THE PROBLEM-TO-PROOF METHOD</small>')
 replace('academic-partnerships.html', '<div class="section-head reveal"><span>How the capability is built</span><h2>Innovation becomes credible when students repeatedly practise the thinking sequence.</h2></div>', '<div class="section-head reveal"><span>The Problem-to-Proof Method</span><h2>Innovation becomes credible when students repeatedly practise the thinking sequence.</h2></div>')
 
+# Keep selective-venue ambition academically mature rather than repetitive or promotional.
+replace('index.html', 'Why would a top venue care?', 'Why would a selective journal or conference care?')
+replace('index.html', '<b>Top-venue ambition</b>', '<b>Selective-venue ambition</b>')
+replace('index.html', '<h3>Top-Venue Research Track</h3>', '<h3>Research Excellence Track</h3>')
+replace('academic-partnerships.html', '<h3>Top-venue research mindset</h3>', '<h3>Selective-venue research mindset</h3>')
+replace('academic-partnerships.html', 'Read top journals and conferences', 'Read leading journals and conferences')
+
 # Keep the research authority page focused on the site's academic audience.
 replace('research-ip.html', 'researchers, students, institutions and industry teams', 'researchers, students and academic institutions')
 replace('research-ip.html', 'research, IP or industry collaboration conversation', 'academic research or IP conversation')
