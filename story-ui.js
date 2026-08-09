@@ -11,6 +11,16 @@
   body.classList.add('ux-calm');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /*
+    Academic landing/program pages own their story navigation. Avoid installing a
+    second observer/navigation system because competing scrollIntoView calls can
+    make manual scrolling feel as if the page is being pulled backwards.
+  */
+  if (body.classList.contains('academic-future-home') || body.classList.contains('academic-programs-page')) {
+    import('./story-unfold.js').catch(error => console.error('Story support failed to load', error));
+    return;
+  }
+
   const page = body.classList.contains('workshops-page')
     ? 'workshops'
     : body.classList.contains('gallery-page')
@@ -19,13 +29,10 @@
         ? 'academic'
         : body.classList.contains('research-page')
           ? 'research'
-          : 'home';
+          : body.classList.contains('profile-page')
+            ? 'profile'
+            : 'home';
 
-  /*
-    Keep the story idea, but surface only the decisions a visitor is most likely
-    to need. The page itself can remain rich without turning navigation into a
-    second table of contents.
-  */
   const stories = {
     home: [
       { selector: '#overview', label: 'Overview' },
@@ -59,6 +66,14 @@
       { selector: '#publications', label: 'Publications' },
       { selector: '#patents', label: 'Patents' },
       { selector: '#engage', label: 'Collaborate' }
+    ],
+    profile: [
+      { selector: '#profile-opening', label: 'About' },
+      { selector: '#experience', label: 'Experience' },
+      { selector: '#publications', label: 'Publications' },
+      { selector: '#patents', label: 'Patents' },
+      { selector: '#academic-work', label: 'Academic work' },
+      { selector: '#contact', label: 'Contact' }
     ]
   };
 
@@ -98,9 +113,29 @@
   body.appendChild(nav);
 
   const links = [...nav.querySelectorAll('a')];
+  const list = nav.querySelector('.story-nav-list');
   const count = nav.querySelector('.story-nav-count');
   const bar = nav.querySelector('.story-progress-bar');
   let currentIndex = 0;
+
+  /*
+    Keep only the horizontal tab strip in view. scrollIntoView() is intentionally
+    not used here: browsers are allowed to adjust both axes, which caused the
+    page itself to jump during IntersectionObserver updates.
+  */
+  const keepTabVisible = active => {
+    if (!active || !list || list.scrollWidth <= list.clientWidth) return;
+    const item = active.closest('li') || active;
+    const left = item.offsetLeft;
+    const right = left + item.offsetWidth;
+    const visibleLeft = list.scrollLeft;
+    const visibleRight = visibleLeft + list.clientWidth;
+    const padding = 12;
+    let next = visibleLeft;
+    if (left < visibleLeft + padding) next = Math.max(0, left - padding);
+    else if (right > visibleRight - padding) next = Math.min(list.scrollWidth - list.clientWidth, right - list.clientWidth + padding);
+    if (Math.abs(next - visibleLeft) > 1) list.scrollTo({ left: next, behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
 
   const activate = index => {
     currentIndex = Math.max(0, Math.min(index, chapters.length - 1));
@@ -110,15 +145,7 @@
     });
     if (count) count.textContent = `${currentIndex + 1} / ${chapters.length}`;
     if (bar) bar.style.width = `${((currentIndex + 1) / chapters.length) * 100}%`;
-
-    const active = links[currentIndex];
-    if (active && active.parentElement && nav.scrollWidth > nav.clientWidth) {
-      active.scrollIntoView({
-        behavior: reduceMotion ? 'auto' : 'smooth',
-        block: 'nearest',
-        inline: 'nearest'
-      });
-    }
+    keepTabVisible(links[currentIndex]);
   };
 
   links.forEach((link, index) => {
