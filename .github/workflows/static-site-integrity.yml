@@ -5,25 +5,19 @@ on:
     branches: [main]
     paths:
       - '**/*.html'
-      - '**/*.css'
-      - '**/*.js'
-      - '**/*.mjs'
       - 'assets/**'
       - 'downloads/**'
-      - 'headshot.png'
       - 'scripts/check-static-assets.py'
+      - 'scripts/check-asset-layout.py'
       - '.github/workflows/static-site-integrity.yml'
   pull_request:
     branches: [main]
     paths:
       - '**/*.html'
-      - '**/*.css'
-      - '**/*.js'
-      - '**/*.mjs'
       - 'assets/**'
       - 'downloads/**'
-      - 'headshot.png'
       - 'scripts/check-static-assets.py'
+      - 'scripts/check-asset-layout.py'
       - '.github/workflows/static-site-integrity.yml'
   workflow_dispatch:
 
@@ -51,37 +45,26 @@ jobs:
       - name: Validate HTML, CSS and JavaScript asset references
         run: python scripts/check-static-assets.py
 
+      - name: Validate frontend asset layout
+        run: python scripts/check-asset-layout.py
+
       - name: Validate public JavaScript syntax
         shell: bash
         run: |
           set -euo pipefail
-          files=(
-            script.js
-            story-ui.js
-            story-unfold.js
-            academic-home.js
-            academic-programs.js
-            academic-offerings.js
-            contact-intake.js
-            profile-page.js
-            analytics-bootstrap.js
-            analytics.js
-            academic-engagement.js
-            research-supplement.js
-            gallery.js
-            gallery-images.js
-          )
-          for file in "${files[@]}"; do
-            if [ -f "$file" ]; then
-              node --check "$file"
-            fi
-          done
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+          done < <(find assets/js -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
 
       - name: Guard against passive vertical story-nav scrolling
         shell: python
         run: |
           from pathlib import Path
-          for name in ('story-ui.js', 'academic-home.js', 'academic-programs.js'):
+          for name in (
+              'assets/js/story-ui.js',
+              'assets/js/academic-home.js',
+              'assets/js/academic-programs.js',
+          ):
               text = Path(name).read_text(encoding='utf-8')
               if "block: 'nearest', inline: 'nearest'" in text or 'block:"nearest",inline:"nearest"' in text:
                   raise SystemExit(f'{name}: passive story navigation must not use scrollIntoView on both axes')
@@ -118,36 +101,37 @@ jobs:
           paths = [
               '/',
               '/index.html',
-              '/academic-future.css',
-              '/academic-home.js',
-              '/academic-programs.css',
-              '/academic-programs.js',
-              '/academic-offerings.css',
-              '/academic-offerings.js',
-              '/contact-intake.css',
-              '/contact-intake.js',
-              '/reading-comfort.css',
               '/profile.html',
-              '/profile-page.css',
-              '/profile-page.js',
-              '/story-ui-responsive.css',
-              '/story-ui.css',
-              '/story-ui.js',
-              '/story-unfold.css',
-              '/story-unfold.js',
-              '/ux-calm-v2.css',
-              '/sticky-nav-fix.css',
-              '/script.js',
-              '/analytics.js',
-              '/analytics-config.js',
               '/academic-partnerships.html',
-              '/academic-partnerships.css',
-              '/academic-conversion.css',
               '/research-ip.html',
               '/workshops.html',
               '/facilitation-gallery.html',
-              '/headshot.png',
-              '/assets/ai-innovation-network.svg',
+              '/assets/css/academic-future.css',
+              '/assets/css/academic-programs.css',
+              '/assets/css/academic-offerings.css',
+              '/assets/css/contact-intake.css',
+              '/assets/css/reading-comfort.css',
+              '/assets/css/profile-page.css',
+              '/assets/css/story-ui-responsive.css',
+              '/assets/css/story-ui.css',
+              '/assets/css/story-unfold.css',
+              '/assets/css/ux-calm-v2.css',
+              '/assets/css/sticky-nav-fix.css',
+              '/assets/css/academic-partnerships.css',
+              '/assets/css/academic-conversion.css',
+              '/assets/js/academic-home.js',
+              '/assets/js/academic-programs.js',
+              '/assets/js/academic-offerings.js',
+              '/assets/js/contact-intake.js',
+              '/assets/js/profile-page.js',
+              '/assets/js/story-ui.js',
+              '/assets/js/story-unfold.js',
+              '/assets/js/script.js',
+              '/assets/js/analytics.js',
+              '/assets/js/analytics-config.js',
+              '/assets/media/portraits/headshot.png',
+              '/assets/media/illustrations/ai-innovation-network.svg',
+              '/assets/media/icons/favicon.svg',
               '/downloads/innovation-in-academia.pdf.b64',
               '/downloads/modern-day-professional.pdf.b64',
               '/downloads/technology-to-emotions.pdf.b64',

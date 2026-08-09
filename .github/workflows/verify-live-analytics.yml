@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'analytics-config.js'
+      - 'assets/js/analytics-config.js'
       - 'analytics-worker/**'
       - '.github/workflows/verify-live-analytics.yml'
   schedule:
@@ -32,10 +32,10 @@ jobs:
         run: |
           import os, re
           from pathlib import Path
-          text = Path('analytics-config.js').read_text(encoding='utf-8')
+          text = Path('assets/js/analytics-config.js').read_text(encoding='utf-8')
           match = re.search(r"endpoint:\s*['\"]([^'\"]+)['\"]", text)
           if not match:
-              raise SystemExit('analytics-config.js has no collector endpoint')
+              raise SystemExit('assets/js/analytics-config.js has no collector endpoint')
           endpoint = match.group(1).rstrip('/')
           if not endpoint.endswith('/collect'):
               raise SystemExit('analytics endpoint must end in /collect')

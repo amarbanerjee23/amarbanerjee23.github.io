@@ -33,7 +33,7 @@ The automated GitHub workflow now needs only two Cloudflare credentials:
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 
-Run **Bootstrap and deploy privacy-aware analytics**. It automatically deploys the Worker, provisions D1 from the committed binding, applies the schema, discovers the Worker URL, updates `analytics-config.js`, checks health and commits activation back to the website.
+Run **Bootstrap and deploy privacy-aware analytics**. It automatically deploys the Worker, provisions D1 from the committed binding, applies the schema, discovers the Worker URL, updates `assets/js/analytics-config.js`, checks health and commits activation back to the website.
 
 See `analytics-worker/SETUP.md` for the exact steps and the alternative Cloudflare Workers Builds route.
 

@@ -20,7 +20,7 @@
   ];
 
   const promoteStyles = () => {
-    ['academic-future.css', 'sticky-nav-fix.css'].forEach(href => {
+    ['/assets/css/academic-future.css', '/assets/css/sticky-nav-fix.css'].forEach(href => {
       const link = document.querySelector(`link[href="${href}"]`);
       if (link) document.head.appendChild(link);
     });

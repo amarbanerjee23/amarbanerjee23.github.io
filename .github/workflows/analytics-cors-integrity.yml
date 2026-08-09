@@ -4,16 +4,16 @@ on:
   push:
     branches: [main]
     paths:
-      - 'analytics.js'
-      - 'analytics-config.js'
+      - 'assets/js/analytics.js'
+      - 'assets/js/analytics-config.js'
       - 'analytics-worker/**'
       - 'scripts/check-analytics-cors-contract.py'
       - '.github/workflows/analytics-cors-integrity.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'analytics.js'
-      - 'analytics-config.js'
+      - 'assets/js/analytics.js'
+      - 'assets/js/analytics-config.js'
       - 'analytics-worker/**'
       - 'scripts/check-analytics-cors-contract.py'
       - '.github/workflows/analytics-cors-integrity.yml'
@@ -132,7 +132,7 @@ jobs:
                           'allow_content_type_header': 'success',
                           'dry_run_post': 'success',
                       },
-                      'note': 'Credentialed-preflight compatibility is retained for older cached clients; current analytics.js sends with credentials omitted.'
+                      'note': 'Credentialed-preflight compatibility is retained for older cached clients; current analytics client sends with credentials omitted.'
                   }
                   Path('analytics/cors-health-check.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
                   print(f'ANALYTICS CORS LIVE CHECK: PASS on attempt {attempt}')

@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'analytics/last-health-check.json'
+      - 'assets/js/analytics-config.js'
       - '.github/workflows/export-analytics-summary.yml'
   schedule:
     - cron: '15 2 * * *'
@@ -28,7 +29,7 @@ jobs:
           import re
           from pathlib import Path
 
-          text = Path('analytics-config.js').read_text(encoding='utf-8')
+          text = Path('assets/js/analytics-config.js').read_text(encoding='utf-8')
           match = re.search(r"endpoint:\s*['\"]([^'\"]*)['\"]", text)
           endpoint = (match.group(1).strip() if match else '')
           if endpoint.endswith('/collect'):

@@ -3,11 +3,11 @@
   const body = document.body;
 
   [
-    'ux-state-of-art.css',
-    'ai-background.css',
-    'story-ui.css',
-    'academic-partnerships.css',
-    'research-ip.css'
+    '/assets/css/ux-state-of-art.css',
+    '/assets/css/ai-background.css',
+    '/assets/css/story-ui.css',
+    '/assets/css/academic-partnerships.css',
+    '/assets/css/research-ip.css'
   ].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
@@ -337,4 +337,4 @@
   if (year) year.textContent = new Date().getFullYear();
 })();
 
-import('./story-ui.js').catch(error => console.error('Story navigation failed to load', error));
+import('/assets/js/story-ui.js').catch(error => console.error('Story navigation failed to load', error));

@@ -2,7 +2,7 @@
   const body = document.body;
   body.classList.add('story-unfolding', 'ux-calm');
 
-  ['sticky-nav-fix.css', 'reading-comfort.css', 'academic-offerings.css'].forEach(href => {
+  ['/assets/css/sticky-nav-fix.css', '/assets/css/reading-comfort.css', '/assets/css/academic-offerings.css'].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
@@ -59,7 +59,7 @@
 
   /* Use the committed portrait everywhere without swapping to an external avatar. */
   document.querySelectorAll('.profile-visual img, .facilitator-photo > img').forEach(image => {
-    image.src = 'headshot.png';
+    image.src = '/assets/media/portraits/headshot.png';
     image.removeAttribute('srcset');
     image.loading = image.closest('.premium-hero,.workshop-hero,.academic-hero') ? 'eager' : 'lazy';
     image.decoding = 'async';
@@ -69,7 +69,7 @@
   if (decisionCard && !decisionCard.querySelector('.academic-profile-mini')) {
     const profile = document.createElement('div');
     profile.className = 'academic-profile-mini';
-    profile.innerHTML = '<img src="headshot.png" alt="Dr Amar Banerjee" width="116" height="116"><div><small>YOUR FACILITATOR</small><strong>Dr Amar Banerjee</strong></div>';
+    profile.innerHTML = '<img src="/assets/media/portraits/headshot.png" alt="Dr Amar Banerjee" width="116" height="116"><div><small>YOUR FACILITATOR</small><strong>Dr Amar Banerjee</strong></div>';
     decisionCard.prepend(profile);
   }
 
@@ -134,10 +134,10 @@
   });
 
   if (body.classList.contains('research-page')) {
-    import('./research-supplement.js').catch(error => console.error('Research supplement failed to load', error));
+    import('/assets/js/research-supplement.js').catch(error => console.error('Research supplement failed to load', error));
   }
 })();
 
-import('./academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
-import('./contact-intake.js').catch(error => console.error('Contact form failed to load', error));
-import('./analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
+import('/assets/js/academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
+import('/assets/js/contact-intake.js').catch(error => console.error('Contact form failed to load', error));
+import('/assets/js/analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));

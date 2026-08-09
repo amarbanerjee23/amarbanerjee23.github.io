@@ -1,10 +1,10 @@
 (() => {
   if (!document.body) return;
 
-  if (!document.querySelector('link[href="contact-intake.css"]')) {
+  if (!document.querySelector('link[href="/assets/css/contact-intake.css"]')) {
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = 'contact-intake.css';
+    stylesheet.href = '/assets/css/contact-intake.css';
     document.head.appendChild(stylesheet);
   }
 
