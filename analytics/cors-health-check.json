@@ -11,5 +11,5 @@
     "allow_content_type_header": "success",
     "dry_run_post": "success"
   },
-  "note": "Credentialed-preflight compatibility is retained for older cached clients; current analytics.js sends with credentials omitted."
+  "note": "Credentialed-preflight compatibility is retained for older cached clients; current assets/js/analytics.js sends with credentials omitted."
 }

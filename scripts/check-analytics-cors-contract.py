@@ -9,16 +9,16 @@ that used sendBeacon do not fail while caches expire.
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-client = (ROOT / 'analytics.js').read_text(encoding='utf-8')
+client = (ROOT / 'assets/js/analytics.js').read_text(encoding='utf-8')
 worker = (ROOT / 'analytics-worker' / 'src' / 'index.js').read_text(encoding='utf-8')
 
 errors = []
 
 if "credentials: 'omit'" not in client and 'credentials: "omit"' not in client:
-    errors.append("analytics.js must use fetch credentials:'omit'.")
+    errors.append("assets/js/analytics.js must use fetch credentials:'omit'.")
 
 if 'navigator.sendBeacon(' in client:
-    errors.append('analytics.js must not send cross-origin analytics with navigator.sendBeacon().')
+    errors.append('assets/js/analytics.js must not send cross-origin analytics with navigator.sendBeacon().')
 
 required_worker_fragments = [
     "'Access-Control-Allow-Origin': origin",

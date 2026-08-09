@@ -9,7 +9,7 @@
   background-image:
     linear-gradient(90deg,rgba(3,17,31,.95) 0%,rgba(3,17,31,.84) 42%,rgba(3,17,31,.42) 71%,rgba(3,17,31,.25) 100%),
     linear-gradient(180deg,rgba(3,17,31,.08),rgba(3,17,31,.70)),
-    url("assets/ai-innovation-network.svg")!important;
+    url("/assets/media/illustrations/ai-innovation-network.svg")!important;
   background-size:cover!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
@@ -93,7 +93,7 @@
   .gallery-page .gallery-hero{
     background-image:
       linear-gradient(180deg,rgba(3,17,31,.91),rgba(3,17,31,.72)),
-      url("assets/ai-innovation-network.svg")!important;
+      url("/assets/media/illustrations/ai-innovation-network.svg")!important;
     background-position:66% center!important;
   }
 }

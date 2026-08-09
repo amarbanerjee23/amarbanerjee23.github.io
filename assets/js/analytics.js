@@ -1,4 +1,4 @@
-import config from './analytics-config.js';
+import config from '/assets/js/analytics-config.js';
 
 (() => {
   const endpoint = String(config.endpoint || '').trim();

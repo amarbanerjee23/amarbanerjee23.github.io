@@ -1,4 +1,4 @@
-import config from './analytics-config.js';
+import config from '/assets/js/analytics-config.js';
 
 (() => {
   const privacyPage = config.privacyPage || 'privacy.html';
@@ -11,5 +11,5 @@ import config from './analytics-config.js';
   });
 
   if (!config.enabled || !String(config.endpoint || '').trim()) return;
-  import('./analytics.js').catch(error => console.error('Analytics client failed to load', error));
+  import('/assets/js/analytics.js').catch(error => console.error('Analytics client failed to load', error));
 })();
