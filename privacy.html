@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b2d">
+  <meta name="description" content="Privacy and anonymous website analytics information for the professional website of Dr Amar Banerjee.">
+  <meta name="author" content="Dr Amar Banerjee">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://amarbanerjee23.github.io/privacy.html">
+  <title>Privacy | Dr Amar Banerjee</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="portfolio.css">
+  <link rel="stylesheet" href="ux.css">
+  <style>
+    .privacy-hero{padding:110px 0 56px;background:linear-gradient(145deg,#071b2d,#0d3550);color:#fff}.privacy-hero h1{max-width:13ch;margin:14px 0;font-size:clamp(3rem,6vw,5.4rem);line-height:.98;color:#fff}.privacy-hero p{max-width:70ch;color:rgba(255,255,255,.76);font-size:17px;line-height:1.75}.privacy-shell{max-width:940px}.privacy-card{margin:18px 0;padding:28px;border:1px solid var(--line);border-radius:22px;background:var(--paper)}.privacy-card h2{margin-top:0}.privacy-card p,.privacy-card li{color:var(--muted);line-height:1.75}.privacy-card strong{color:var(--text)}.privacy-choice{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.privacy-choice button{min-height:44px;padding:11px 15px;border:0;border-radius:12px;font:inherit;font-weight:750;cursor:pointer}.privacy-choice button:first-child{background:#28c4c7;color:#071b2d}.privacy-choice button:last-child{background:var(--soft);color:var(--text);border:1px solid var(--line)}
+  </style>
+</head>
+<body class="premium-portfolio">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header premium-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Dr Amar Banerjee home"><span class="brand-mark">AB</span><span><strong>Dr Amar Banerjee</strong><small>Leadership · Innovation · Research</small></span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="research-ip.html">Research &amp; IP</a><a href="academic-partnerships.html">Academic Leaders</a><a href="workshops.html">Programs</a></nav>
+      <button class="theme-toggle" aria-label="Switch theme">◐</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="privacy-hero">
+      <div class="container privacy-shell">
+        <p class="eyebrow">Privacy and analytics</p>
+        <h1>Useful analytics without trying to identify you.</h1>
+        <p>This website uses optional first-party anonymous analytics to understand which pages, research topics, programs and resources are useful. The design deliberately avoids storing raw IP addresses or attempting to discover a visitor's Google identity.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container privacy-shell">
+        <article class="privacy-card">
+          <h2>What may be recorded</h2>
+          <p>When anonymous analytics is allowed, the site may record the page visited, sections reached, brochure downloads, contact-button clicks, referring website, coarse device/browser/operating-system family, language, and an approximate country, region and city supplied by the analytics infrastructure.</p>
+        </article>
+        <article class="privacy-card">
+          <h2>What is deliberately not stored</h2>
+          <p><strong>Raw IP addresses are not stored.</strong> The collector uses network metadata only to derive approximate geography. It does not request GPS location, does not attempt browser fingerprinting, and does not read or infer a Google account, email address or other third-party login identity.</p>
+        </article>
+        <article class="privacy-card">
+          <h2>Anonymous visitor recognition</h2>
+          <p>If you allow analytics, the browser creates a random first-party identifier so the site can distinguish a new anonymous visitor from a returning anonymous visitor. The server immediately converts that random identifier into a salted one-way hash before storage. It is used for aggregate website understanding, not to identify a person.</p>
+        </article>
+        <article class="privacy-card">
+          <h2>Your choice</h2>
+          <p>You can allow or decline anonymous analytics. Declining removes the local anonymous visitor/session identifiers used by this site. You can change the choice here at any time.</p>
+          <div class="privacy-choice">
+            <button type="button" id="privacy-allow">Allow anonymous analytics</button>
+            <button type="button" id="privacy-deny">Decline analytics</button>
+          </div>
+          <p id="privacy-status" role="status" aria-live="polite"></p>
+        </article>
+        <article class="privacy-card">
+          <h2>Storage and access</h2>
+          <p>Detailed event data is intended to remain in the private analytics database. Only privacy-safe aggregate summaries may be published in the public website repository. Protected exports require an administrator token.</p>
+        </article>
+        <article class="privacy-card">
+          <h2>Contact</h2>
+          <p>Questions about this website or its analytics can be sent to <a href="mailto:amarbanerjee23@gmail.com?subject=Website%20Privacy%20Question">amarbanerjee23@gmail.com</a>.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-grid"><div class="brand"><span class="brand-mark">AB</span><span><strong>Dr Amar Banerjee</strong><small>Innovation Leader · Researcher · Facilitator</small></span></div><div class="social"><a href="index.html">Portfolio</a><a href="research-ip.html">Research &amp; IP</a><a href="privacy.html">Privacy</a></div><p>© <span id="year">2026</span> Dr Amar Banerjee.</p></div></footer>
+  <script>
+    (() => {
+      const consentKey = 'portfolio-analytics-consent-v1';
+      const visitorKey = 'portfolio-anon-visitor-v1';
+      const sessionKey = 'portfolio-anon-session-v1';
+      const status = document.getElementById('privacy-status');
+      const setStatus = () => {
+        const choice = localStorage.getItem(consentKey);
+        status.textContent = choice === 'allow' ? 'Current choice: anonymous analytics allowed.' : choice === 'deny' ? 'Current choice: analytics declined.' : 'Current choice: not set.';
+      };
+      document.getElementById('privacy-allow').addEventListener('click', () => { localStorage.setItem(consentKey, 'allow'); setStatus(); });
+      document.getElementById('privacy-deny').addEventListener('click', () => { localStorage.setItem(consentKey, 'deny'); localStorage.removeItem(visitorKey); sessionStorage.removeItem(sessionKey); setStatus(); });
+      setStatus();
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
