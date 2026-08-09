@@ -66,15 +66,32 @@
     document.querySelector('.site-header')?.insertAdjacentElement('afterend', nav);
 
     const links = [...nav.querySelectorAll('a')];
+    const list = nav.querySelector('.story-nav-list');
     const count = nav.querySelector('.story-nav-count');
     const bar = nav.querySelector('.story-progress-bar');
+
+    const keepTabVisible = active => {
+      if (!active || !list || list.scrollWidth <= list.clientWidth) return;
+      const item = active.closest('li') || active;
+      const left = item.offsetLeft;
+      const right = left + item.offsetWidth;
+      const visibleLeft = list.scrollLeft;
+      const visibleRight = visibleLeft + list.clientWidth;
+      const padding = 12;
+      let next = visibleLeft;
+      if (left < visibleLeft + padding) next = Math.max(0, left - padding);
+      else if (right > visibleRight - padding) next = Math.min(list.scrollWidth - list.clientWidth, right - list.clientWidth + padding);
+      if (Math.abs(next - visibleLeft) > 1) list.scrollTo({ left: next, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+
     const activate = index => {
       const safe = Math.max(0, Math.min(index, available.length - 1));
       links.forEach((link,i)=>i===safe?link.setAttribute('aria-current','step'):link.removeAttribute('aria-current'));
       if (count) count.textContent = `${safe + 1} / ${available.length}`;
       if (bar) bar.style.width = `${((safe + 1) / available.length) * 100}%`;
-      links[safe]?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'nearest' });
+      keepTabVisible(links[safe]);
     };
+
     links.forEach((link,index)=>bindSmooth(link,available[index].element));
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(entries => {
