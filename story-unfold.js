@@ -2,6 +2,13 @@
   const body = document.body;
   body.classList.add('story-unfolding', 'ux-calm');
 
+  if (!document.querySelector('link[href="sticky-nav-fix.css"]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = 'sticky-nav-fix.css';
+    document.head.appendChild(stylesheet);
+  }
+
   const bindPdfDownload = link => {
     if (!link || link.dataset.dynamicPdfBound === 'true') return;
     link.dataset.dynamicPdfBound = 'true';
@@ -106,7 +113,21 @@
   const siteHeader = document.querySelector('.site-header');
   if (storyNav && siteHeader) siteHeader.insertAdjacentElement('afterend', storyNav);
 
-  /* Older cached story layers are explicitly neutralised by ux-calm.css. */
+  /* Measure the real rendered header instead of relying on hard-coded breakpoints. */
+  const syncStickyOffset = () => {
+    if (!siteHeader) return;
+    const height = Math.ceil(siteHeader.getBoundingClientRect().height);
+    if (height > 0) document.documentElement.style.setProperty('--live-header-height', `${height}px`);
+  };
+  syncStickyOffset();
+  requestAnimationFrame(syncStickyOffset);
+  addEventListener('resize', syncStickyOffset, { passive: true });
+  addEventListener('orientationchange', syncStickyOffset, { passive: true });
+  if (siteHeader && 'ResizeObserver' in window) {
+    new ResizeObserver(syncStickyOffset).observe(siteHeader);
+  }
+
+  /* Older cached story layers are explicitly neutralised by ux-calm-v2.css. */
   document.querySelectorAll('.story-layer').forEach((chapter, index) => {
     chapter.dataset.surface = index % 2 === 0 ? 'plain' : 'soft';
   });
