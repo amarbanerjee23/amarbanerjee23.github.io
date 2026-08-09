@@ -22,16 +22,23 @@
   const setNav = items => {
     if (!nav) return;
     nav.innerHTML = items.map(([label, href]) => `<a href="${href}">${label}</a>`).join('');
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      const button = document.querySelector('.nav-toggle');
+      button?.setAttribute('aria-expanded', 'false');
+      button?.setAttribute('aria-label', 'Open navigation');
+    }));
   };
 
   if (isHome) {
     setNav([
-      ['Why now', '#overview'],
       ['Student innovation', '#innovation'],
       ['Evidence', '#evidence'],
       ['Programs', 'workshops.html'],
       ['About & work', 'profile.html'],
-      ['For institutions', 'academic-partnerships.html']
+      ['For institutions', 'academic-partnerships.html'],
+      ['Contact', '#contact']
     ]);
   } else if (pageName === 'workshops.html') {
     setNav([
