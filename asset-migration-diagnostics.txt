@@ -1,0 +1,91 @@
+Planned frontend asset moves:
+- academic-conversion.css -> assets/css/components/academic-conversion.css
+- academic-future.css -> assets/css/pages/academic-future.css
+- academic-offerings.css -> assets/css/components/academic-offerings.css
+- academic-partnerships.css -> assets/css/pages/academic-partnerships.css
+- academic-programs.css -> assets/css/pages/academic-programs.css
+- ai-background.css -> assets/css/base/ai-background.css
+- ai-bg-bl.css -> assets/css/legacy/ai-bg-bl.css
+- ai-bg-br.css -> assets/css/legacy/ai-bg-br.css
+- ai-bg-tl.css -> assets/css/legacy/ai-bg-tl.css
+- ai-bg-tr.css -> assets/css/legacy/ai-bg-tr.css
+- contact-intake.css -> assets/css/components/contact-intake.css
+- facilitation.css -> assets/css/base/facilitation.css
+- gallery-images.css -> assets/css/legacy/gallery-images.css
+- gallery.css -> assets/css/legacy/gallery.css
+- portfolio.css -> assets/css/base/portfolio.css
+- profile-page.css -> assets/css/pages/profile-page.css
+- reading-comfort.css -> assets/css/components/reading-comfort.css
+- research-ip.css -> assets/css/pages/research-ip.css
+- sticky-nav-fix.css -> assets/css/components/sticky-nav-fix.css
+- story-ui-responsive.css -> assets/css/components/story-ui-responsive.css
+- story-ui.css -> assets/css/components/story-ui.css
+- story-unfold.css -> assets/css/components/story-unfold.css
+- styles.css -> assets/css/base/styles.css
+- ux-calm-v2.css -> assets/css/base/ux-calm-v2.css
+- ux-calm.css -> assets/css/legacy/ux-calm.css
+- ux-state-of-art.css -> assets/css/base/ux-state-of-art.css
+- ux.css -> assets/css/base/ux.css
+- academic-engagement.js -> assets/js/pages/academic-engagement.js
+- academic-home.js -> assets/js/pages/academic-home.js
+- academic-offerings.js -> assets/js/components/academic-offerings.js
+- academic-programs.js -> assets/js/pages/academic-programs.js
+- analytics-bootstrap.js -> assets/js/components/analytics-bootstrap.js
+- analytics-config.js -> assets/js/components/analytics-config.js
+- analytics.js -> assets/js/components/analytics.js
+- contact-intake.js -> assets/js/components/contact-intake.js
+- gallery-images.js -> assets/js/pages/gallery-images.js
+- gallery.js -> assets/js/pages/gallery.js
+- profile-page.js -> assets/js/pages/profile-page.js
+- research-supplement.js -> assets/js/pages/research-supplement.js
+- script.js -> assets/js/core/script.js
+- story-ui.js -> assets/js/core/story-ui.js
+- story-unfold.js -> assets/js/core/story-unfold.js
+- ux-state-of-art.js -> assets/js/legacy/ux-state-of-art.js
+- headshot.png -> assets/media/portraits/headshot.png
+- assets/ai-innovation-network.svg -> assets/media/illustrations/ai-innovation-network.svg
+- assets/favicon.svg -> assets/media/icons/favicon.svg
+Organized 46 frontend assets.
+STATIC ASSET INTEGRITY: FAIL
+
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'downloads/innovation-in-academia.pdf.b64' -> assets/js/components/downloads/innovation-in-academia.pdf.b64
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'Innovation-in-Academia.pdf' -> assets/js/components/Innovation-in-Academia.pdf
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'workshops.html#research-excellence' -> assets/js/components/workshops.html
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'downloads/modern-day-professional.pdf.b64' -> assets/js/components/downloads/modern-day-professional.pdf.b64
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'The-Modern-Day-Professional.pdf' -> assets/js/components/The-Modern-Day-Professional.pdf
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'workshops.html#student-innovation' -> assets/js/components/workshops.html
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'downloads/technology-to-emotions.pdf.b64' -> assets/js/components/downloads/technology-to-emotions.pdf.b64
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'Connecting-Technology-to-Emotions.pdf' -> assets/js/components/Connecting-Technology-to-Emotions.pdf
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'workshops.html#formats' -> assets/js/components/workshops.html
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'downloads/academic-innovation-partnership.pdf.b64' -> assets/js/components/downloads/academic-innovation-partnership.pdf.b64
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'Academic-Innovation-Partnership.pdf' -> assets/js/components/Academic-Innovation-Partnership.pdf
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'academic-partnerships.html' -> assets/js/components/academic-partnerships.html
+- assets/js/components/academic-offerings.js: js asset string references missing local asset 'Academic-Innovation-Program.pdf' -> assets/js/components/Academic-Innovation-Program.pdf
+- assets/js/components/analytics-bootstrap.js: js asset string references missing local asset 'privacy.html' -> assets/js/components/privacy.html
+- assets/js/components/analytics-config.js: js asset string references missing local asset 'privacy.html' -> assets/js/components/privacy.html
+- assets/js/components/analytics.js: js asset string references missing local asset 'privacy.html' -> assets/js/components/privacy.html
+- assets/js/core/script.js: js asset string references missing local asset 'index.html' -> assets/js/core/index.html
+- assets/js/core/script.js: js asset string references missing local asset 'workshops.html' -> assets/js/core/workshops.html
+- assets/js/core/script.js: js asset string references missing local asset 'facilitation-gallery.html' -> assets/js/core/facilitation-gallery.html
+- assets/js/core/script.js: js asset string references missing local asset 'academic-partnerships.html' -> assets/js/core/academic-partnerships.html
+- assets/js/core/script.js: js asset string references missing local asset 'research-ip.html' -> assets/js/core/research-ip.html
+- assets/js/core/script.js: js asset string references missing local asset 'academic-partnerships.html#conversation' -> assets/js/core/academic-partnerships.html
+- assets/js/core/script.js: js asset string references missing local asset 'downloads/institutional-innovation-readiness-canvas.pdf.b64' -> assets/js/core/downloads/institutional-innovation-readiness-canvas.pdf.b64
+- assets/js/core/script.js: js asset string references missing local asset 'Institutional-Innovation-Readiness-Canvas.pdf' -> assets/js/core/Institutional-Innovation-Readiness-Canvas.pdf
+- assets/js/core/script.js: js asset string references missing local asset 'workshop-brochure.pdf' -> assets/js/core/workshop-brochure.pdf
+- assets/js/core/story-unfold.js: js asset string references missing local asset 'brochure.pdf' -> assets/js/core/brochure.pdf
+- assets/js/core/story-unfold.js: js asset string references missing local asset 'downloads/academic-innovation-partnership.pdf.b64' -> assets/js/core/downloads/academic-innovation-partnership.pdf.b64
+- assets/js/core/story-unfold.js: js asset string references missing local asset 'Academic-Innovation-Partnership.pdf' -> assets/js/core/Academic-Innovation-Partnership.pdf
+- assets/js/legacy/ux-state-of-art.js: js asset string references missing local asset 'index.html' -> assets/js/legacy/index.html
+- assets/js/legacy/ux-state-of-art.js: js asset string references missing local asset 'workshops.html' -> assets/js/legacy/workshops.html
+- assets/js/pages/academic-engagement.js: js asset string references missing local asset 'workshops.html#innovation-academia' -> assets/js/pages/workshops.html
+- assets/js/pages/academic-engagement.js: js asset string references missing local asset 'workshops.html#modern-professional' -> assets/js/pages/workshops.html
+- assets/js/pages/academic-engagement.js: js asset string references missing local asset 'academic-partnerships.html#mechanism' -> assets/js/pages/academic-partnerships.html
+- assets/js/pages/academic-engagement.js: js asset string references missing local asset 'Institutional-Innovation-Readiness-Canvas.pdf' -> assets/js/pages/Institutional-Innovation-Readiness-Canvas.pdf
+- assets/js/pages/academic-home.js: js asset string references missing local asset 'workshops.html' -> assets/js/pages/workshops.html
+- assets/js/pages/academic-home.js: js asset string references missing local asset 'profile.html' -> assets/js/pages/profile.html
+- assets/js/pages/academic-programs.js: js asset string references missing local asset 'index.html' -> assets/js/pages/index.html
+- assets/js/pages/academic-programs.js: js asset string references missing local asset 'profile.html' -> assets/js/pages/profile.html
+- assets/js/pages/profile-page.js: js asset string references missing local asset 'index.html' -> assets/js/pages/index.html
+
+Checked 172 local asset references across 52 public source files.
