@@ -1,0 +1,427 @@
+/*
+  Calm UX layer
+  A deliberately restrained final layer for the public portfolio.
+  Goals: clear hierarchy, low cognitive load, responsive layouts, stable surfaces,
+  accessible targets, and only purposeful motion.
+*/
+
+:root{
+  --calm-navy:#0b2436;
+  --calm-navy-2:#12364d;
+  --calm-teal:#1fa7a8;
+  --calm-teal-soft:#e9f7f6;
+  --calm-sky:#eef7fb;
+  --calm-warm:#fff8e8;
+  --calm-paper:#ffffff;
+  --calm-bg:#f7fafb;
+  --calm-ink:#183140;
+  --calm-muted:#627581;
+  --calm-line:#dfe8ec;
+  --calm-radius:16px;
+  --calm-radius-lg:22px;
+  --calm-shadow:0 10px 30px rgba(11,36,54,.07);
+  --calm-header:70px;
+}
+
+html{scroll-padding-top:132px}
+body.ux-calm,
+body.story-unfolding{background:var(--calm-bg);color:var(--text)}
+body.ux-calm .container{width:min(1160px,calc(100% - 40px))}
+body.ux-calm .section{padding:clamp(58px,6.4vw,88px) 0}
+body.ux-calm section,[id]{scroll-margin-top:132px}
+
+/* Primary navigation: one calm, predictable layer. */
+body.ux-calm .premium-header{
+  position:sticky;
+  top:0;
+  z-index:180;
+  padding:8px 0;
+  background:color-mix(in srgb,var(--calm-bg) 93%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--calm-line) 78%,transparent);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+body.ux-calm .premium-header:before{display:none}
+body.ux-calm .nav-wrap{
+  min-height:54px;
+  padding:4px 6px 4px 10px;
+  border:0;
+  border-radius:14px;
+  background:transparent;
+  box-shadow:none;
+}
+body.ux-calm .brand-mark{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  background:var(--calm-navy);
+}
+body.ux-calm .brand strong{font-size:13px}
+body.ux-calm .brand small{font-size:8px;color:var(--calm-muted)}
+body.ux-calm .nav{gap:2px}
+body.ux-calm .nav a{
+  min-height:42px;
+  padding:0 11px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:750;
+}
+body.ux-calm .nav a:hover{background:var(--calm-teal-soft);color:var(--calm-navy)}
+body.ux-calm .nav a[aria-current="page"],
+body.ux-calm .nav a.active{background:var(--calm-navy);color:#fff}
+body.ux-calm .theme-toggle,
+body.ux-calm .nav-toggle{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:11px;
+  background:var(--calm-paper);
+}
+
+/* On-page story navigation: compact, secondary and never louder than the page. */
+body.ux-calm .story-nav{
+  position:sticky!important;
+  top:70px!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:160!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  width:min(1160px,calc(100% - 40px))!important;
+  min-height:48px!important;
+  margin:0 auto!important;
+  padding:5px 6px!important;
+  transform:none!important;
+  border:1px solid color-mix(in srgb,var(--calm-line) 86%,transparent)!important;
+  border-radius:0 0 14px 14px!important;
+  background:color-mix(in srgb,var(--calm-paper) 94%,transparent)!important;
+  box-shadow:0 7px 22px rgba(11,36,54,.045)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+}
+body.ux-calm .story-nav:before,
+body.ux-calm .story-nav:after{display:none!important}
+body.ux-calm .story-nav-head{
+  display:flex!important;
+  flex:0 0 auto;
+  align-items:center;
+  gap:8px;
+  margin:0!important;
+  padding:0 7px!important;
+}
+body.ux-calm .story-nav-head small{
+  color:var(--calm-muted)!important;
+  font-size:8px!important;
+  letter-spacing:.12em!important;
+}
+body.ux-calm .story-nav-count{color:var(--calm-teal)!important;font-size:9px!important}
+body.ux-calm .story-nav-list{
+  display:flex!important;
+  flex:1 1 auto!important;
+  gap:3px!important;
+  min-width:0;
+  margin:0!important;
+  padding:0!important;
+  overflow-x:auto!important;
+  scrollbar-width:none;
+  scroll-snap-type:x proximity;
+}
+body.ux-calm .story-nav-list::-webkit-scrollbar{display:none}
+body.ux-calm .story-nav li{flex:0 0 auto;scroll-snap-align:center}
+body.ux-calm .story-nav a{
+  display:inline-flex!important;
+  grid-template-columns:none!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:36px!important;
+  padding:0 10px!important;
+  border:1px solid transparent!important;
+  border-radius:9px!important;
+  background:transparent!important;
+  color:var(--calm-muted)!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+body.ux-calm .story-nav a:hover{background:var(--calm-teal-soft)!important;color:var(--calm-navy)!important}
+body.ux-calm .story-nav a[aria-current="step"]{
+  border-color:color-mix(in srgb,var(--calm-teal) 20%,var(--calm-line))!important;
+  background:var(--calm-teal-soft)!important;
+  color:var(--calm-navy)!important;
+  box-shadow:none!important;
+}
+body.ux-calm .story-nav-number{
+  width:auto!important;
+  height:auto!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:var(--calm-teal)!important;
+  font-size:8px!important;
+}
+body.ux-calm .story-nav-label{font-size:10px!important;font-weight:750!important;white-space:nowrap}
+body.ux-calm .story-progress-track{
+  position:absolute;
+  left:6px;
+  right:6px;
+  bottom:0;
+  display:block!important;
+  height:2px!important;
+  margin:0!important;
+  background:transparent!important;
+}
+body.ux-calm .story-progress-bar{background:var(--calm-teal)!important}
+
+/* Remove the redundant navigation layers added by earlier story iterations. */
+body.ux-calm .story-start-map,
+body.ux-calm .story-continue,
+body.ux-calm .story-next,
+body.ux-calm .story-chapter-marker{display:none!important}
+
+/* Use two surfaces, not a rainbow of chapter backgrounds. */
+body.ux-calm .story-layer,
+body.ux-calm .story-layer[data-story-tone],
+body.ux-calm .story-layer[data-surface="plain"]{background:var(--calm-paper)!important}
+body.ux-calm .story-layer[data-surface="soft"]{background:var(--calm-bg)!important}
+body.ux-calm .story-layer:before,
+body.ux-calm .story-layer:after{display:none!important}
+
+/* Hero: fewer competing elements, strong hierarchy. */
+body.ux-calm .premium-hero,
+body.ux-calm .workshop-hero,
+body.ux-calm .gallery-hero,
+body.ux-calm .academic-hero{
+  padding-top:clamp(64px,7vw,92px)!important;
+  padding-bottom:clamp(52px,6vw,78px)!important;
+}
+body.ux-calm .premium-hero-grid{gap:clamp(32px,5vw,64px)}
+body.ux-calm .premium-hero h1{
+  max-width:14ch;
+  margin:16px 0;
+  font-size:clamp(2.9rem,5.5vw,4.9rem);
+  line-height:.98;
+  letter-spacing:-.055em;
+}
+body.ux-calm .premium-hero .lead{max-width:58ch;font-size:16px;line-height:1.68}
+body.ux-calm .hero-actions{margin-top:24px}
+body.ux-calm .hero-trust{margin-top:18px;gap:6px}
+body.ux-calm .hero-trust span{min-height:28px;padding:0 9px;font-size:9px;background:rgba(255,255,255,.07)}
+body.ux-calm .premium-profile{
+  padding:8px;
+  border-radius:20px;
+  box-shadow:0 18px 48px rgba(3,17,31,.18);
+}
+body.ux-calm .profile-visual{border-radius:16px}
+body.ux-calm .profile-content{padding:16px 8px 8px!important}
+body.ux-calm .identity-chips{margin-top:10px}
+body.ux-calm .profile-links{margin-top:12px}
+
+/* Evidence strip becomes compact rather than a second hero. */
+body.ux-calm .premium-proof{
+  gap:8px;
+  margin-top:32px;
+}
+body.ux-calm .premium-proof div{
+  min-height:94px;
+  padding:17px;
+  border-radius:14px;
+  box-shadow:none;
+}
+body.ux-calm .premium-proof strong{font-size:28px}
+body.ux-calm .premium-proof span{font-size:10px}
+
+/* Typography and section rhythm. */
+body.ux-calm .section-head{max-width:820px}
+body.ux-calm .section-head h2{
+  font-size:clamp(2.05rem,4vw,3.45rem);
+  line-height:1.04;
+}
+body.ux-calm .section-head p,
+body.ux-calm .section-kicker-row>p{font-size:15px;line-height:1.66}
+body.ux-calm .section-kicker-row{
+  grid-template-columns:minmax(0,1fr) minmax(260px,.65fr);
+  gap:36px;
+  margin-bottom:28px;
+}
+body.ux-calm .section-kicker-row h2{font-size:clamp(2rem,3.8vw,3.25rem)}
+
+/* Cards: flat, readable, lower density. */
+body.ux-calm .path-card-grid{gap:12px}
+body.ux-calm .path-card{
+  min-height:235px;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:none;
+}
+body.ux-calm .path-card:before{display:none}
+body.ux-calm .path-card:hover,
+body.ux-calm .portfolio-capability:hover,
+body.ux-calm .corporate-program:hover,
+body.ux-calm .module-card:hover,
+body.ux-calm .format-card:hover,
+body.ux-calm .download-card:hover{
+  transform:none!important;
+  border-color:color-mix(in srgb,var(--calm-teal) 34%,var(--calm-line))!important;
+  box-shadow:0 8px 22px rgba(11,36,54,.055)!important;
+}
+body.ux-calm .path-card .path-icon{font-size:25px}
+body.ux-calm .path-card small{margin-top:24px}
+body.ux-calm .path-card h3{font-size:22px}
+body.ux-calm .path-card p{font-size:13px;line-height:1.6}
+body.ux-calm .path-card-accent{background:var(--calm-navy);color:#fff}
+
+body.ux-calm .premium-capability-grid{gap:12px}
+body.ux-calm .premium-capability-grid .portfolio-capability{
+  min-height:210px;
+  padding:22px;
+  border-radius:16px;
+}
+body.ux-calm .portfolio-capability h3{font-size:20px}
+body.ux-calm .portfolio-capability p{font-size:13px;line-height:1.62}
+
+body.ux-calm .operating-model{
+  gap:28px;
+  margin-top:30px;
+  padding:28px;
+  border-radius:20px;
+  background:var(--calm-navy);
+  box-shadow:none;
+}
+body.ux-calm .operating-copy h3{font-size:30px}
+body.ux-calm .timeline-item,
+body.ux-calm .research-item,
+body.ux-calm .module-card,
+body.ux-calm .format-card,
+body.ux-calm .download-card{
+  border-radius:16px!important;
+  box-shadow:none!important;
+}
+
+/* Homepage already has clear audience paths. Avoid a second large academic sales block. */
+body.portfolio-home.ux-calm .academic-leader-invite{display:none!important}
+
+/* Keep institutional and research pages calmer without removing their useful content. */
+body.ux-calm .academic-decision-strip,
+body.ux-calm .decision-confidence-card,
+body.ux-calm .diagnosis-shell,
+body.ux-calm .evidence-card,
+body.ux-calm .commitment-ladder,
+body.ux-calm .research-theme-card,
+body.ux-calm .publication-card,
+body.ux-calm .patent-card{
+  box-shadow:none!important;
+}
+
+/* Stable image boxes reduce visible reflow while media loads. */
+body.ux-calm .profile-visual,
+body.ux-calm .facilitator-photo{background:var(--calm-sky)}
+body.ux-calm img{height:auto}
+
+/* Buttons and focus remain clear without decorative movement. */
+body.ux-calm .btn{min-height:44px;border-radius:11px;box-shadow:none!important}
+body.ux-calm .btn:hover{transform:none!important}
+body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{
+  outline:3px solid var(--calm-teal);
+  outline-offset:3px;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--calm-teal) 18%,transparent)!important;
+}
+
+/* Mobile and tablet: one-column reading, compact navigation, no decorative crowding. */
+@media(max-width:960px){
+  html{scroll-padding-top:118px}
+  body.ux-calm section,[id]{scroll-margin-top:118px}
+  body.ux-calm .container{width:min(100% - 28px,760px)}
+  body.ux-calm .section{padding:54px 0}
+  body.ux-calm .brand small{display:none}
+  body.ux-calm .nav-wrap{min-height:50px}
+
+  body.ux-calm .story-nav{
+    top:66px!important;
+    width:calc(100% - 20px)!important;
+    min-height:44px!important;
+    border-radius:0 0 12px 12px!important;
+  }
+  body.ux-calm .story-nav-head{display:none!important}
+  body.ux-calm .story-nav a{min-height:34px!important;padding:0 9px!important}
+  body.ux-calm .story-nav-number{display:none!important}
+  body.ux-calm .story-nav-label{font-size:9px!important}
+
+  body.ux-calm .premium-hero-grid{grid-template-columns:1fr!important}
+  body.ux-calm .premium-hero h1{font-size:clamp(2.7rem,9vw,4.25rem)}
+  body.ux-calm .premium-profile{width:min(100%,420px);margin:0 auto}
+  body.ux-calm .premium-proof{grid-template-columns:repeat(2,1fr)}
+  body.ux-calm .section-kicker-row{grid-template-columns:1fr;gap:12px}
+  body.ux-calm .path-card-grid{grid-template-columns:1fr}
+  body.ux-calm .premium-capability-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.ux-calm .operating-model{grid-template-columns:1fr}
+}
+
+@media(max-width:620px){
+  body.ux-calm .container{width:calc(100% - 24px)}
+  body.ux-calm .section{padding:46px 0}
+  body.ux-calm .premium-header{padding:6px 0}
+  body.ux-calm .brand-mark{width:34px;height:34px}
+  body.ux-calm .brand strong{font-size:12px}
+  body.ux-calm .theme-toggle,
+  body.ux-calm .nav-toggle{width:40px;height:40px;min-width:40px}
+
+  body.ux-calm .story-nav{
+    top:62px!important;
+    width:calc(100% - 12px)!important;
+    padding:4px!important;
+    gap:0!important;
+  }
+  body.ux-calm .story-nav-list{gap:2px!important}
+  body.ux-calm .story-nav a{min-height:34px!important;padding:0 8px!important}
+  body.ux-calm .story-nav-label{display:block!important;font-size:9px!important}
+
+  body.ux-calm .premium-hero,
+  body.ux-calm .workshop-hero,
+  body.ux-calm .gallery-hero,
+  body.ux-calm .academic-hero{
+    padding-top:50px!important;
+    padding-bottom:44px!important;
+  }
+  body.ux-calm .premium-hero h1{font-size:clamp(2.45rem,12.5vw,3.55rem)}
+  body.ux-calm .premium-hero .lead{font-size:15px}
+  body.ux-calm .hero-trust{display:none}
+  body.ux-calm .hero-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  body.ux-calm .hero-actions .btn{width:100%;justify-content:center}
+  body.ux-calm .premium-proof{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:24px}
+  body.ux-calm .premium-proof div{min-height:82px;padding:13px}
+  body.ux-calm .premium-proof strong{font-size:23px}
+  body.ux-calm .premium-proof span{font-size:9px}
+
+  body.ux-calm .section-head h2{font-size:clamp(1.9rem,9vw,2.7rem)}
+  body.ux-calm .path-card{min-height:auto;padding:20px}
+  body.ux-calm .premium-capability-grid{grid-template-columns:1fr}
+  body.ux-calm .premium-capability-grid .portfolio-capability{min-height:auto}
+  body.ux-calm .operating-model{padding:22px}
+  body.ux-calm .operating-copy h3{font-size:26px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.ux-calm *,
+  body.ux-calm *::before,
+  body.ux-calm *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+html[data-theme="dark"] body.ux-calm,
+html[data-theme="dark"] body.story-unfolding{background:var(--paper)}
+html[data-theme="dark"] body.ux-calm .premium-header,
+html[data-theme="dark"] body.ux-calm .story-nav{
+  background:color-mix(in srgb,var(--paper) 94%,transparent)!important;
+  border-color:var(--line)!important;
+}
+html[data-theme="dark"] body.ux-calm .story-nav a[aria-current="step"]{
+  background:color-mix(in srgb,var(--teal) 17%,var(--paper))!important;
+  color:var(--text)!important;
+}
+html[data-theme="dark"] body.ux-calm .story-layer,
+html[data-theme="dark"] body.ux-calm .story-layer[data-surface]{background:var(--paper)!important}
