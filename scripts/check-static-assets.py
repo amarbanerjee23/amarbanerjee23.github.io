@@ -124,6 +124,16 @@ def should_validate(raw: str) -> bool:
     return suffix in ASSET_SUFFIXES or ".pdf.b64" in path.lower()
 
 
+def is_runtime_download_filename(kind: str, raw: str) -> bool:
+    """Ignore JS-only download names such as `Brochure.pdf` that are not fetch URLs."""
+    if kind != "js asset string":
+        return False
+    path = normalise_reference(raw)
+    if path is None:
+        return False
+    return pathlib.PurePosixPath(path).suffix.lower() == ".pdf" and "/" not in path and "\\" not in path
+
+
 def main() -> int:
     sources = [
         path for path in ROOT.rglob("*")
@@ -138,6 +148,8 @@ def main() -> int:
 
     for source in sorted(sources):
         for kind, raw in collect_references(source):
+            if is_runtime_download_filename(kind, raw):
+                continue
             if not should_validate(raw):
                 continue
             key = (source, raw)
