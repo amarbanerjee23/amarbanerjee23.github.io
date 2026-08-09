@@ -1,0 +1,121 @@
+/* Readability layer for the academic-first site.
+   The intent is high legibility without pure black-on-white or pure white-on-black glare. */
+:root{
+  --read-heading:#18323f;
+  --read-body:#425965;
+  --read-muted:#677b86;
+  --read-link:#126f73;
+  --read-surface:#fbfcfd;
+  --read-card:#ffffff;
+  --read-soft:#f3f7f8;
+  --read-border:#dce6e9;
+  --read-on-dark:#edf4f6;
+  --read-on-dark-body:#c8d7de;
+  --read-on-dark-muted:#a9bdc6;
+}
+
+html[data-theme="dark"]{
+  --read-heading:#e3ecef;
+  --read-body:#c2d0d7;
+  --read-muted:#9eb0ba;
+  --read-link:#79cfd0;
+  --read-surface:#0d171e;
+  --read-card:#132129;
+  --read-soft:#101d25;
+  --read-border:#2a3d47;
+  --read-on-dark:#edf4f6;
+  --read-on-dark-body:#c8d7de;
+  --read-on-dark-muted:#a9bdc6;
+}
+
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page){
+  background:var(--read-surface)!important;
+  color:var(--read-body)!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(h1,h2,h3,h4,h5,h6,strong,b){
+  color:var(--read-heading);
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(p,li,dd,blockquote){
+  color:var(--read-body);
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(small,time,.section-head p,.lead){
+  color:var(--read-muted);
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) a:not(.btn){
+  text-decoration-color:color-mix(in srgb,var(--read-link) 38%,transparent);
+}
+
+/* Dark hero/contact surfaces keep softer off-white text rather than full #fff. */
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.academic-future-hero,.academic-programs-hero,.profile-hero,.future-contact,.profile-contact,.academic-conversation,.program-output,.future-contrast-accent) :where(h1,h2,h3,h4,strong,b){
+  color:var(--read-on-dark)!important;
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.academic-future-hero,.academic-programs-hero,.profile-hero,.future-contact,.profile-contact,.academic-conversation,.program-output,.future-contrast-accent) :where(p,li,span){
+  color:var(--read-on-dark-body);
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.academic-future-hero,.academic-programs-hero,.profile-hero,.future-contact,.profile-contact,.academic-conversation,.program-output,.future-contrast-accent) :where(small,.eyebrow){
+  color:var(--read-on-dark-muted);
+}
+
+/* Keep key accent labels visible but not fluorescent. */
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(.eyebrow,.section-label,.section-head>span,.program-sticky-intro>span,.experience-period,.publication-list time){
+  color:var(--read-link)!important;
+}
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.academic-future-hero,.academic-programs-hero,.profile-hero) .eyebrow{
+  color:#8bcfd0!important;
+}
+
+/* Make the new academic surfaces theme-aware. */
+html[data-theme="dark"] body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(
+  .future-problem,.research-ambition,.future-evidence,.profile-about,.profile-publications,.profile-academic,.facilitator-focus
+){background:var(--read-surface)!important}
+
+html[data-theme="dark"] body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :is(
+  .future-contrast article,.innovation-journey article,.top-venue-stack>div,.patent-lens article,.institution-options a,.future-evidence-grid div,
+  .experience-stage>div:last-child,.publication-group,.profile-patent,.academic-contribution-list article,
+  .before-after>div,.program-modules article,.format-choice-grid article,.resource-card,.academic-offering-card
+){
+  background:var(--read-card)!important;
+  border-color:var(--read-border)!important;
+}
+
+html[data-theme="dark"] body.academic-programs-page .program-audience,
+html[data-theme="dark"] body.profile-page .experience-stage li{
+  background:#152b31!important;
+}
+
+html[data-theme="dark"] body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.soft,.institution-story){
+  background:var(--read-soft)!important;
+}
+
+html[data-theme="dark"] body.academic-programs-page .program-detail blockquote,
+html[data-theme="dark"] body.profile-page .profile-note,
+html[data-theme="dark"] body.academic-future-home .integrity-note{
+  background:#2a261d!important;
+  color:#d9cfb8!important;
+  border-color:#b9954f!important;
+}
+html[data-theme="dark"] body.academic-programs-page .program-detail blockquote,
+html[data-theme="dark"] body.profile-page .profile-note p,
+html[data-theme="dark"] body.academic-future-home .integrity-note p{color:#d9cfb8!important}
+
+/* Navigation must remain readable in both modes. */
+html[data-theme="light"] .site-header{background:rgba(251,252,253,.94)!important}
+html[data-theme="dark"] .site-header{background:rgba(13,23,30,.94)!important}
+.site-header .nav a{color:var(--read-muted)!important}
+.site-header .nav a:hover,.site-header .nav a.active,.site-header .nav a[aria-current]{color:var(--read-link)!important}
+.site-header .brand strong{color:var(--read-heading)!important}
+.site-header .brand small{color:var(--read-muted)!important}
+
+/* Reduce visual fatigue on long reading pages. */
+body.profile-page .publication-list h3,
+body.research-page .publication-card h3{line-height:1.42}
+body.profile-page .publication-list p,
+body.research-page .publication-card p{line-height:1.72}
+
+@media (prefers-contrast:more){
+  :root{--read-heading:#102a36;--read-body:#2e4652;--read-muted:#526b77}
+  html[data-theme="dark"]{--read-heading:#f0f5f7;--read-body:#d5e0e5;--read-muted:#b5c5cd}
+}
