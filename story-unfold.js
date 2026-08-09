@@ -154,3 +154,5 @@
     import('./research-supplement.js').catch(error => console.error('Research supplement failed to load', error));
   }
 })();
+
+import('./analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
