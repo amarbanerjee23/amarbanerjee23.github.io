@@ -1,6 +1,6 @@
 (async () => {
   const body = document.body;
-  body.classList.add('story-unfolding');
+  body.classList.add('story-unfolding', 'ux-calm');
 
   const bindPdfDownload = link => {
     if (!link || link.dataset.dynamicPdfBound === 'true') return;
@@ -9,14 +9,17 @@
       event.preventDefault();
       event.stopPropagation();
       if (link.getAttribute('aria-busy') === 'true') return;
+
       const originalText = link.textContent;
       const complexContent = link.childElementCount > 0;
       link.setAttribute('aria-busy', 'true');
       if (complexContent) link.classList.add('is-preparing');
       else link.textContent = 'Preparing PDF…';
+
       try {
         const response = await fetch(link.href);
         if (!response.ok) throw new Error(`PDF source could not be loaded (${response.status})`);
+
         let bytes;
         if (link.href.endsWith('.b64')) {
           const binary = atob((await response.text()).replace(/\s/g, ''));
@@ -25,6 +28,7 @@
         } else {
           bytes = new Uint8Array(await response.arrayBuffer());
         }
+
         const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
         const download = document.createElement('a');
         download.href = objectUrl;
@@ -45,10 +49,11 @@
     });
   };
 
+  /* Use the committed portrait everywhere without swapping to an external avatar. */
   document.querySelectorAll('.profile-visual img, .facilitator-photo > img').forEach(image => {
     image.src = 'headshot.png';
     image.removeAttribute('srcset');
-    image.loading = image.closest('.premium-hero') ? 'eager' : 'lazy';
+    image.loading = image.closest('.premium-hero,.workshop-hero,.academic-hero') ? 'eager' : 'lazy';
     image.decoding = 'async';
   });
 
@@ -60,6 +65,7 @@
     decisionCard.prepend(profile);
   }
 
+  /* Keep brochure access progressive: surface it only when the generated asset exists. */
   const partnershipBrochure = 'downloads/academic-innovation-partnership.pdf.b64';
   let partnershipBrochureAvailable = false;
   try {
@@ -95,60 +101,15 @@
     bindPdfDownload(card);
   }
 
+  /* Keep one secondary navigation layer directly beneath the primary header. */
   const storyNav = document.querySelector('.story-nav');
   const siteHeader = document.querySelector('.site-header');
   if (storyNav && siteHeader) siteHeader.insertAdjacentElement('afterend', storyNav);
 
-  const chapters = [...document.querySelectorAll('.story-layer')];
-  const navLinks = [...document.querySelectorAll('.story-nav a')];
-  if (!chapters.length || !navLinks.length) return;
-
-  const tones = ['sky','mint','sun','lavender','coral','ice'];
-  chapters.forEach((chapter, index) => {
-    if (!chapter.matches('.premium-hero,.workshop-hero,.gallery-hero,.academic-hero')) {
-      chapter.dataset.storyTone = tones[index % tones.length];
-    }
-
-    const nextChapter = chapters[index + 1];
-    const nextLink = navLinks[index + 1];
-    if (nextChapter && nextLink && !chapter.querySelector(':scope > .story-continue')) {
-      const continuation = document.createElement('a');
-      continuation.className = 'story-continue';
-      continuation.href = `#${nextChapter.id}`;
-      continuation.innerHTML = `<span><small>Continue the story</small><strong>${nextLink.querySelector('.story-nav-label')?.textContent || 'Next chapter'}</strong></span><span aria-hidden="true">→</span>`;
-      continuation.addEventListener('click', event => {
-        event.preventDefault();
-        nextChapter.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-        history.replaceState(null, '', continuation.hash);
-      });
-      chapter.appendChild(continuation);
-    }
+  /* Older cached story layers are explicitly neutralised by ux-calm.css. */
+  document.querySelectorAll('.story-layer').forEach((chapter, index) => {
+    chapter.dataset.surface = index % 2 === 0 ? 'plain' : 'soft';
   });
-
-  const hero = chapters[0];
-  if (hero && !document.querySelector('.story-start-map')) {
-    const map = document.createElement('section');
-    map.className = 'story-start-map';
-    const visibleLinks = navLinks.slice(0, Math.min(navLinks.length, 6));
-    map.innerHTML = `
-      <div class="container story-start-map-shell">
-        <div><small>Your path through this page</small><h2>Follow the story or jump directly to what matters.</h2></div>
-        <div class="story-start-steps">
-          ${visibleLinks.map((link, index) => `<a href="${link.getAttribute('href')}"><span>${String(index + 1).padStart(2,'0')}</span><strong>${link.querySelector('.story-nav-label')?.textContent || link.textContent}</strong></a>`).join('')}
-        </div>
-      </div>`;
-    hero.insertAdjacentElement('afterend', map);
-  }
-
-  const syncCurrent = () => {
-    const current = navLinks.findIndex(link => link.getAttribute('aria-current') === 'step');
-    chapters.forEach((chapter, index) => chapter.classList.toggle('is-story-current', index === current));
-  };
-  syncCurrent();
-
-  if (storyNav && 'MutationObserver' in window) {
-    new MutationObserver(syncCurrent).observe(storyNav, { subtree:true, attributes:true, attributeFilter:['aria-current'] });
-  }
 
   if (body.classList.contains('research-page')) {
     import('./research-supplement.js').catch(error => console.error('Research supplement failed to load', error));
