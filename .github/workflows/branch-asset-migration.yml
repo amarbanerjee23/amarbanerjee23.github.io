@@ -42,7 +42,6 @@ jobs:
         run: |
           set -euo pipefail
           rm -f asset-migration-diagnostics.txt .asset-migration-v3 .asset-migration-branch-trigger .github/asset-migration-trigger.txt
-          rm -f .github/workflows/organize-frontend-assets.yml .github/workflows/organize-frontend-assets-v2.yml .github/workflows/organize-frontend-assets-v3.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
