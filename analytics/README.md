@@ -5,13 +5,14 @@ This folder is the human-readable analytics surface for the public portfolio of 
 ## Architecture
 
 - The GitHub Pages site remains static and free.
-- A Cloudflare Worker receives analytics events.
+- A Cloudflare Worker receives analytics events after visitor consent.
 - Cloudflare D1 stores detailed pseudonymous events.
 - Raw IP addresses are **never written to D1**.
 - Cloudflare request metadata is used only for approximate country, region and city.
 - No Google account, email address, GPS coordinate or browser fingerprint is collected.
 - The public repository receives only aggregate 30-day summaries (`summary.json` and `summary.csv`).
-- A protected `/admin/export.csv` endpoint provides pseudonymous event-level export when an administrator token is supplied. Do not publish that export in this public repository.
+- Public city and referrer groups smaller than three anonymous visitors/sessions are suppressed.
+- A protected `/admin/export.csv` endpoint is available only if an optional `EXPORT_TOKEN` Worker secret is configured.
 
 ## Events captured after visitor consent
 
@@ -23,42 +24,39 @@ This folder is the human-readable analytics surface for the public portfolio of 
 - LinkedIn, ORCID and GitHub evidence clicks
 - academic self-diagnosis choices
 
-The browser sends only coarse device/browser/OS family and a random first-party visitor/session identifier. The Worker salts and hashes those identifiers before storage.
+The browser sends only coarse device/browser/OS family and random first-party visitor/session IDs. The Worker hashes those random IDs again with SHA-256 before storage so the value in D1 is not the value stored in the browser.
 
-## One-time Cloudflare setup
+## Simplified activation
 
-1. On Cloudflare's Workers Free plan, create a D1 database named `portfolio-analytics`.
-2. Copy its database ID.
-3. Create a Cloudflare API token that can deploy Workers and edit D1 for this account.
-4. In this GitHub repository, add Actions secrets:
-   - `CLOUDFLARE_API_TOKEN`
-   - `CLOUDFLARE_ACCOUNT_ID`
-   - `CLOUDFLARE_D1_DATABASE_ID`
-   - `ANALYTICS_ANON_SALT` (a long random secret)
-   - `ANALYTICS_EXPORT_TOKEN` (a different long random secret)
-5. Run the GitHub Action **Deploy privacy-aware analytics worker**.
-6. Copy the deployed workers.dev URL, add `/collect`, and place that full URL in `analytics-config.js` as `endpoint`.
-7. Add two more GitHub Actions secrets:
-   - `ANALYTICS_EXPORT_URL` = the Worker base URL, without `/collect`
-   - `ANALYTICS_EXPORT_TOKEN` = the same protected export token used above.
+The automated GitHub workflow now needs only two Cloudflare credentials:
 
-The shared website flow already imports `analytics-bootstrap.js`. Therefore no page-by-page HTML editing is needed. As soon as the endpoint is configured, the consent UI and analytics collection activate across the site.
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+Run **Bootstrap and deploy privacy-aware analytics**. It automatically deploys the Worker, provisions D1 from the committed binding, applies the schema, discovers the Worker URL, updates `analytics-config.js`, checks health and commits activation back to the website.
+
+See `analytics-worker/SETUP.md` for the exact steps and the alternative Cloudflare Workers Builds route.
 
 ## Public summary
 
-The scheduled GitHub Action **Export public-safe analytics summary** runs daily. It retrieves only aggregates for the last 30 days and commits them here. It intentionally does not expose anonymous visitor IDs or event-level city journeys publicly.
+The Worker exposes `/summary.json` containing aggregate, public-safe metrics only. The scheduled GitHub Action **Export public-safe analytics summary** reads that endpoint every day and commits the latest 30-day view to:
+
+- `analytics/summary.json`
+- `analytics/summary.csv`
+
+The export workflow needs no analytics API key or export token once the collector endpoint is activated.
 
 ## Detailed private view
 
-Use the protected Worker endpoint:
+Detailed pseudonymous records remain in Cloudflare D1. The optional protected endpoint is:
 
 `GET /admin/export.csv?days=30`
 
-with HTTP header:
+If an `EXPORT_TOKEN` secret is configured on the Worker, send:
 
-`Authorization: Bearer <ANALYTICS_EXPORT_TOKEN>`
+`Authorization: Bearer <EXPORT_TOKEN>`
 
-The export contains pseudonymous visitor/session hashes, approximate location and engagement events, but still contains no raw IP address or Google identity.
+Do not publish event-level exports in this public repository.
 
 ## Retention recommendation
 
