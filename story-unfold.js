@@ -149,4 +149,8 @@
   if (storyNav && 'MutationObserver' in window) {
     new MutationObserver(syncCurrent).observe(storyNav, { subtree:true, attributes:true, attributeFilter:['aria-current'] });
   }
+
+  if (body.classList.contains('research-page')) {
+    import('./research-supplement.js').catch(error => console.error('Research supplement failed to load', error));
+  }
 })();
