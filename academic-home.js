@@ -13,9 +13,9 @@
   const primaryLinks = [
     ['Why now', '#overview'],
     ['Student innovation', '#innovation'],
-    ['Research excellence', '#research'],
-    ['Patents', '#patents'],
+    ['Research', '#research'],
     ['Programs', 'workshops.html'],
+    ['About & work', 'profile.html'],
     ['Contact', '#contact']
   ];
 
@@ -95,7 +95,6 @@
       links.forEach((link, i) => i === safeIndex ? link.setAttribute('aria-current', 'step') : link.removeAttribute('aria-current'));
       if (count) count.textContent = `${safeIndex + 1} / ${available.length}`;
       if (bar) bar.style.width = `${((safeIndex + 1) / available.length) * 100}%`;
-      /* Horizontal-only tab movement. Never call scrollIntoView during passive scrolling. */
       keepTabVisible(links[safeIndex]);
     };
 
@@ -129,6 +128,15 @@
     note.appendChild(extra);
   };
 
+  const addProfileLink = () => {
+    const links = document.querySelector('.future-profile .profile-links');
+    if (!links || links.querySelector('a[href="profile.html"]')) return;
+    const about = document.createElement('a');
+    about.href = 'profile.html';
+    about.textContent = 'About & experience';
+    links.prepend(about);
+  };
+
   const init = () => {
     document.querySelector('.academic-leader-invite')?.remove();
     promoteStyles();
@@ -136,6 +144,7 @@
     updateHeaderMetric();
     installStoryNav();
     addVenueAmbition();
+    addProfileLink();
 
     const header = document.querySelector('.site-header');
     if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
