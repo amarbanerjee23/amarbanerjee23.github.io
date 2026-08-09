@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/migrate-frontend-assets.py'
+      - 'scripts/fix-moved-js-urls.py'
       - '.github/asset-migration-trigger.txt'
   workflow_dispatch:
 
@@ -41,6 +42,7 @@ jobs:
           set -euo pipefail
           {
             python scripts/migrate-frontend-assets.py
+            python scripts/fix-moved-js-urls.py
             python scripts/check-static-assets.py
             python scripts/check-asset-layout.py
             while IFS= read -r -d '' file; do
