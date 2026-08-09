@@ -1,9 +1,9 @@
 import config from './analytics-config.js';
 
 (() => {
-  if (!config.enabled) return;
-
   const endpoint = String(config.endpoint || '').trim();
+  if (!config.enabled || !endpoint) return;
+
   const consentKey = config.consentStorageKey;
   const visitorKey = config.visitorStorageKey;
   const sessionKey = config.sessionStorageKey;
@@ -74,7 +74,7 @@ import config from './analytics-config.js';
 
   let firstEventSent = false;
   const send = async (eventType, target = '', extra = {}) => {
-    if (!endpoint || getConsent() !== 'allow') return;
+    if (getConsent() !== 'allow') return;
     const payload = {
       event_type: eventType,
       target: String(target || '').slice(0, 180),
