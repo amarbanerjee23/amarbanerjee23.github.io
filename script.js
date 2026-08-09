@@ -6,7 +6,8 @@
     'ux-state-of-art.css',
     'ai-background.css',
     'story-ui.css',
-    'academic-partnerships.css'
+    'academic-partnerships.css',
+    'research-ip.css'
   ].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
@@ -15,6 +16,31 @@
     document.head.appendChild(stylesheet);
   });
 
+  const preferredName = 'Dr Amar Banerjee';
+  const legacyName = 'Dr. Amar Banerjee';
+  const replaceLegacyName = value => typeof value === 'string' ? value.split(legacyName).join(preferredName) : value;
+
+  document.title = replaceLegacyName(document.title);
+  document.querySelectorAll('meta[content]').forEach(meta => {
+    if (meta.content.includes(legacyName)) meta.content = replaceLegacyName(meta.content);
+  });
+  document.querySelectorAll('script[type="application/ld+json"]').forEach(script => {
+    if (script.textContent.includes(legacyName)) script.textContent = replaceLegacyName(script.textContent);
+  });
+  document.querySelectorAll('[aria-label],[alt],[title]').forEach(element => {
+    ['aria-label','alt','title'].forEach(attribute => {
+      const value = element.getAttribute(attribute);
+      if (value?.includes(legacyName)) element.setAttribute(attribute, replaceLegacyName(value));
+    });
+  });
+  const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
+    acceptNode: node => node.nodeValue?.includes(legacyName) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+  });
+  const legacyTextNodes = [];
+  while (walker.nextNode()) legacyTextNodes.push(walker.currentNode);
+  legacyTextNodes.forEach(node => { node.nodeValue = replaceLegacyName(node.nodeValue); });
+  document.querySelectorAll('.brand strong,.profile-name,.academic-profile-mini strong').forEach(element => { element.textContent = preferredName; });
+
   const pageName = location.pathname.split('/').pop() || 'index.html';
   const page = pageName === 'workshops.html'
     ? 'workshops'
@@ -22,7 +48,9 @@
       ? 'gallery'
       : pageName === 'academic-partnerships.html'
         ? 'academic'
-        : 'home';
+        : pageName === 'research-ip.html'
+          ? 'research'
+          : 'home';
 
   const nav = document.querySelector('.nav');
   const navButton = document.querySelector('.nav-toggle');
@@ -35,34 +63,42 @@
     home: [
       ['Home', '#overview'],
       ['Leadership', '#leadership'],
+      ['Research & IP', 'research-ip.html'],
       ['Academic Leaders', 'academic-partnerships.html'],
       ['Programs', 'workshops.html'],
-      ['Gallery', 'facilitation-gallery.html'],
       ['Contact', '#contact']
     ],
     workshops: [
       ['Home', 'index.html'],
+      ['Research & IP', 'research-ip.html'],
       ['Academic Leaders', 'academic-partnerships.html'],
       ['Programs', '#finder'],
-      ['Academia', '#academic'],
       ['Gallery', 'facilitation-gallery.html'],
       ['Brochures', '#downloads']
     ],
     gallery: [
       ['Home', 'index.html'],
-      ['Academic Leaders', 'academic-partnerships.html'],
+      ['Research & IP', 'research-ip.html'],
       ['Programs', 'workshops.html'],
       ['Gallery', 'facilitation-gallery.html'],
-      ['Posts', '#posts'],
+      ['Academic Leaders', 'academic-partnerships.html'],
       ['Contact', '#contact']
     ],
     academic: [
       ['Home', 'index.html'],
+      ['Research & IP', 'research-ip.html'],
       ['Diagnose', '#diagnose'],
-      ['Outcomes', '#outcomes'],
       ['Evidence', '#evidence'],
       ['Programs', '#programs'],
       ['Discuss priority', '#conversation']
+    ],
+    research: [
+      ['Home', 'index.html'],
+      ['Themes', '#themes'],
+      ['Publications', '#publications'],
+      ['Patents', '#patents'],
+      ['Programs', 'workshops.html'],
+      ['Collaborate', '#engage']
     ]
   };
 
@@ -70,7 +106,8 @@
     nav.innerHTML = navigation[page].map(([label, href]) => {
       const current = (page === 'gallery' && href === 'facilitation-gallery.html')
         || (page === 'workshops' && href === '#finder')
-        || (page === 'academic' && href === '#diagnose');
+        || (page === 'academic' && href === '#diagnose')
+        || (page === 'research' && href === '#themes');
       return `<a href="${href}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
     }).join('');
   }
@@ -78,6 +115,18 @@
   document.querySelectorAll('.site-search-trigger,.site-search').forEach(element => element.remove());
   document.querySelectorAll('.post-preview-button').forEach(element => element.remove());
   document.getElementById('linkedin-preview')?.remove();
+
+  if (page === 'home') {
+    document.querySelectorAll('a[href="#research"]').forEach(link => { link.href = 'research-ip.html'; });
+    const researchSection = document.querySelector('#research .research-list');
+    if (researchSection && !researchSection.querySelector('.full-research-link')) {
+      const link = document.createElement('a');
+      link.className = 'btn primary btn-arrow full-research-link';
+      link.href = 'research-ip.html';
+      link.innerHTML = 'Explore the full research & IP portfolio <span>→</span>';
+      researchSection.appendChild(link);
+    }
+  }
 
   if (page === 'home' && !document.querySelector('.academic-leader-invite')) {
     const target = document.querySelector('.quick-paths');
