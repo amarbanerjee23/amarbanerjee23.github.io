@@ -11,36 +11,41 @@ permissions:
 jobs:
   export:
     runs-on: ubuntu-latest
-    env:
-      ANALYTICS_EXPORT_URL: ${{ secrets.ANALYTICS_EXPORT_URL }}
-      ANALYTICS_EXPORT_TOKEN: ${{ secrets.ANALYTICS_EXPORT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Skip until analytics is configured
-        id: ready
-        shell: bash
+      - name: Resolve deployed analytics endpoint
+        id: endpoint
+        shell: python
         run: |
-          if [ -n "${ANALYTICS_EXPORT_URL:-}" ] && [ -n "${ANALYTICS_EXPORT_TOKEN:-}" ]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "Analytics export secrets are not configured yet; leaving summary files unchanged."
-          fi
+          import re
+          from pathlib import Path
 
-      - name: Fetch protected 30-day aggregate summary
-        if: steps.ready.outputs.configured == 'true'
+          text = Path('analytics-config.js').read_text(encoding='utf-8')
+          match = re.search(r"endpoint:\s*['\"]([^'\"]*)['\"]", text)
+          endpoint = (match.group(1).strip() if match else '')
+          if endpoint.endswith('/collect'):
+              base = endpoint[:-len('/collect')]
+          else:
+              base = endpoint.rstrip('/')
+          with open(__import__('os').environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as handle:
+              handle.write(f"configured={'true' if base else 'false'}\n")
+              handle.write(f"base={base}\n")
+          if not base:
+              print('Analytics endpoint is not activated yet; leaving summary files unchanged.')
+
+      - name: Fetch 30-day public-safe aggregate summary
+        if: steps.endpoint.outputs.configured == 'true'
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p analytics
           curl --fail --silent --show-error \
-            --header "Authorization: Bearer ${ANALYTICS_EXPORT_TOKEN}" \
-            "${ANALYTICS_EXPORT_URL%/}/admin/summary.json?days=30" \
+            "${{ steps.endpoint.outputs.base }}/summary.json?days=30" \
             --output analytics/summary.json
 
       - name: Create simple CSV summary
-        if: steps.ready.outputs.configured == 'true'
+        if: steps.endpoint.outputs.configured == 'true'
         shell: python
         run: |
           import csv, json
@@ -51,6 +56,7 @@ jobs:
           rows = []
           rows.append(['meta', 'generated_at', data.get('generated_at', '')])
           rows.append(['meta', 'window_days', data.get('window_days', '')])
+          rows.append(['meta', 'privacy', data.get('privacy', '')])
           for key, value in data.get('headline', {}).items():
               rows.append(['headline', key, value])
           for section in ['top_pages', 'countries', 'cities', 'referrers', 'events']:
@@ -63,7 +69,7 @@ jobs:
               writer.writerows(rows)
 
       - name: Commit updated aggregate summary
-        if: steps.ready.outputs.configured == 'true'
+        if: steps.endpoint.outputs.configured == 'true'
         shell: bash
         run: |
           set -euo pipefail
