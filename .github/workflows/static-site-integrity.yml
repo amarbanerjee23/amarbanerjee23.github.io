@@ -62,6 +62,7 @@ jobs:
             academic-home.js
             academic-programs.js
             academic-offerings.js
+            contact-intake.js
             profile-page.js
             analytics-bootstrap.js
             analytics.js
@@ -123,6 +124,8 @@ jobs:
               '/academic-programs.js',
               '/academic-offerings.css',
               '/academic-offerings.js',
+              '/contact-intake.css',
+              '/contact-intake.js',
               '/reading-comfort.css',
               '/profile.html',
               '/profile-page.css',
