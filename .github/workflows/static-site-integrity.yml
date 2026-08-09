@@ -43,8 +43,34 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Validate HTML, CSS and JavaScript asset references
         run: python scripts/check-static-assets.py
+
+      - name: Validate public JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            script.js
+            story-ui.js
+            story-unfold.js
+            analytics-bootstrap.js
+            analytics.js
+            academic-engagement.js
+            research-supplement.js
+            gallery.js
+            gallery-images.js
+          )
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              node --check "$file"
+            fi
+          done
 
   live-pages-smoke-check:
     name: Live GitHub Pages smoke check
@@ -67,6 +93,7 @@ jobs:
               '/story-ui.js',
               '/story-unfold.css',
               '/story-unfold.js',
+              '/ux-calm-v2.css',
               '/script.js',
               '/analytics.js',
               '/analytics-config.js',
