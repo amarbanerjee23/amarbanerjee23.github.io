@@ -34,6 +34,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/migrate-frontend-assets.py
+          python scripts/fix-self-origin-asset-urls.py
           python scripts/check-static-assets.py
           python scripts/check-asset-layout.py
           while IFS= read -r -d '' file; do node --check "$file"; done < <(find assets/js -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
@@ -46,5 +47,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           if git diff --cached --quiet; then echo 'No migration changes required.'; exit 0; fi
-          git commit -m 'Organize frontend assets into structured directories'
+          git commit -m 'Normalize same-origin asset metadata URLs'
           git push origin HEAD:asset-segregation
