@@ -1,0 +1,14 @@
+{
+  "name": "dr-amar-banerjee-portfolio-analytics",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 execute portfolio-analytics --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.68.0"
+  }
+}
