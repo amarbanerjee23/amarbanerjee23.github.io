@@ -41,7 +41,8 @@ The browser sends only coarse device/browser/OS family and a random first-party 
 7. Add two more GitHub Actions secrets:
    - `ANALYTICS_EXPORT_URL` = the Worker base URL, without `/collect`
    - `ANALYTICS_EXPORT_TOKEN` = the same protected export token used above.
-8. Import `analytics-bootstrap.js` from the website's shared script. Once the endpoint exists, the consent UI and collection activate automatically.
+
+The shared website flow already imports `analytics-bootstrap.js`. Therefore no page-by-page HTML editing is needed. As soon as the endpoint is configured, the consent UI and analytics collection activate across the site.
 
 ## Public summary
 
