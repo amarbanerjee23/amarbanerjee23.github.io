@@ -5,7 +5,7 @@
     ['Student innovation', '#student-innovation'],
     ['Research excellence', '#research-excellence'],
     ['Patents', '#patent-thinking'],
-    ['Formats', '#formats'],
+    ['About & work', 'profile.html'],
     ['Contact', '#contact']
   ];
   const story = [
