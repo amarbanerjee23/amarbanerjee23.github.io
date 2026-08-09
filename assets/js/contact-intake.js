@@ -20,9 +20,9 @@
     form.setAttribute('aria-label', 'Send an academic enquiry');
     form.innerHTML = `
       <div class="contact-intake-head">
-        <small>Send a message</small>
-        <h3>Tell me about your institution and what you are exploring.</h3>
-        <p>A short note is enough. Your email app will open with these details prepared.</p>
+        <small>Request an exploratory conversation</small>
+        <h3>Tell me which students you want to think differently.</h3>
+        <p>A short note is enough. The first conversation is about fit, cohort and desired capability, not a sales pitch.</p>
       </div>
       <div class="contact-intake-fields">
         <div class="contact-intake-field">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="contact-intake-actions">
-        <button class="contact-intake-submit" type="submit">Open email to send</button>
+        <button class="contact-intake-submit" type="submit">Prepare enquiry email</button>
         <a class="contact-intake-direct" href="mailto:amarbanerjee23@gmail.com">amarbanerjee23@gmail.com</a>
       </div>
       <p class="contact-intake-privacy">Nothing typed here is stored by this website. Submitting opens your email application so you can review and send the message.</p>
