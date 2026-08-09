@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-08-09T06:15:13.050678+00:00",
+  "endpoint": "https://amarbanerjee23-github-io.amarbanerjee23.workers.dev/collect",
+  "overall": "pass",
+  "checks": {
+    "worker_and_d1_health": "success",
+    "public_summary": "success",
+    "browser_cors": "success",
+    "collection_dry_run": "success"
+  },
+  "note": "Dry-run collection verifies CORS, request validation and D1 connectivity without adding a synthetic visitor event."
+}
