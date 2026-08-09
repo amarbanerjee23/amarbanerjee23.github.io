@@ -17,6 +17,13 @@
     ['#contact', 'Contact']
   ];
 
+  const promoteStyles = () => {
+    ['academic-future.css', 'academic-programs.css', 'sticky-nav-fix.css'].forEach(href => {
+      const link = document.querySelector(`link[href="${href}"]`);
+      if (link) document.head.appendChild(link);
+    });
+  };
+
   const updateHeaderMetric = () => {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -82,11 +89,20 @@
     activate(hashIndex >= 0 ? hashIndex : 0);
   };
 
+  const addVenueAmbition = () => {
+    const output = document.querySelector('#research-excellence .program-output span');
+    if (!output || output.dataset.venueAmbition === 'true') return;
+    output.dataset.venueAmbition = 'true';
+    output.textContent += ' The goal is not to treat Q2 or Q3 as the default destination. Students learn what Q1 journals and leading conferences expect, while understanding that acceptance can never be guaranteed.';
+  };
+
   const init = () => {
     document.querySelector('.academic-decision-strip')?.remove();
+    promoteStyles();
     resetPrimary();
     updateHeaderMetric();
     resetStory();
+    addVenueAmbition();
     const header = document.querySelector('.site-header');
     if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
     addEventListener('resize', updateHeaderMetric, { passive:true });
