@@ -56,4 +56,17 @@ replace('assets/js/contact-intake.js', '<h3>Tell me about your institution and w
 replace('assets/js/contact-intake.js', '<p>A short note is enough. Your email app will open with these details prepared.</p>', '<p>A short note is enough. The first conversation is about fit, cohort and desired capability, not a sales pitch.</p>')
 replace('assets/js/contact-intake.js', 'Open email to send', 'Prepare enquiry email')
 
+# Runtime navigation is rewritten after the shared nav bindings, so restore mobile-close behavior
+# on the new links and keep the homepage's next action visible.
+replace(
+    'assets/js/trust-conversion.js',
+    '''  const setNav = items => {\n    if (!nav) return;\n    nav.innerHTML = items.map(([label, href]) => `<a href="${href}">${label}</a>`).join('');\n  };''',
+    '''  const setNav = items => {\n    if (!nav) return;\n    nav.innerHTML = items.map(([label, href]) => `<a href="${href}">${label}</a>`).join('');\n    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {\n      nav.classList.remove('open');\n      document.body.classList.remove('nav-open');\n      const button = document.querySelector('.nav-toggle');\n      button?.setAttribute('aria-expanded', 'false');\n      button?.setAttribute('aria-label', 'Open navigation');\n    }));\n  };'''
+)
+replace(
+    'assets/js/trust-conversion.js',
+    '''      ['Why now', '#overview'],\n      ['Student innovation', '#innovation'],\n      ['Evidence', '#evidence'],\n      ['Programs', 'workshops.html'],\n      ['About & work', 'profile.html'],\n      ['For institutions', 'academic-partnerships.html']''',
+    '''      ['Student innovation', '#innovation'],\n      ['Evidence', '#evidence'],\n      ['Programs', 'workshops.html'],\n      ['About & work', 'profile.html'],\n      ['For institutions', 'academic-partnerships.html'],\n      ['Contact', '#contact']'''
+)
+
 print('Academic trust/conversion source pass applied.')
