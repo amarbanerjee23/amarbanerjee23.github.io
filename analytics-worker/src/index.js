@@ -23,6 +23,11 @@ const corsHeaders = origin => ({
   'Vary': 'Origin'
 });
 
+const readCorsHeaders = origin => ({
+  'Access-Control-Allow-Origin': origin,
+  'Vary': 'Origin'
+});
+
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), {
   status,
   headers: { 'Content-Type': 'application/json; charset=utf-8', ...headers }
@@ -187,14 +192,15 @@ export default {
           event_count: Number(probe?.event_count || 0),
           stores_raw_ip: false,
           google_identity: false
-        });
+        }, 200, readCorsHeaders(allowedOrigin));
       } catch (error) {
-        return json({ ok: false, service: 'portfolio-analytics', database: false, error: 'database_unavailable' }, 503);
+        return json({ ok: false, service: 'portfolio-analytics', database: false, error: 'database_unavailable' }, 503, readCorsHeaders(allowedOrigin));
       }
     }
 
     if (request.method === 'GET' && url.pathname === '/summary.json') {
       return json(await aggregateSummary(env, url.searchParams.get('days'), true), 200, {
+        ...readCorsHeaders(allowedOrigin),
         'Cache-Control': 'public, max-age=300'
       });
     }
