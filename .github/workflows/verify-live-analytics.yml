@@ -1,5 +1,8 @@
 name: Verify live website analytics
 
+# Visitor activity is stored in D1 and must never write back to GitHub. This
+# workflow only verifies the live Worker. It runs after analytics code changes,
+# once per day, or when manually requested.
 on:
   push:
     branches: [main]
@@ -12,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: live-analytics-verification
@@ -23,8 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Resolve collector endpoint
         id: endpoint
@@ -44,14 +45,14 @@ jobs:
               handle.write(f'endpoint={endpoint}\n')
               handle.write(f'base={base}\n')
 
-      - name: Wait for Cloudflare production deployment and verify D1-backed health
+      - name: Verify D1-backed Worker health
         id: health
         continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
           base='${{ steps.endpoint.outputs.base }}'
-          for attempt in $(seq 1 36); do
+          for attempt in $(seq 1 12); do
             code=$(curl -sS -o /tmp/health.json -w '%{http_code}' --max-time 15 "$base/health" || true)
             if [ "$code" = "200" ] && python - <<'PY'
           import json
@@ -63,10 +64,10 @@ jobs:
               cat /tmp/health.json
               exit 0
             fi
-            echo "Health not ready yet (attempt $attempt/36, HTTP $code). Waiting 10s..."
+            echo "Health not ready yet (attempt $attempt/12, HTTP $code). Waiting 10s..."
             sleep 10
           done
-          echo 'Cloudflare Worker did not become D1-healthy within six minutes.' >&2
+          echo 'Cloudflare Worker did not become D1-healthy within two minutes.' >&2
           [ -f /tmp/health.json ] && cat /tmp/health.json >&2 || true
           exit 1
 
@@ -122,52 +123,6 @@ jobs:
           assert data.get('database') is True
           print(json.dumps(data, indent=2))
           PY
-
-      - name: Write repository-visible health report
-        if: always()
-        shell: python
-        env:
-          HEALTH_RESULT: ${{ steps.health.outcome }}
-          SUMMARY_RESULT: ${{ steps.summary.outcome }}
-          CORS_RESULT: ${{ steps.cors.outcome }}
-          COLLECT_RESULT: ${{ steps.collect.outcome }}
-          ENDPOINT: ${{ steps.endpoint.outputs.endpoint }}
-        run: |
-          import json, os
-          from datetime import datetime, timezone
-          from pathlib import Path
-          checks={
-              'worker_and_d1_health': os.getenv('HEALTH_RESULT','unknown'),
-              'public_summary': os.getenv('SUMMARY_RESULT','unknown'),
-              'browser_cors': os.getenv('CORS_RESULT','unknown'),
-              'collection_dry_run': os.getenv('COLLECT_RESULT','unknown'),
-          }
-          overall='pass' if all(value=='success' for value in checks.values()) else 'fail'
-          report={
-              'checked_at': datetime.now(timezone.utc).isoformat(),
-              'endpoint': os.getenv('ENDPOINT',''),
-              'overall': overall,
-              'checks': checks,
-              'note': 'Dry-run collection verifies CORS, request validation and D1 connectivity without adding a synthetic visitor event.'
-          }
-          Path('analytics').mkdir(exist_ok=True)
-          Path('analytics/last-health-check.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
-          print(json.dumps(report, indent=2))
-
-      - name: Commit health report
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analytics/last-health-check.json
-          if git diff --cached --quiet; then
-            echo 'Health report unchanged.'
-          else
-            git commit -m 'Update live analytics health report [skip ci]'
-            git push
-          fi
 
       - name: Fail verification when any live check failed
         if: always()
