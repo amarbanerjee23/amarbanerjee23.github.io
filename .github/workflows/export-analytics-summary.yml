@@ -1,14 +1,8 @@
-name: Export public-safe analytics summary
+name: Refresh public-safe analytics snapshot
 
+# This is intentionally manual. The live analytics/status pages read the Worker/D1
+# endpoints directly, so visitor activity must never create repository commits.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'analytics/last-health-check.json'
-      - 'assets/js/analytics-config.js'
-      - '.github/workflows/export-analytics-summary.yml'
-  schedule:
-    - cron: '15 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -87,7 +81,7 @@ jobs:
               writer.writerow(['category', 'label', 'count_or_value'])
               writer.writerows(rows)
 
-      - name: Commit updated aggregate summary
+      - name: Commit snapshot only when manually requested
         if: steps.endpoint.outputs.configured == 'true'
         shell: bash
         run: |
@@ -98,6 +92,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No analytics summary changes."
           else
-            git commit -m "Update privacy-safe website analytics summary [skip ci]"
+            git commit -m "Refresh privacy-safe analytics snapshot [skip ci]"
             git push
           fi
