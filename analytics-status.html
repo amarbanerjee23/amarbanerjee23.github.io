@@ -10,7 +10,37 @@
   <link rel="stylesheet" href="/assets/css/portfolio.css">
   <link rel="stylesheet" href="/assets/css/ux.css">
   <style>
-    body{background:#f5f8fa;color:#172633}.status-wrap{max-width:980px;margin:0 auto;padding:64px 20px 90px}.status-head{padding:34px;border-radius:28px;background:linear-gradient(145deg,#071b2d,#0d3550);color:#fff}.status-head h1{margin:8px 0 10px;color:#fff;font-size:clamp(2.4rem,5vw,4rem)}.status-head p{max-width:70ch;color:rgba(255,255,255,.75)}.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.status-card{padding:24px;border:1px solid #dce6ea;border-radius:20px;background:#fff}.status-card small{font-weight:800;letter-spacing:.12em;color:#637581}.status-card strong{display:block;margin:12px 0 8px;font-size:22px}.ok{color:#087f5b}.warn{color:#a15c00}.bad{color:#b42318}.detail{margin-top:18px;padding:24px;border:1px solid #dce6ea;border-radius:20px;background:#fff}.detail code{display:block;overflow-wrap:anywhere;padding:12px;border-radius:10px;background:#eef4f6}.steps{line-height:1.75}.steps li{margin:8px 0}@media(max-width:760px){.status-grid{grid-template-columns:1fr}}
+    :root{--status-ink:#172633;--status-muted:#637581;--status-line:#dce6ea;--status-paper:#fff;--status-soft:#eef4f6;--status-navy:#071b2d;--status-blue:#0d3550;--status-teal:#087f7d}
+    body{background:#f5f8fa;color:var(--status-ink)}
+    .status-wrap{max-width:1080px;margin:0 auto;padding:64px 20px 90px}
+    .status-head{padding:34px;border-radius:28px;background:linear-gradient(145deg,var(--status-navy),var(--status-blue));color:#fff}
+    .status-head h1{margin:8px 0 10px;color:#fff;font-size:clamp(2.4rem,5vw,4rem)}
+    .status-head p{max-width:76ch;color:rgba(255,255,255,.76)}
+    .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+    .status-card,.detail,.live-panel{padding:24px;border:1px solid var(--status-line);border-radius:20px;background:var(--status-paper)}
+    .status-card small,.metric small,.live-column small{font-weight:800;letter-spacing:.12em;color:var(--status-muted)}
+    .status-card strong{display:block;margin:12px 0 8px;font-size:22px}
+    .ok{color:#087f5b}.warn{color:#a15c00}.bad{color:#b42318}
+    .detail,.live-panel{margin-top:18px}
+    .detail code{display:block;overflow-wrap:anywhere;padding:12px;border-radius:10px;background:var(--status-soft)}
+    .steps{line-height:1.75}.steps li{margin:8px 0}
+    .live-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+    .live-head h2{margin:0 0 6px}.live-head p{margin:0;color:var(--status-muted);line-height:1.6}
+    .refresh-note{white-space:nowrap;color:var(--status-muted);font-size:12px}
+    .headline-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 22px}
+    .metric{padding:18px;border:1px solid var(--status-line);border-radius:16px;background:#f8fbfc}
+    .metric strong{display:block;margin-top:7px;font-size:30px;color:var(--status-navy)}
+    .live-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .live-column{padding:18px;border:1px solid var(--status-line);border-radius:16px;background:#fbfcfd}
+    .live-column h3{margin:6px 0 12px;font-size:18px}
+    .rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+    .rank-list li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid #e8eef1;color:#344b57;font-size:14px}
+    .rank-list li:first-child{border-top:0}.rank-list b{color:var(--status-navy)}
+    .empty{color:#7a8c95;font-size:13px;line-height:1.55}
+    .privacy-note{margin-top:18px;padding:14px 16px;border-left:3px solid var(--status-teal);background:#f2f8f8;color:#4d626d;font-size:13px;line-height:1.65}
+    @media(max-width:760px){.status-grid,.headline-metrics,.live-grid{grid-template-columns:1fr}.live-head{display:block}.refresh-note{display:block;margin-top:8px}}
+    @media(prefers-color-scheme:dark){
+      body{background:#0d171e;color:#c6d3d9}.status-card,.detail,.live-panel{background:#132129;border-color:#29404c}.metric,.live-column{background:#172832;border-color:#29404c}.status-card small,.metric small,.live-column small,.live-head p,.refresh-note{color:#9eb0ba}.metric strong,.rank-list b{color:#e3ecef}.rank-list li{color:#c2d0d7;border-color:#29404c}.detail code{background:#0f1d25;color:#d7e2e7}.privacy-note{background:#10252a;color:#b7c8cf;border-left-color:#39b9b5}.empty{color:#91a5ae}}
   </style>
 </head>
 <body>
@@ -18,13 +48,41 @@
     <section class="status-head">
       <small>DR AMAR BANERJEE · WEBSITE DIAGNOSTICS</small>
       <h1>Analytics status</h1>
-      <p>This page checks whether the public website is connected to the Cloudflare analytics Worker, whether the Worker is healthy, and whether the D1-backed summary endpoint is responding.</p>
+      <p>This page checks the Cloudflare analytics Worker and shows the live public-safe D1 summary. It refreshes automatically without writing visitor activity back to GitHub.</p>
     </section>
 
     <section class="status-grid" aria-live="polite">
       <article class="status-card"><small>WEBSITE CONFIG</small><strong id="config-state">Checking…</strong><p id="config-detail"></p></article>
       <article class="status-card"><small>WORKER HEALTH</small><strong id="worker-state">Waiting…</strong><p id="worker-detail"></p></article>
       <article class="status-card"><small>D1 / SUMMARY</small><strong id="db-state">Waiting…</strong><p id="db-detail"></p></article>
+    </section>
+
+    <section class="live-panel" aria-live="polite">
+      <div class="live-head">
+        <div>
+          <small>LIVE PUBLIC-SAFE VIEW</small>
+          <h2>Current analytics</h2>
+          <p>Approximate geography, traffic sources, popular pages and interaction types from the D1-backed 30-day summary.</p>
+        </div>
+        <span class="refresh-note" id="refresh-note">Waiting for live data…</span>
+      </div>
+
+      <div class="headline-metrics">
+        <div class="metric"><small>VISITORS</small><strong id="metric-visitors">—</strong></div>
+        <div class="metric"><small>SESSIONS</small><strong id="metric-sessions">—</strong></div>
+        <div class="metric"><small>EVENTS</small><strong id="metric-events">—</strong></div>
+      </div>
+
+      <div class="live-grid">
+        <article class="live-column"><small>WHERE</small><h3>Countries</h3><ul class="rank-list" id="countries-list"><li class="empty">Waiting for data…</li></ul></article>
+        <article class="live-column"><small>WHERE</small><h3>Cities / regions</h3><ul class="rank-list" id="cities-list"><li class="empty">Waiting for data…</li></ul></article>
+        <article class="live-column"><small>FROM WHERE</small><h3>Referrer domains</h3><ul class="rank-list" id="referrers-list"><li class="empty">Waiting for data…</li></ul></article>
+        <article class="live-column"><small>CONTENT</small><h3>Top pages</h3><ul class="rank-list" id="pages-list"><li class="empty">Waiting for data…</li></ul></article>
+        <article class="live-column"><small>BEHAVIOUR</small><h3>Event types</h3><ul class="rank-list" id="events-list"><li class="empty">Waiting for data…</li></ul></article>
+        <article class="live-column"><small>PRIVACY</small><h3>What this page does not expose</h3><p class="empty">No raw IP address, name, email, exact GPS location, browser fingerprint or event-level visitor journey is exposed here. Network / possible organisation is not yet collected.</p></article>
+      </div>
+
+      <p class="privacy-note"><strong>Why some city or referrer rows may be empty:</strong> the public summary deliberately suppresses city groups with fewer than 3 anonymous visitors and referrer groups with fewer than 3 sessions. Detailed anonymous journeys belong in a protected owner dashboard, not on this publicly reachable diagnostics page.</p>
     </section>
 
     <section class="detail">
@@ -35,7 +93,7 @@
         <li>Open Cloudflare → Workers &amp; Pages → <strong>amarbanerjee23-github-io</strong> → Builds.</li>
         <li>Confirm the latest production build from GitHub <strong>main</strong> completed successfully.</li>
         <li>Refresh this diagnostics page after the Worker deployment finishes.</li>
-        <li>If the configuration is connected but both live checks show <code>TypeError: Failed to fetch</code>, the browser could not read the Worker response. The Worker health and summary endpoints are expected to allow this GitHub Pages origin through CORS.</li>
+        <li>If the configuration is connected but the live checks show <code>TypeError: Failed to fetch</code>, the browser could not read the Worker response. The Worker health and summary endpoints are expected to allow this GitHub Pages origin through CORS.</li>
       </ol>
       <p>Visitor analytics is written directly to D1. This diagnostics page is read-only and does not create repository commits. The Cloudflare API token is not needed here and should never be pasted into the website or repository.</p>
     </section>
@@ -46,8 +104,32 @@
 
     const set = (id, text, cls = '') => {
       const element = document.getElementById(id);
+      if (!element) return;
       element.textContent = text;
       element.className = cls;
+    };
+
+    const renderList = (id, items, emptyText) => {
+      const list = document.getElementById(id);
+      if (!list) return;
+      list.replaceChildren();
+      const rows = Array.isArray(items) ? items.slice(0, 8) : [];
+      if (!rows.length) {
+        const empty = document.createElement('li');
+        empty.className = 'empty';
+        empty.textContent = emptyText;
+        list.appendChild(empty);
+        return;
+      }
+      rows.forEach(item => {
+        const row = document.createElement('li');
+        const label = document.createElement('span');
+        const count = document.createElement('b');
+        label.textContent = item?.label || 'Unknown';
+        count.textContent = String(item?.count ?? 0);
+        row.append(label, count);
+        list.appendChild(row);
+      });
     };
 
     const endpoint = String(config.endpoint || '').trim();
@@ -65,27 +147,43 @@
       document.getElementById('config-detail').textContent = 'The website has a collector endpoint.';
       const base = endpoint.replace(/\/collect\/?$/, '');
 
-      try {
-        const health = await fetch(`${base}/health`, { cache: 'no-store' });
-        const payload = await health.json();
-        if (!health.ok || payload.ok !== true) throw new Error('Health endpoint returned an unexpected response.');
-        set('worker-state', 'Healthy', 'ok');
-        document.getElementById('worker-detail').textContent = 'The deployed Worker is responding and D1 is reachable.';
-      } catch (error) {
-        set('worker-state', 'Failed', 'bad');
-        document.getElementById('worker-detail').textContent = String(error);
-      }
+      const refresh = async () => {
+        try {
+          const health = await fetch(`${base}/health`, { cache: 'no-store' });
+          const payload = await health.json();
+          if (!health.ok || payload.ok !== true) throw new Error('Health endpoint returned an unexpected response.');
+          set('worker-state', 'Healthy', 'ok');
+          document.getElementById('worker-detail').textContent = `The deployed Worker is responding and D1 is reachable. ${payload.event_count ?? 0} events are stored.`;
+        } catch (error) {
+          set('worker-state', 'Failed', 'bad');
+          document.getElementById('worker-detail').textContent = String(error);
+        }
 
-      try {
-        const summary = await fetch(`${base}/summary.json?days=30`, { cache: 'no-store' });
-        const payload = await summary.json();
-        if (!summary.ok || !payload.headline) throw new Error('Summary endpoint did not return the expected D1-backed response.');
-        set('db-state', 'Healthy', 'ok');
-        document.getElementById('db-detail').textContent = `${payload.headline.visitors ?? 0} anonymous visitors · ${payload.headline.events ?? 0} events in the current summary window.`;
-      } catch (error) {
-        set('db-state', 'Failed', 'bad');
-        document.getElementById('db-detail').textContent = String(error);
-      }
+        try {
+          const summary = await fetch(`${base}/summary.json?days=30`, { cache: 'no-store' });
+          const payload = await summary.json();
+          if (!summary.ok || !payload.headline) throw new Error('Summary endpoint did not return the expected D1-backed response.');
+          set('db-state', 'Healthy', 'ok');
+          document.getElementById('db-detail').textContent = `${payload.headline.visitors ?? 0} anonymous visitors · ${payload.headline.sessions ?? 0} sessions · ${payload.headline.events ?? 0} events in the current 30-day window.`;
+          document.getElementById('metric-visitors').textContent = String(payload.headline.visitors ?? 0);
+          document.getElementById('metric-sessions').textContent = String(payload.headline.sessions ?? 0);
+          document.getElementById('metric-events').textContent = String(payload.headline.events ?? 0);
+          renderList('countries-list', payload.countries, 'No country data yet.');
+          renderList('cities-list', payload.cities, 'No city group has reached the public privacy threshold yet.');
+          renderList('referrers-list', payload.referrers, 'No referrer group has reached the public privacy threshold yet.');
+          renderList('pages-list', payload.top_pages, 'No page-view data yet.');
+          renderList('events-list', payload.events, 'No event data yet.');
+          const generated = payload.generated_at ? new Date(payload.generated_at) : new Date();
+          document.getElementById('refresh-note').textContent = `Updated ${generated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })} · refreshes every 30s`;
+        } catch (error) {
+          set('db-state', 'Failed', 'bad');
+          document.getElementById('db-detail').textContent = String(error);
+          document.getElementById('refresh-note').textContent = 'Live summary unavailable';
+        }
+      };
+
+      refresh();
+      setInterval(refresh, 30000);
     }
   </script>
 </body>
