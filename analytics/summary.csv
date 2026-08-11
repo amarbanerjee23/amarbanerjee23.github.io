@@ -1,18 +1,18 @@
 category,label,count_or_value
-meta,generated_at,2026-08-10T04:08:06.971Z
+meta,generated_at,2026-08-11T03:55:31.354Z
 meta,window_days,30
 meta,privacy,aggregate-public-safe; city/referrer groups under 3 omitted
-headline,visitors,1
-headline,sessions,3
-headline,events,207
-top_pages,/,32
+headline,visitors,2
+headline,sessions,4
+headline,events,211
+top_pages,/,34
 top_pages,/workshops.html,6
 top_pages,/index.html,2
 top_pages,/academic-partnerships.html,2
 top_pages,/facilitation-gallery.html,1
-countries,IN,1
-referrers,Direct / unknown,3
-events,section_view,161
-events,page_view,43
+countries,IN,2
+referrers,Direct / unknown,4
+events,section_view,163
+events,page_view,45
 events,contact_click,2
 events,cta_click,1
