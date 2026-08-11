@@ -30,15 +30,14 @@
     <section class="detail">
       <h2>Configured collector</h2>
       <code id="endpoint">Not configured</code>
-      <h2>What to do if this page says “Not connected”</h2>
+      <h2>If a live check fails</h2>
       <ol class="steps">
-        <li>Open Cloudflare → Workers &amp; Pages → <strong>dr-amar-banerjee-portfolio-analytics</strong> → Builds.</li>
-        <li>Open the latest production build triggered from the GitHub <strong>main</strong> branch.</li>
-        <li>The build is self-verifying. Near the end of its log, look for <code>ANALYTICS_READY=true</code>.</li>
-        <li>Copy the line beginning <code>COLLECT_URL=</code>. It will end in <code>/collect</code>.</li>
-        <li>Send only that public COLLECT_URL back in this chat. It is not a secret. I can then wire it into the website and verify the live endpoints.</li>
+        <li>Open Cloudflare → Workers &amp; Pages → <strong>amarbanerjee23-github-io</strong> → Builds.</li>
+        <li>Confirm the latest production build from GitHub <strong>main</strong> completed successfully.</li>
+        <li>Refresh this diagnostics page after the Worker deployment finishes.</li>
+        <li>If the configuration is connected but both live checks show <code>TypeError: Failed to fetch</code>, the browser could not read the Worker response. The Worker health and summary endpoints are expected to allow this GitHub Pages origin through CORS.</li>
       </ol>
-      <p>The Cloudflare API token is not needed in the public repository and should not be pasted into this page.</p>
+      <p>Visitor analytics is written directly to D1. This diagnostics page is read-only and does not create repository commits. The Cloudflare API token is not needed here and should never be pasted into the website or repository.</p>
     </section>
   </main>
 
@@ -60,7 +59,7 @@
       set('worker-state', 'Not testable', 'warn');
       document.getElementById('worker-detail').textContent = 'A collector URL is required first.';
       set('db-state', 'Not testable', 'warn');
-      document.getElementById('db-detail').textContent = 'D1 is verified by the Cloudflare build and then rechecked through summary.json.';
+      document.getElementById('db-detail').textContent = 'D1 is verified through the live Worker endpoints.';
     } else {
       set('config-state', 'Connected', 'ok');
       document.getElementById('config-detail').textContent = 'The website has a collector endpoint.';
@@ -71,7 +70,7 @@
         const payload = await health.json();
         if (!health.ok || payload.ok !== true) throw new Error('Health endpoint returned an unexpected response.');
         set('worker-state', 'Healthy', 'ok');
-        document.getElementById('worker-detail').textContent = 'The deployed Worker is responding.';
+        document.getElementById('worker-detail').textContent = 'The deployed Worker is responding and D1 is reachable.';
       } catch (error) {
         set('worker-state', 'Failed', 'bad');
         document.getElementById('worker-detail').textContent = String(error);
