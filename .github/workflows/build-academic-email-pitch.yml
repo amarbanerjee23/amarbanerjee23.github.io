@@ -1,0 +1,49 @@
+name: Build academic email pitch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "outreach/academic-institutions/pitch/academic-innovation-partnership-pitch-v2.svg"
+      - "assets/media/portraits/headshot.png"
+      - ".github/workflows/build-academic-email-pitch.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: academic-email-pitch-main
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+      - name: Install renderer
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends librsvg2-bin poppler-utils
+      - name: Render email-ready pitch
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="outreach/academic-institutions/pitch"
+          cp assets/media/portraits/headshot.png "$dir/headshot.png"
+          rsvg-convert -f pdf -o "$dir/academic-innovation-partnership-pitch-email.pdf" "$dir/academic-innovation-partnership-pitch-v2.svg"
+          rsvg-convert -f png -w 1920 -h 1080 -o "$dir/academic-innovation-partnership-pitch-email.png" "$dir/academic-innovation-partnership-pitch-v2.svg"
+          rm "$dir/headshot.png"
+          pdfinfo "$dir/academic-innovation-partnership-pitch-email.pdf" | grep -q "Pages:[[:space:]]*1"
+      - name: Publish email-ready pitch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outreach/academic-institutions/pitch/academic-innovation-partnership-pitch-email.pdf outreach/academic-institutions/pitch/academic-innovation-partnership-pitch-email.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Build email-ready academic pitch [skip ci]"
+            git push origin HEAD:main
+          fi
