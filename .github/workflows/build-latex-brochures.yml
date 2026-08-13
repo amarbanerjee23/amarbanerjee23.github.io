@@ -1,35 +1,30 @@
-name: Build LaTeX brochures
+name: Build academic outreach assets
 
 on:
   push:
     branches: [main]
     paths:
-      - "brochures-latex/**"
-      - "headshot.png"
+      - "outreach/academic-institutions/brochures/latex/**"
+      - "outreach/academic-institutions/pitch/*.svg"
+      - "assets/media/portraits/headshot.png"
+      - "assets/media/illustrations/ai-innovation-network.svg"
       - ".github/workflows/build-latex-brochures.yml"
   issues:
     types: [opened]
-  pull_request_target:
-    branches: [main]
-    types: [opened]
-    paths:
-      - "brochures-latex/.build-trigger"
   workflow_dispatch:
 
 permissions:
   contents: write
   issues: write
-  pull-requests: write
 
 concurrency:
-  group: latex-brochures-main
+  group: academic-outreach-assets-main
   cancel-in-progress: true
 
 jobs:
   build:
     if: >-
-      (github.event_name != 'issues' || github.event.issue.title == 'Build LaTeX brochures') &&
-      (github.event_name != 'pull_request_target' || github.event.pull_request.title == 'Build LaTeX brochures')
+      github.event_name != 'issues' || github.event.issue.title == 'Build academic outreach assets'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -38,7 +33,7 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Install LaTeX and PDF validation tools
+      - name: Install document build tools
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -48,62 +43,70 @@ jobs:
             texlive-latex-extra \
             texlive-pictures \
             texlive-fonts-recommended \
-            poppler-utils
+            poppler-utils \
+            librsvg2-bin
 
-      - name: Compile modern flat brochures
+      - name: Compile institution-ready brochures
         shell: bash
         run: |
           set -euo pipefail
-          cd brochures-latex
+          src="outreach/academic-institutions/brochures/latex"
+          out="outreach/academic-institutions/brochures/pdf"
+          mkdir -p "$out" downloads
           brochures=(
             academic-innovation-partnership
             innovation-in-academia
             modern-day-professional
             technology-to-emotions
           )
+          pushd "$src" >/dev/null
           for brochure in "${brochures[@]}"; do
             latexmk -pdf -interaction=nonstopmode -halt-on-error "$brochure.tex"
             pdfinfo "$brochure.pdf" | grep -q "Pages:[[:space:]]*4"
           done
+          popd >/dev/null
+          for brochure in "${brochures[@]}"; do
+            cp "$src/$brochure.pdf" "$out/$brochure.pdf"
+            cp "$src/$brochure.pdf" "downloads/$brochure.pdf"
+            base64 -w 76 "$src/$brochure.pdf" > "downloads/$brochure.pdf.b64"
+          done
 
-      - name: Publish PDF and browser-download assets
+      - name: Render executive one-slide pitch
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p downloads
-          brochures=(
-            academic-innovation-partnership
-            innovation-in-academia
-            modern-day-professional
-            technology-to-emotions
-          )
-          for brochure in "${brochures[@]}"; do
-            cp "brochures-latex/$brochure.pdf" "downloads/$brochure.pdf"
-            base64 -w 76 "brochures-latex/$brochure.pdf" > "downloads/$brochure.pdf.b64"
-          done
+          pitch="outreach/academic-institutions/pitch/academic-innovation-partnership-pitch.svg"
+          pdf="outreach/academic-institutions/pitch/academic-innovation-partnership-pitch.pdf"
+          png="outreach/academic-institutions/pitch/academic-innovation-partnership-pitch.png"
+          rsvg-convert -f pdf -o "$pdf" "$pitch"
+          rsvg-convert -f png -w 1920 -h 1080 -o "$png" "$pitch"
+          pdfinfo "$pdf" | grep -q "Pages:[[:space:]]*1"
+          cp "$pdf" downloads/academic-innovation-partnership-pitch.pdf
+          base64 -w 76 "$pdf" > downloads/academic-innovation-partnership-pitch.pdf.b64
 
-      - name: Upload brochure artifact
+      - name: Upload outreach artifact
         uses: actions/upload-artifact@v4
         with:
-          name: latex-brochures
+          name: academic-institution-outreach-package
           path: |
-            downloads/academic-innovation-partnership.pdf
-            downloads/innovation-in-academia.pdf
-            downloads/modern-day-professional.pdf
-            downloads/technology-to-emotions.pdf
+            outreach/academic-institutions/brochures/pdf/*.pdf
+            outreach/academic-institutions/pitch/academic-innovation-partnership-pitch.pdf
+            outreach/academic-institutions/pitch/academic-innovation-partnership-pitch.png
           if-no-files-found: error
 
-      - name: Commit generated brochures
+      - name: Commit generated outreach assets
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outreach/academic-institutions/brochures/pdf/*.pdf
+          git add outreach/academic-institutions/pitch/*.pdf outreach/academic-institutions/pitch/*.png
           git add downloads/*.pdf downloads/*.pdf.b64
           if git diff --cached --quiet; then
-            echo "Generated brochures are already current."
+            echo "Generated outreach assets are already current."
           else
-            git commit -m "Build modern LaTeX brochure PDFs [skip ci]"
+            git commit -m "Build academic outreach PDFs and pitch [skip ci]"
             git push origin HEAD:main
           fi
 
@@ -111,10 +114,4 @@ jobs:
         if: github.event_name == 'issues'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue close "${{ github.event.issue.number }}" --comment "The modern LaTeX brochures have been compiled and published to the website downloads directory."
-
-      - name: Close build trigger pull request
-        if: github.event_name == 'pull_request_target'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh pr close "${{ github.event.pull_request.number }}" --comment "The modern LaTeX brochures have been compiled and published to the website downloads directory."
+        run: gh issue close "${{ github.event.issue.number }}" --comment "The academic outreach brochures and executive pitch have been rebuilt and published."
