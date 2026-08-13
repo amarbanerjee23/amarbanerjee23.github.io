@@ -1,5 +1,11 @@
 (() => {
   const form = document.getElementById('innovation-diagnostic-form');
+  const diagnostic = document.getElementById('diagnostic');
+
+  if (window.location.hash === '#conversation' && diagnostic) {
+    requestAnimationFrame(() => diagnostic.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+
   if (!form) return;
 
   const status = document.getElementById('diagnostic-status');
