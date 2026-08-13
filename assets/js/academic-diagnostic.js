@@ -1,48 +1,11 @@
 (() => {
-  const form = document.getElementById('innovation-diagnostic-form');
-  const diagnostic = document.getElementById('diagnostic');
-
-  if (window.location.hash === '#conversation' && diagnostic) {
-    requestAnimationFrame(() => diagnostic.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-  }
-
-  if (!form) return;
-
-  const status = document.getElementById('diagnostic-status');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const data = new FormData(form);
-    const institution = String(data.get('institution') || '').trim();
-    const role = String(data.get('role') || '').trim();
-    const cohort = String(data.get('cohort') || '').trim();
-    const priority = String(data.get('priority') || '').trim();
-    const email = String(data.get('email') || '').trim();
-    const context = String(data.get('context') || '').trim();
-
-    if (!institution || !role || !cohort || !priority || !email) {
-      if (status) status.textContent = 'Please complete the five required fields.';
-      return;
-    }
-
-    const subject = `20-minute Institutional Innovation Diagnostic - ${institution}`;
-    const body = [
-      'Hello Dr Amar Banerjee,',
-      '',
-      'I would like to request a 20-minute Institutional Innovation Diagnostic.',
-      '',
-      `Institution: ${institution}`,
-      `My role: ${role}`,
-      `Cohort / department: ${cohort}`,
-      `Priority to strengthen: ${priority}`,
-      `My email: ${email}`,
-      context ? `Additional context: ${context}` : '',
-      '',
-      'I would like to identify one priority capability, one suitable pilot cohort, one measurable outcome and one practical starting format.',
-      '',
-      'Regards,'
-    ].filter(Boolean).join('\n');
-
-    if (status) status.textContent = 'Opening your email client with the context pre-filled.';
-    window.location.href = `mailto:amarbanerjee23@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
+const ensureStyles=()=>{const href='/assets/css/academic-assets-storytelling.css';if(document.querySelector(`link[href="${href}"]`))return;const link=document.createElement('link');link.rel='stylesheet';link.href=href;document.head.appendChild(link)};
+const flyers=[['Academic Innovation Partnership','/assets/generated/academic-outreach/flyers/academic-innovation-partnership.svg'],['Innovation in Academia','/assets/generated/academic-outreach/flyers/innovation-in-academia.svg'],['The Modern-Day Professional','/assets/generated/academic-outreach/flyers/modern-day-professional.svg'],['Connecting Technology to Emotions','/assets/generated/academic-outreach/flyers/connecting-technology-to-emotions.svg'],['The Art of Storytelling in Education','/assets/generated/academic-outreach/flyers/art-of-storytelling-in-education.svg']];
+const extendProgramArchitecture=()=>{const heading=document.querySelector('#programs .section-head h2');if(heading&&/Four connected capabilities/i.test(heading.textContent||''))heading.textContent='Five connected capabilities for an innovation-ready academic ecosystem.';const grid=document.querySelector('#programs .architecture-grid');if(grid)grid.classList.add('architecture-grid-five');if(grid&&!grid.querySelector('[data-storytelling-capability]')){const card=document.createElement('article');card.className='architecture-card reveal';card.dataset.storytellingCapability='true';card.innerHTML='<small>05 · STORYTELLING</small><h3>Narrative Thinking Lab</h3><p>Turn ideas, projects and research into narratives people can understand, remember and act on.</p>';grid.appendChild(card)}};
+const addStorytellingBlock=()=>{if(document.getElementById('storytelling-in-education'))return;const evidence=document.getElementById('evidence');if(!evidence)return;const section=document.createElement('section');section.className='section storytelling-institution';section.id='storytelling-in-education';section.innerHTML=`<div class="container storytelling-shell"><div class="section-head reveal"><span>A fifth capability: storytelling</span><h2>Ideas do not create impact until another human being can understand and remember them.</h2><p>Storytelling in education is not a substitute for technical rigor. It is the capability that helps students connect problem, evidence, meaning and action.</p></div><div class="storytelling-institution-grid"><article class="reveal"><small>FOR LEARNING</small><h3>Turn information into meaning.</h3><p>Stories organize complex concepts into mental models, helping students connect new knowledge to context and remember why it matters.</p></article><article class="reveal"><small>FOR RESEARCH</small><h3>Make contribution legible.</h3><p>A researcher must explain the problem, why it matters, what changed, what the evidence supports and where the limits remain.</p></article><article class="reveal"><small>FOR INNOVATION</small><h3>Make the future imaginable.</h3><p>Projects gain traction when an audience can see the human problem, the insight, the evidence and the proposed better future.</p></article></div><div class="storytelling-softskills reveal"><div><small>SOFT SKILLS</small><b>Speaking · confidence · etiquette · presence</b></div><span>≠</span><div><small>STORYTELLING</small><b>Meaning · narrative structure · evidence · memory · audience movement</b></div></div><div class="storytelling-cta reveal"><div><h3>The Art of Storytelling in Education</h3><p>A student program for project stories, research narratives, presentations and future-ready communication.</p></div><div class="actions"><a class="btn primary btn-arrow" href="workshops.html#storytelling">Explore the program <span>→</span></a><a class="btn secondary" href="/assets/generated/academic-outreach/flyers/art-of-storytelling-in-education.svg" target="_blank" rel="noopener">View flyer</a></div></div></div>`;evidence.insertAdjacentElement('beforebegin',section)};
+const addFlyerGallery=()=>{if(document.getElementById('academic-flyers'))return;const diagnostic=document.getElementById('diagnostic');if(!diagnostic)return;const section=document.createElement('section');section.className='section academic-flyer-library';section.id='academic-flyers';section.innerHTML=`<div class="container"><div class="section-head centered reveal"><span>Leadership-ready collateral</span><h2>Five program flyers, one connected institutional story.</h2><p>Use the institutional flyer first, then share the program-specific flyer that best matches the cohort or academic priority.</p></div><div class="flyer-grid reveal">${flyers.map(([title,href])=>`<a class="flyer-card" href="${href}" target="_blank" rel="noopener"><img src="${href}" alt="${title} flyer" loading="lazy"><span><b>${title}</b><em>Open flyer ↗</em></span></a>`).join('')}</div></div>`;diagnostic.insertAdjacentElement('beforebegin',section)};
+ensureStyles();extendProgramArchitecture();addStorytellingBlock();addFlyerGallery();
+document.querySelectorAll('a[href="#conversation"]').forEach(link=>{link.href='#diagnostic';if(/discuss/i.test(link.textContent||''))link.textContent='Request diagnostic'});
+const priority=document.getElementById('diag-priority');if(priority&&![...priority.options].some(option=>/Storytelling/.test(option.textContent))){const option=document.createElement('option');option.textContent='Storytelling and research / project communication';const fallback=[...priority.options].find(item=>/Not sure/i.test(item.textContent));priority.insertBefore(option,fallback||null)}
+const form=document.getElementById('innovation-diagnostic-form'),diagnostic=document.getElementById('diagnostic');if(window.location.hash==='#conversation'&&diagnostic)requestAnimationFrame(()=>diagnostic.scrollIntoView({behavior:'smooth',block:'start'}));if(!form)return;const status=document.getElementById('diagnostic-status');form.addEventListener('submit',event=>{event.preventDefault();const data=new FormData(form),institution=String(data.get('institution')||'').trim(),role=String(data.get('role')||'').trim(),cohort=String(data.get('cohort')||'').trim(),selectedPriority=String(data.get('priority')||'').trim(),email=String(data.get('email')||'').trim(),context=String(data.get('context')||'').trim();if(!institution||!role||!cohort||!selectedPriority||!email){if(status)status.textContent='Please complete the five required fields.';return}const subject=`20-minute Institutional Innovation Diagnostic - ${institution}`,body=['Hello Dr Amar Banerjee,','','I would like to request a 20-minute Institutional Innovation Diagnostic.','',`Institution: ${institution}`,`My role: ${role}`,`Cohort / department: ${cohort}`,`Priority to strengthen: ${selectedPriority}`,`My email: ${email}`,context?`Additional context: ${context}`:'','','I would like to identify one priority capability, one suitable pilot cohort, one measurable outcome and one practical starting format.','','Regards,'].filter(Boolean).join('\n');if(status)status.textContent='Opening your email client with the context pre-filled.';window.location.href=`mailto:amarbanerjee23@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`})
 })();

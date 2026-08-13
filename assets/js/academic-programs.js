@@ -1,130 +1,17 @@
 (() => {
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const primary = [
-    ['Home', 'index.html'],
-    ['Student innovation', '#student-innovation'],
-    ['Research excellence', '#research-excellence'],
-    ['Patents', '#patent-thinking'],
-    ['About & work', 'profile.html'],
-    ['Contact', '#contact']
-  ];
-  const story = [
-    ['#programs-opening', 'Programs'],
-    ['#student-innovation', 'Innovation'],
-    ['#research-excellence', 'Research'],
-    ['#patent-thinking', 'Patents'],
-    ['#formats', 'Formats'],
-    ['#contact', 'Contact']
-  ];
-
-  const promoteStyles = () => {
-    ['/assets/css/academic-future.css', '/assets/css/academic-programs.css', '/assets/css/sticky-nav-fix.css'].forEach(href => {
-      const link = document.querySelector(`link[href="${href}"]`);
-      if (link) document.head.appendChild(link);
-    });
-  };
-
-  const updateHeaderMetric = () => {
-    const header = document.querySelector('.site-header');
-    if (!header) return;
-    document.documentElement.style.setProperty('--live-header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
-  };
-
-  const bindSmooth = (link, target) => {
-    link.addEventListener('click', event => {
-      event.preventDefault();
-      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      history.replaceState(null, '', link.getAttribute('href'));
-      document.querySelector('#nav')?.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      document.querySelector('.nav-toggle')?.setAttribute('aria-expanded', 'false');
-    });
-  };
-
-  const resetPrimary = () => {
-    const nav = document.querySelector('#nav');
-    if (!nav) return;
-    nav.innerHTML = primary.map(([label, href]) => `<a href="${href}">${label}</a>`).join('');
-    nav.querySelectorAll('a[href^="#"]').forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) bindSmooth(link, target);
-    });
-  };
-
-  const resetStory = () => {
-    document.querySelectorAll('.story-nav').forEach(node => node.remove());
-    const available = story.map(([selector, label]) => {
-      const element = document.querySelector(selector);
-      return element ? { selector, label, element } : null;
-    }).filter(Boolean);
-    if (available.length < 2) return;
-
-    const nav = document.createElement('nav');
-    nav.className = 'story-nav academic-story-nav';
-    nav.setAttribute('aria-label', 'On this page');
-    nav.innerHTML = `<div class="story-nav-head"><small>On this page</small><span class="story-nav-count">1 / ${available.length}</span></div><ol class="story-nav-list">${available.map((item,index)=>`<li><a href="${item.selector}"${index===0?' aria-current="step"':''}><span class="story-nav-number">${String(index+1).padStart(2,'0')}</span><span class="story-nav-label">${item.label}</span></a></li>`).join('')}</ol><div class="story-progress-track" aria-hidden="true"><span class="story-progress-bar"></span></div>`;
-    document.querySelector('.site-header')?.insertAdjacentElement('afterend', nav);
-
-    const links = [...nav.querySelectorAll('a')];
-    const list = nav.querySelector('.story-nav-list');
-    const count = nav.querySelector('.story-nav-count');
-    const bar = nav.querySelector('.story-progress-bar');
-
-    const keepTabVisible = active => {
-      if (!active || !list || list.scrollWidth <= list.clientWidth) return;
-      const item = active.closest('li') || active;
-      const left = item.offsetLeft;
-      const right = left + item.offsetWidth;
-      const visibleLeft = list.scrollLeft;
-      const visibleRight = visibleLeft + list.clientWidth;
-      const padding = 12;
-      let next = visibleLeft;
-      if (left < visibleLeft + padding) next = Math.max(0, left - padding);
-      else if (right > visibleRight - padding) next = Math.min(list.scrollWidth - list.clientWidth, right - list.clientWidth + padding);
-      if (Math.abs(next - visibleLeft) > 1) list.scrollTo({ left: next, behavior: reduceMotion ? 'auto' : 'smooth' });
-    };
-
-    const activate = index => {
-      const safe = Math.max(0, Math.min(index, available.length - 1));
-      links.forEach((link,i)=>i===safe?link.setAttribute('aria-current','step'):link.removeAttribute('aria-current'));
-      if (count) count.textContent = `${safe + 1} / ${available.length}`;
-      if (bar) bar.style.width = `${((safe + 1) / available.length) * 100}%`;
-      keepTabVisible(links[safe]);
-    };
-
-    links.forEach((link,index)=>bindSmooth(link,available[index].element));
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => {
-        const visible = entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-        if (!visible) return;
-        const index = available.findIndex(item=>item.element===visible.target);
-        if (index >= 0) activate(index);
-      }, { rootMargin:'-24% 0px -64%', threshold:[0,.08,.2,.4] });
-      available.forEach(item=>observer.observe(item.element));
-    }
-    const hashIndex = available.findIndex(item=>item.selector===location.hash);
-    activate(hashIndex >= 0 ? hashIndex : 0);
-  };
-
-  const addVenueAmbition = () => {
-    const output = document.querySelector('#research-excellence .program-output span');
-    if (!output || output.dataset.venueAmbition === 'true') return;
-    output.dataset.venueAmbition = 'true';
-    output.textContent += ' The goal is not to treat Q2 or Q3 as the default destination. Students learn what Q1 journals and leading conferences expect, while understanding that acceptance can never be guaranteed.';
-  };
-
-  const init = () => {
-    document.querySelector('.academic-decision-strip')?.remove();
-    promoteStyles();
-    resetPrimary();
-    updateHeaderMetric();
-    resetStory();
-    addVenueAmbition();
-    const header = document.querySelector('.site-header');
-    if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
-    addEventListener('resize', updateHeaderMetric, { passive:true });
-    addEventListener('orientationchange', updateHeaderMetric, { passive:true });
-  };
-
-  addEventListener('load', () => setTimeout(init, 80), { once:true });
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const primary=[['Home','index.html'],['Student innovation','#student-innovation'],['Research excellence','#research-excellence'],['Patents','#patent-thinking'],['Storytelling','#storytelling'],['Contact','#contact']];
+const story=[['#programs-opening','Programs'],['#student-innovation','Innovation'],['#research-excellence','Research'],['#patent-thinking','Patents'],['#storytelling','Storytelling'],['#formats','Formats'],['#program-flyers','Flyers'],['#contact','Contact']];
+const flyers=[['Academic Innovation Partnership','/assets/generated/academic-outreach/flyers/academic-innovation-partnership.svg','Institutional leadership and pilot pathway'],['Innovation in Academia','/assets/generated/academic-outreach/flyers/innovation-in-academia.svg','Innovation thinking and research problem discovery'],['The Modern-Day Professional','/assets/generated/academic-outreach/flyers/modern-day-professional.svg','Future readiness beyond technical competence'],['Connecting Technology to Emotions','/assets/generated/academic-outreach/flyers/connecting-technology-to-emotions.svg','Human-centered and responsible technology'],['The Art of Storytelling in Education','/assets/generated/academic-outreach/flyers/art-of-storytelling-in-education.svg','Narrative thinking for ideas, research and impact']];
+const promoteStyles=()=>['/assets/css/academic-future.css','/assets/css/academic-programs.css','/assets/css/sticky-nav-fix.css','/assets/css/academic-assets-storytelling.css'].forEach(href=>{if(document.querySelector(`link[href="${href}"]`))return;const link=document.createElement('link');link.rel='stylesheet';link.href=href;document.head.appendChild(link)});
+const updateHeaderMetric=()=>{const header=document.querySelector('.site-header');if(header)document.documentElement.style.setProperty('--live-header-height',`${Math.ceil(header.getBoundingClientRect().height)}px`)};
+const bindSmooth=(link,target)=>link.addEventListener('click',event=>{event.preventDefault();target.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});history.replaceState(null,'',link.getAttribute('href'));document.querySelector('#nav')?.classList.remove('open');document.body.classList.remove('nav-open');document.querySelector('.nav-toggle')?.setAttribute('aria-expanded','false')});
+const resetPrimary=()=>{const nav=document.querySelector('#nav');if(!nav)return;nav.innerHTML=primary.map(([label,href])=>`<a href="${href}">${label}</a>`).join('');nav.querySelectorAll('a[href^="#"]').forEach(link=>{const target=document.querySelector(link.getAttribute('href'));if(target)bindSmooth(link,target)})};
+const resetStory=()=>{document.querySelectorAll('.story-nav').forEach(node=>node.remove());const available=story.map(([selector,label])=>{const element=document.querySelector(selector);return element?{selector,label,element}:null}).filter(Boolean);if(available.length<2)return;const nav=document.createElement('nav');nav.className='story-nav academic-story-nav';nav.setAttribute('aria-label','On this page');nav.innerHTML=`<div class="story-nav-head"><small>On this page</small><span class="story-nav-count">1 / ${available.length}</span></div><ol class="story-nav-list">${available.map((item,index)=>`<li><a href="${item.selector}"${index===0?' aria-current="step"':''}><span class="story-nav-number">${String(index+1).padStart(2,'0')}</span><span class="story-nav-label">${item.label}</span></a></li>`).join('')}</ol><div class="story-progress-track" aria-hidden="true"><span class="story-progress-bar"></span></div>`;document.querySelector('.site-header')?.insertAdjacentElement('afterend',nav);const links=[...nav.querySelectorAll('a')],count=nav.querySelector('.story-nav-count'),bar=nav.querySelector('.story-progress-bar');const activate=index=>{const safe=Math.max(0,Math.min(index,available.length-1));links.forEach((link,i)=>i===safe?link.setAttribute('aria-current','step'):link.removeAttribute('aria-current'));if(count)count.textContent=`${safe+1} / ${available.length}`;if(bar)bar.style.width=`${((safe+1)/available.length)*100}%`};links.forEach((link,index)=>bindSmooth(link,available[index].element));if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;const index=available.findIndex(item=>item.element===visible.target);if(index>=0)activate(index)},{rootMargin:'-24% 0px -64%',threshold:[0,.08,.2,.4]});available.forEach(item=>observer.observe(item.element))}const hashIndex=available.findIndex(item=>item.selector===location.hash);activate(hashIndex>=0?hashIndex:0)};
+const updateProgramOverview=()=>{const lead=document.querySelector('.academic-programs-hero .lead');if(lead)lead.textContent='The programs build five connected capabilities for an AI-shaped future: innovation thinking, research problem discovery, invention thinking, future-ready judgment and storytelling. Students practise them on real problems and leave with outputs they can continue after the session.';const note=document.querySelector('.program-hero-note');if(note)note.innerHTML='<small>THE PROBLEM-TO-PROOF-TO-STORY METHOD</small><ol><li><b>Think differently</b><span>Find and frame problems worth solving.</span></li><li><b>Research deeply</b><span>Turn consequential questions into defensible contributions.</span></li><li><b>Invent deliberately</b><span>Recognise when an idea has IP potential.</span></li><li><b>Communicate memorably</b><span>Turn ideas and evidence into stories audiences can understand and remember.</span></li></ol>';const copy=document.querySelector('.facilitator-focus-grid > div:last-child > p:last-of-type');if(copy)copy.textContent='The value I bring is the connection between innovative thinking, research rigor, patents, real-world problem framing and storytelling. Students see these as one connected way of thinking rather than separate academic activities.'};
+const addVenueAmbition=()=>{const output=document.querySelector('#research-excellence .program-output span');if(!output||output.dataset.venueAmbition==='true')return;output.dataset.venueAmbition='true';output.textContent+=' The goal is not to treat Q2 or Q3 as the default destination. Students learn what Q1 journals and leading conferences expect, while understanding that acceptance can never be guaranteed.'};
+const addStorytellingProgram=()=>{if(document.getElementById('storytelling'))return;const formats=document.getElementById('formats');if(!formats)return;const section=document.createElement('section');section.className='section storytelling-program';section.id='storytelling';section.innerHTML=`<div class="container storytelling-shell"><div class="program-detail-grid"><div class="program-sticky-intro reveal"><span>04 · Narrative thinking and communication</span><h2>The Art of Storytelling in Education</h2><p>For students who can explain a topic, project or paper but need to learn how to make an idea understandable, memorable and meaningful to a specific audience.</p><div class="program-audience"><b>Best for</b><span>Undergraduate and postgraduate students · research cohorts · project teams · innovation cells · student leaders</span></div><a class="storytelling-flyer-link" href="/assets/generated/academic-outreach/flyers/art-of-storytelling-in-education.svg" download>Download the storytelling flyer →</a></div><div class="program-detail reveal"><div class="storytelling-declaration"><small>NOT ANOTHER SOFT-SKILLS SESSION</small><h3>Storytelling is a thinking discipline before it is a speaking technique.</h3><p>Institutes may already cover speaking fluency, etiquette, confidence or presentation presence. Those are useful soft skills. Storytelling is different: it teaches students how to select meaning, structure an argument, create tension and relevance, translate evidence into a human narrative and help an audience remember why an idea matters.</p></div><div class="storytelling-contrast"><article><small>SOFT SKILLS OFTEN COVER</small><ul><li>Speaking fluency</li><li>Etiquette and confidence</li><li>Presentation presence</li><li>General communication</li></ul></article><article class="accent"><small>STORYTELLING TRAINS</small><ul><li>Narrative structure and meaning</li><li>Audience insight and relevance</li><li>Evidence-to-story translation</li><li>Memory, clarity and ethical influence</li></ul></article></div><h3>Why it belongs in education</h3><div class="storytelling-why-grid"><article><b>Learning</b><p>Stories organize complexity into mental models students can recall and transfer.</p></article><article><b>Research</b><p>A strong paper still needs a clear story of problem, contribution, evidence and limitation.</p></article><article><b>Innovation</b><p>Projects gain traction when people understand the problem, human consequence and proposed future.</p></article><article><b>Leadership</b><p>Students learn to make ideas legible to reviewers, employers, juries and decision-makers.</p></article></div><h3>What students practise</h3><div class="program-modules"><article><b>Narrative architecture</b><p>Build a beginning, tension, insight, evidence and resolution around an idea.</p></article><article><b>Audience and purpose</b><p>Change the story for a professor, reviewer, employer, investor or public audience.</p></article><article><b>Evidence into story</b><p>Use data and examples without losing rigor or inventing drama.</p></article><article><b>Research storytelling</b><p>Explain why the problem matters and what the contribution changes.</p></article><article><b>Visual narrative</b><p>Turn slides and figures into a guided reasoning journey rather than decoration.</p></article><article><b>Delivery and presence</b><p>Use voice, pacing, questions and pauses to make the structure easier to follow.</p></article></div><div class="program-output"><b>Student-owned outputs</b><span>Story map · 3-minute idea story · research/project narrative · one-slide story · final pitch · feedback-and-revision plan</span></div></div></div></div>`;formats.insertAdjacentElement('beforebegin',section)};
+const addFlyerGallery=()=>{if(document.getElementById('program-flyers'))return;const contact=document.getElementById('contact');if(!contact)return;const section=document.createElement('section');section.className='section soft academic-flyer-library';section.id='program-flyers';section.innerHTML=`<div class="container"><div class="section-head centered reveal"><span>Shareable program assets</span><h2>Program flyers ready for internal circulation.</h2><p>Open a flyer for a quick leadership or faculty preview, or download the scalable SVG for email, WhatsApp or internal academic review.</p></div><div class="flyer-grid reveal">${flyers.map(([title,href,note])=>`<a class="flyer-card" href="${href}" target="_blank" rel="noopener"><img src="${href}" alt="${title} flyer" loading="lazy"><span><b>${title}</b><small>${note}</small><em>Open flyer ↗</em></span></a>`).join('')}</div><div class="asset-archive-note reveal"><b>Asset archive</b><span>Scalable versions of the academic outreach visuals are versioned under <code>assets/generated/academic-outreach/</code> in the repository.</span></div></div>`;contact.insertAdjacentElement('beforebegin',section)};
+const init=()=>{document.querySelector('.academic-decision-strip')?.remove();promoteStyles();updateProgramOverview();addStorytellingProgram();addFlyerGallery();resetPrimary();updateHeaderMetric();resetStory();addVenueAmbition();const header=document.querySelector('.site-header');if('ResizeObserver'in window&&header)new ResizeObserver(updateHeaderMetric).observe(header);addEventListener('resize',updateHeaderMetric,{passive:true});addEventListener('orientationchange',updateHeaderMetric,{passive:true})};
+addEventListener('load',()=>setTimeout(init,80),{once:true});
 })();
