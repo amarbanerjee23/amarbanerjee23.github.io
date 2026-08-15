@@ -1,0 +1,190 @@
+/* High-contrast accessibility layer for academic-facing pages.
+   Keeps the navy/teal visual identity while ensuring text stays legible on its background. */
+:root{
+  --future-ink:#082538;
+  --future-teal:#08778f;
+  --future-muted:#425d69;
+  --contrast-body:#314e5c;
+  --contrast-muted:#425d69;
+  --contrast-teal:#06677d;
+  --contrast-dark:#061b31;
+  --contrast-dark-copy:#edf8fa;
+  --contrast-dark-muted:#dcecf1;
+  --contrast-dark-accent:#8de8f0;
+  --contrast-gold:#f8cf72;
+}
+
+/* Base typography on light surfaces */
+body.academic-future-home,
+body.academic-future-institution,
+body.academic-programs-page{color:var(--future-ink)}
+body.academic-future-home p,
+body.academic-future-institution p,
+body.academic-programs-page p{color:var(--contrast-body)}
+body.academic-future-home small,
+body.academic-future-institution small,
+body.academic-programs-page small{font-weight:700}
+
+/* Header + story navigation */
+body.academic-future-home .site-header,
+body.academic-future-institution .site-header,
+body.academic-programs-page .site-header,
+body.academic-future-home .story-nav,
+body.academic-future-institution .story-nav,
+body.academic-programs-page .story-nav{background:#fff;color:var(--future-ink)}
+body.academic-future-home .nav a,
+body.academic-future-institution .nav a,
+body.academic-programs-page .nav a,
+body.academic-future-home .story-nav a,
+body.academic-future-institution .story-nav a,
+body.academic-programs-page .story-nav a{color:#314f5f}
+body.academic-future-home .nav a:hover,
+body.academic-future-institution .nav a:hover,
+body.academic-programs-page .nav a:hover,
+body.academic-future-home .story-nav a:hover,
+body.academic-future-institution .story-nav a:hover,
+body.academic-programs-page .story-nav a:hover,
+body.academic-future-home .story-nav a[aria-current="step"],
+body.academic-future-institution .story-nav a[aria-current="step"],
+body.academic-programs-page .story-nav a[aria-current="step"]{color:#061b31}
+body.academic-future-home .story-nav-number,
+body.academic-future-institution .story-nav-number,
+body.academic-programs-page .story-nav-number{color:var(--contrast-teal)!important}
+
+/* Teal labels on white/light backgrounds need a darker teal than decorative teal. */
+body.academic-future-home .section-label,
+body.academic-future-home .future-contrast small,
+body.academic-future-home .innovation-journey small,
+body.academic-future-home .institution-options small,
+body.academic-future-institution .section-head>span,
+body.academic-future-institution .section-label,
+body.academic-future-institution .architecture-card small,
+body.academic-future-institution .role-card small,
+body.academic-programs-page .program-sticky-intro>span,
+body.academic-programs-page .format-choice-grid small,
+body.academic-programs-page .resource-card small{color:var(--contrast-teal);font-size:10px!important;line-height:1.4}
+
+/* Muted text on white/light cards */
+body.academic-future-home .future-contrast p,
+body.academic-future-home .innovation-journey p,
+body.academic-future-home .top-venue-stack p,
+body.academic-future-home .patent-lens p,
+body.academic-future-home .institution-options p,
+body.academic-future-home .future-evidence-grid span,
+body.academic-future-institution .role-card p,
+body.academic-future-institution .architecture-card p,
+body.academic-future-institution .section-head p,
+body.academic-programs-page .program-sticky-intro>p,
+body.academic-programs-page .program-detail>p,
+body.academic-programs-page .program-modules p,
+body.academic-programs-page .format-choice-grid p,
+body.academic-programs-page .resource-card p,
+body.academic-programs-page .facilitator-focus p{color:var(--contrast-muted)}
+body.academic-programs-page .program-modules p,
+body.academic-programs-page .format-choice-grid p,
+body.academic-programs-page .resource-card p{font-size:12.5px;line-height:1.62}
+
+/* Dark hero/panel surfaces */
+body.academic-future-home .academic-future-hero p,
+body.academic-future-institution .academic-hero p,
+body.academic-programs-page .academic-programs-hero p,
+body.academic-programs-page .program-hero-note span,
+body.academic-future-home .future-profile-copy>p,
+body.academic-future-home .future-profile-proof span,
+body.academic-future-institution .decision-confidence-card p,
+body.academic-future-institution .future-contact p,
+body.academic-programs-page .future-contact p{color:var(--contrast-dark-muted)!important}
+body.academic-future-home .academic-future-hero h1,
+body.academic-future-institution .academic-hero h1,
+body.academic-programs-page .academic-programs-hero h1,
+body.academic-future-institution .decision-confidence-card h2,
+body.academic-future-home .future-profile-copy h2,
+body.academic-future-institution .future-contact h2,
+body.academic-programs-page .future-contact h2{color:#fff!important}
+body.academic-future-home .academic-future-hero .eyebrow,
+body.academic-future-institution .academic-hero .eyebrow,
+body.academic-programs-page .academic-programs-hero .eyebrow,
+body.academic-future-home .future-profile-copy small,
+body.academic-programs-page .program-hero-note>small{color:var(--contrast-dark-accent)!important}
+body.academic-programs-page .program-hero-note>small,
+body.academic-future-home .future-profile-copy small{font-size:10px!important}
+
+/* Buttons: explicit foreground/background pairings */
+body.academic-future-home .btn.primary,
+body.academic-future-institution .btn.primary,
+body.academic-programs-page .btn.primary{color:#061b31;background:#fff;border-color:#fff}
+body.academic-future-home .btn.secondary,
+body.academic-future-institution .academic-hero .btn.secondary,
+body.academic-programs-page .academic-programs-hero .btn.secondary{color:#fff;border-color:rgba(255,255,255,.55)}
+body.academic-future-home .future-contact .btn.light,
+body.academic-future-institution .future-contact .btn.light,
+body.academic-programs-page .future-contact .btn.light{background:#fff;color:#061b31;border-color:#fff}
+body.academic-future-home .future-contact .btn.outline,
+body.academic-future-institution .future-contact .btn.outline,
+body.academic-programs-page .future-contact .btn.outline{color:#fff;border-color:rgba(255,255,255,.58)}
+
+/* Storytelling static section: explicit high-contrast pairings */
+body.academic-programs-page .storytelling-static-intro{background:linear-gradient(145deg,#061b31,#08384b);color:#fff}
+body.academic-programs-page .storytelling-static-intro>span{color:#9af0f4;font-size:10px!important}
+body.academic-programs-page .storytelling-static-intro h2{color:#fff}
+body.academic-programs-page .storytelling-static-intro p{color:#edf8fa;font-size:14.5px}
+body.academic-programs-page .storytelling-static-audience{background:rgba(255,255,255,.11);border-left-color:#73e0e9}
+body.academic-programs-page .storytelling-static-audience b{color:var(--contrast-gold);font-size:11px}
+body.academic-programs-page .storytelling-static-audience span{color:#fff;font-size:12.5px;line-height:1.6}
+body.academic-programs-page .storytelling-static-flyer{color:#fff;border-color:#8de8f0;background:rgba(141,232,240,.10);font-size:13px}
+body.academic-programs-page .storytelling-static-flyer:hover{background:#fff;color:#061b31}
+body.academic-programs-page .storytelling-static-declaration{background:#061b31;color:#fff}
+body.academic-programs-page .storytelling-static-declaration small{color:var(--contrast-gold);font-size:10px}
+body.academic-programs-page .storytelling-static-declaration h3{color:#fff}
+body.academic-programs-page .storytelling-static-declaration p{color:#edf8fa;font-size:14px}
+body.academic-programs-page .storytelling-static-contrast small{color:var(--contrast-teal);font-size:10px}
+body.academic-programs-page .storytelling-static-contrast ul{color:#314f5f}
+body.academic-programs-page .storytelling-static-contrast li{font-size:13px;line-height:1.55}
+body.academic-programs-page .storytelling-static-content>h3,
+body.academic-programs-page .storytelling-static-why b,
+body.academic-programs-page .storytelling-static-modules b{color:#061b31}
+body.academic-programs-page .storytelling-static-why p,
+body.academic-programs-page .storytelling-static-modules p{color:#3f5966;font-size:12.5px;line-height:1.62}
+body.academic-programs-page .storytelling-static-output{background:#061b31;color:#fff}
+body.academic-programs-page .storytelling-static-output b{color:#9af0f4;font-size:10.5px}
+body.academic-programs-page .storytelling-static-output span{color:#fff;font-size:13px}
+
+/* Avoid low-opacity text on cards and controls. */
+body.academic-future-home .availability-pill,
+body.academic-future-institution .availability-pill,
+body.academic-programs-page .availability-pill{color:#eef7fa!important}
+body.academic-future-home input,
+body.academic-future-home select,
+body.academic-future-home textarea,
+body.academic-future-institution input,
+body.academic-future-institution select,
+body.academic-future-institution textarea,
+body.academic-programs-page input,
+body.academic-programs-page select,
+body.academic-programs-page textarea{color:#082538;background:#fff;border-color:#9fb6c1}
+body.academic-future-home input::placeholder,
+body.academic-future-home textarea::placeholder,
+body.academic-future-institution input::placeholder,
+body.academic-future-institution textarea::placeholder,
+body.academic-programs-page input::placeholder,
+body.academic-programs-page textarea::placeholder{color:#506975;opacity:1}
+
+/* Focus visibility */
+body.academic-future-home a:focus-visible,
+body.academic-future-home button:focus-visible,
+body.academic-future-home input:focus-visible,
+body.academic-future-home select:focus-visible,
+body.academic-future-home textarea:focus-visible,
+body.academic-future-institution a:focus-visible,
+body.academic-future-institution button:focus-visible,
+body.academic-future-institution input:focus-visible,
+body.academic-future-institution select:focus-visible,
+body.academic-future-institution textarea:focus-visible,
+body.academic-programs-page a:focus-visible,
+body.academic-programs-page button:focus-visible{outline:3px solid #f3b933;outline-offset:3px}
+
+@media(max-width:620px){
+  body.academic-future-home p,
+  body.academic-future-institution p,
+  body.academic-programs-page p{line-height:1.68}
+}
