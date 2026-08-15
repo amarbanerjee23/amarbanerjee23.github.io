@@ -62,7 +62,7 @@ body.academic-future-institution .architecture-card small,
 body.academic-future-institution .role-card small,
 body.academic-programs-page .program-sticky-intro>span,
 body.academic-programs-page .format-choice-grid small,
-body.academic-programs-page .resource-card small{color:var(--contrast-teal)}
+body.academic-programs-page .resource-card small{color:var(--contrast-teal);font-size:10px!important;line-height:1.4}
 
 /* Muted text on white/light cards */
 body.academic-future-home .future-contrast p,
@@ -80,6 +80,9 @@ body.academic-programs-page .program-modules p,
 body.academic-programs-page .format-choice-grid p,
 body.academic-programs-page .resource-card p,
 body.academic-programs-page .facilitator-focus p{color:var(--contrast-muted)}
+body.academic-programs-page .program-modules p,
+body.academic-programs-page .format-choice-grid p,
+body.academic-programs-page .resource-card p{font-size:12.5px;line-height:1.62}
 
 /* Dark hero/panel surfaces */
 body.academic-future-home .academic-future-hero p,
@@ -103,6 +106,8 @@ body.academic-future-institution .academic-hero .eyebrow,
 body.academic-programs-page .academic-programs-hero .eyebrow,
 body.academic-future-home .future-profile-copy small,
 body.academic-programs-page .program-hero-note>small{color:var(--contrast-dark-accent)!important}
+body.academic-programs-page .program-hero-note>small,
+body.academic-future-home .future-profile-copy small{font-size:10px!important}
 
 /* Buttons: explicit foreground/background pairings */
 body.academic-future-home .btn.primary,
@@ -120,28 +125,29 @@ body.academic-programs-page .future-contact .btn.outline{color:#fff;border-color
 
 /* Storytelling static section: explicit high-contrast pairings */
 body.academic-programs-page .storytelling-static-intro{background:linear-gradient(145deg,#061b31,#08384b);color:#fff}
-body.academic-programs-page .storytelling-static-intro>span{color:#9af0f4}
+body.academic-programs-page .storytelling-static-intro>span{color:#9af0f4;font-size:10px!important}
 body.academic-programs-page .storytelling-static-intro h2{color:#fff}
-body.academic-programs-page .storytelling-static-intro p{color:#edf8fa}
+body.academic-programs-page .storytelling-static-intro p{color:#edf8fa;font-size:14.5px}
 body.academic-programs-page .storytelling-static-audience{background:rgba(255,255,255,.11);border-left-color:#73e0e9}
-body.academic-programs-page .storytelling-static-audience b{color:var(--contrast-gold)}
-body.academic-programs-page .storytelling-static-audience span{color:#fff}
-body.academic-programs-page .storytelling-static-flyer{color:#fff;border-color:#8de8f0;background:rgba(141,232,240,.10)}
+body.academic-programs-page .storytelling-static-audience b{color:var(--contrast-gold);font-size:11px}
+body.academic-programs-page .storytelling-static-audience span{color:#fff;font-size:12.5px;line-height:1.6}
+body.academic-programs-page .storytelling-static-flyer{color:#fff;border-color:#8de8f0;background:rgba(141,232,240,.10);font-size:13px}
 body.academic-programs-page .storytelling-static-flyer:hover{background:#fff;color:#061b31}
 body.academic-programs-page .storytelling-static-declaration{background:#061b31;color:#fff}
-body.academic-programs-page .storytelling-static-declaration small{color:var(--contrast-gold)}
+body.academic-programs-page .storytelling-static-declaration small{color:var(--contrast-gold);font-size:10px}
 body.academic-programs-page .storytelling-static-declaration h3{color:#fff}
-body.academic-programs-page .storytelling-static-declaration p{color:#edf8fa}
-body.academic-programs-page .storytelling-static-contrast small{color:var(--contrast-teal)}
+body.academic-programs-page .storytelling-static-declaration p{color:#edf8fa;font-size:14px}
+body.academic-programs-page .storytelling-static-contrast small{color:var(--contrast-teal);font-size:10px}
 body.academic-programs-page .storytelling-static-contrast ul{color:#314f5f}
+body.academic-programs-page .storytelling-static-contrast li{font-size:13px;line-height:1.55}
 body.academic-programs-page .storytelling-static-content>h3,
 body.academic-programs-page .storytelling-static-why b,
 body.academic-programs-page .storytelling-static-modules b{color:#061b31}
 body.academic-programs-page .storytelling-static-why p,
-body.academic-programs-page .storytelling-static-modules p{color:#3f5966}
+body.academic-programs-page .storytelling-static-modules p{color:#3f5966;font-size:12.5px;line-height:1.62}
 body.academic-programs-page .storytelling-static-output{background:#061b31;color:#fff}
-body.academic-programs-page .storytelling-static-output b{color:#9af0f4}
-body.academic-programs-page .storytelling-static-output span{color:#fff}
+body.academic-programs-page .storytelling-static-output b{color:#9af0f4;font-size:10.5px}
+body.academic-programs-page .storytelling-static-output span{color:#fff;font-size:13px}
 
 /* Avoid low-opacity text on cards and controls. */
 body.academic-future-home .availability-pill,
