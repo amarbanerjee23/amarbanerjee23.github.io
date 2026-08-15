@@ -20,9 +20,14 @@
   ];
 
   const promoteStyles = () => {
-    ['/assets/css/academic-future.css', '/assets/css/sticky-nav-fix.css'].forEach(href => {
-      const link = document.querySelector(`link[href="${href}"]`);
-      if (link) document.head.appendChild(link);
+    ['/assets/css/academic-future.css', '/assets/css/sticky-nav-fix.css', '/assets/css/academic-contrast.css'].forEach(href => {
+      let link = document.querySelector(`link[href="${href}"]`);
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+      }
+      document.head.appendChild(link);
     });
   };
 
