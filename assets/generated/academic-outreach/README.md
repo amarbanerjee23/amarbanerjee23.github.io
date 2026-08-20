@@ -31,4 +31,6 @@ This folder is the repository-native archive for the visual assets developed dur
 
 The website brochure library links to the canonical generated PDFs under `outreach/academic-institutions/brochures/pdf/`. The current set contains the master Academic Innovation Programs booklet, the Academic Innovation Partnership leadership brief, and the four specialist program brochures. These PDFs are produced from the shared LaTeX design system and are validated by the brochure build before publication.
 
+Canonical brochure references used by the website are also covered by the static-site asset-integrity gate, so a missing published PDF blocks the website change rather than creating a broken visitor download.
+
 The SVG files are intentionally repository-native and scalable so that the website can display them without pixelation and academic teams can download them directly. They preserve the narrative, hierarchy and visual language of the generated chat assets while remaining easy to version and maintain in Git.
