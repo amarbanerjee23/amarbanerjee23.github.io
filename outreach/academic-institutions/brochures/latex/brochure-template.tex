@@ -1,0 +1,73 @@
+% Academic Innovation brochure design system
+% Spacious two-page program brochures to prevent clipping/overflow.
+\usepackage[a4paper,margin=11mm,top=10mm,bottom=10mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[default]{sourcesanspro}
+\usepackage{microtype}
+\usepackage{xcolor,graphicx,tikz,tabularx,array,enumitem,hyperref,ragged2e}
+\usepackage[most]{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usetikzlibrary{calc,positioning}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=4.2mm,itemsep=1.4mm,topsep=1mm,parsep=0pt}
+\hypersetup{colorlinks=true,urlcolor=blue!50!black,pdfauthor={Dr Amar Banerjee}}
+
+\definecolor{BroNavy}{HTML}{0B2942}
+\definecolor{BroInk}{HTML}{182B3A}
+\definecolor{BroMuted}{HTML}{4E6573}
+\definecolor{BroPaper}{HTML}{F7FAFB}
+\definecolor{BroLine}{HTML}{DCE7EC}
+\definecolor{BroGold}{HTML}{E4B44D}
+\newcommand{\SetAccent}[2]{\definecolor{Accent}{HTML}{#1}\definecolor{AccentSoft}{HTML}{#2}}
+\newcommand{\SmallCaps}[1]{{\fontsize{8}{9.5}\selectfont\bfseries\color{Accent}\MakeUppercase{#1}}}
+\newcommand{\SectionTitle}[1]{{\RaggedRight\fontsize{14}{16}\selectfont\bfseries\color{BroInk}#1\par}\vspace{1mm}{\color{Accent}\rule{14mm}{.8pt}}\vspace{1.8mm}}
+\newcommand{\BodyText}[1]{{\RaggedRight\fontsize{9.2}{12}\selectfont\color{BroMuted}#1}}
+\newcommand{\TightText}[1]{{\RaggedRight\fontsize{8.65}{11}\selectfont\color{BroMuted}#1}}
+\newcommand{\CardGap}{\vspace{3mm}}
+\newcommand{\BulletList}[1]{\begin{itemize}[label=\textcolor{Accent}{\scriptsize$\bullet$}]#1\end{itemize}}
+\newcommand{\MetaItem}[3]{\begin{minipage}[c]{.23\linewidth}\centering\textcolor{Accent}{#1}\hspace{1mm}{\fontsize{7.3}{8.8}\selectfont\bfseries\color{BroMuted}\MakeUppercase{#2}}\\[-.2mm]{\fontsize{8.8}{10.3}\selectfont\bfseries\color{BroInk}#3}\end{minipage}}
+\newtcolorbox{BroCard}[1][]{enhanced,colback=white,colframe=BroLine,boxrule=.55pt,arc=2.5mm,left=4mm,right=4mm,top=3.2mm,bottom=3.2mm,#1}
+\newtcolorbox{SoftCard}[1][]{enhanced,colback=AccentSoft,colframe=Accent!25,boxrule=.5pt,arc=2.5mm,left=4mm,right=4mm,top=3.2mm,bottom=3.2mm,#1}
+\newtcolorbox{DarkCard}[1][]{enhanced,colback=BroNavy,colframe=BroNavy,boxrule=0pt,arc=2.5mm,left=4.3mm,right=4.3mm,top=3.5mm,bottom=3.5mm,#1}
+\newtcolorbox{GoldCard}[1][]{enhanced,colback=BroGold!11,colframe=BroGold!60,boxrule=.55pt,arc=2.5mm,left=4mm,right=4mm,top=3.2mm,bottom=3.2mm,#1}
+
+\newcommand{\Hero}[5]{%
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[BroNavy] (current page.north west) rectangle ($(current page.north east)+(0,-49mm)$);
+  \fill[Accent] ($(current page.north west)+(0,-47.5mm)$) rectangle ($(current page.north east)+(0,-49mm)$);
+  \fill[Accent!18!BroNavy] ($(current page.north east)+(-28mm,-17mm)$) circle (33mm);
+  \draw[Accent!45,line width=.7pt] ($(current page.north east)+(-72mm,-6mm)$) -- ($(current page.north east)+(-30mm,-44mm)$);
+  \node[circle,fill=Accent,minimum size=29mm,text=white,font=\fontsize{26}{28}\selectfont\bfseries] at ($(current page.north east)+(-25mm,-25mm)$) {#5};
+  \node[text=white,font=\fontsize{6.8}{8}\selectfont\bfseries] at ($(current page.north east)+(-25mm,-37mm)$) {PROGRAM};
+\end{tikzpicture}
+\vspace*{5mm}
+\begin{minipage}[t]{.73\textwidth}
+{\color{Accent}\fontsize{7.8}{9.3}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{2mm}
+{\color{white}\fontsize{24}{25}\selectfont\bfseries #2\par}\vspace{1.7mm}
+{\color{white!90}\fontsize{10}{12}\selectfont #3\par}\vspace{2mm}
+{\color{BroGold}\fontsize{7.8}{9.3}\selectfont\bfseries \faBolt\hspace{1mm} VALUE PROMISE: #4\par}
+\end{minipage}\vspace{7.5mm}}
+\newcommand{\CompactHero}[3]{\begin{tikzpicture}[remember picture,overlay]\fill[BroNavy](current page.north west) rectangle ($(current page.north east)+(0,-40mm)$);\fill[Accent]($(current page.north west)+(0,-38.5mm)$) rectangle ($(current page.north east)+(0,-40mm)$);\end{tikzpicture}\vspace*{2.7mm}{\color{Accent}\fontsize{7.4}{9}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{1.5mm}{\color{white}\fontsize{20}{21}\selectfont\bfseries #2\par}\vspace{1mm}{\color{white!88}\fontsize{8.8}{10.5}\selectfont #3\par}\vspace{12mm}}
+\newcommand{\BigHero}[3]{%
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[BroNavy](current page.north west) rectangle ($(current page.north east)+(0,-49mm)$);
+  \fill[Accent!18!BroNavy] ($(current page.north east)+(-24mm,-19mm)$) circle (34mm);
+  \fill[Accent] ($(current page.north west)+(0,-47.5mm)$) rectangle ($(current page.north east)+(0,-49mm)$);
+\end{tikzpicture}
+\vspace*{6mm}\begin{minipage}[t]{.68\textwidth}
+{\color{Accent}\fontsize{7.8}{9.3}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{2mm}
+{\color{white}\fontsize{25}{26}\selectfont\bfseries #2\par}\vspace{1.5mm}
+{\color{BroGold}\fontsize{10}{12}\selectfont\bfseries #3\par}
+\end{minipage}\vspace{11mm}}
+\newcommand{\MetaBar}[4]{\begin{tcolorbox}[colback=AccentSoft,colframe=AccentSoft,boxrule=0pt,arc=2.8mm,left=2mm,right=2mm,top=2.6mm,bottom=2.6mm]\MetaItem{\faUsers}{Audience}{#1}\hfill\MetaItem{\faClock}{Duration}{#2}\hfill\MetaItem{\faChalkboardTeacher}{Format}{#3}\hfill\MetaItem{\faRupeeSign}{Investment}{#4}\end{tcolorbox}}
+\newcommand{\WhyCard}[3]{\begin{BroCard}\SectionTitle{Why this matters now}\begin{SoftCard}[boxrule=0pt]\SmallCaps{For academic leaders}\par\vspace{.8mm}{\fontsize{9.1}{11.2}\selectfont\bfseries\color{BroInk}#1}\end{SoftCard}\vspace{2.2mm}\begin{minipage}[t]{.48\linewidth}\SmallCaps{Why students need it}\par\vspace{1mm}\TightText{#2}\end{minipage}\hfill\begin{minipage}[t]{.48\linewidth}\SmallCaps{Why academicians need it}\par\vspace{1mm}\TightText{#3}\end{minipage}\end{BroCard}}
+\newcommand{\TwinCard}[4]{\begin{BroCard}\begin{minipage}[t]{.48\linewidth}\SectionTitle{#1}\TightText{#2}\end{minipage}\hfill\begin{minipage}[t]{.48\linewidth}\SectionTitle{#3}\TightText{#4}\end{minipage}\end{BroCard}}
+\newcommand{\SideCard}[2]{\begin{BroCard}\SectionTitle{#1}\TightText{#2}\end{BroCard}}
+\newcommand{\InvestmentCard}[2]{\begin{GoldCard}\SectionTitle{Investment \& included value}{\fontsize{9}{11}\selectfont\bfseries\color{BroInk}#1\par}\vspace{1.2mm}\TightText{#2}\end{GoldCard}}
+\newcommand{\JourneyRow}[3]{\begin{minipage}[t]{.24\linewidth}{\fontsize{8}{9.4}\selectfont\bfseries\color{Accent}#1}\end{minipage}\begin{minipage}[t]{.62\linewidth}{\fontsize{8.45}{10.5}\selectfont\color{BroMuted}\textbf{\color{BroInk}#2}: #3}\end{minipage}\par\vspace{1.2mm}}
+\newcommand{\ProgramFooter}[1]{\vfill\begin{tcolorbox}[colback=BroNavy,colframe=BroNavy,boxrule=0pt,arc=2mm,left=5mm,right=5mm,top=2.8mm,bottom=2.8mm]\begin{minipage}{.64\linewidth}{\fontsize{7.7}{9.2}\selectfont\bfseries\color{white}#1}\end{minipage}\hfill\begin{minipage}{.32\linewidth}\RaggedLeft{\fontsize{6.9}{8.2}\selectfont\color{white}amarbanerjee23@gmail.com}\end{minipage}\end{tcolorbox}}
+\newcommand{\MiniPill}[2]{\tikz[baseline=(n.base)]\node[fill=AccentSoft,rounded corners=2mm,inner xsep=2.2mm,inner ysep=.9mm,text=BroInk,font=\fontsize{7}{8.2}\selectfont\bfseries](n){\textcolor{Accent}{#1}\ #2};}
+\newcommand{\HeadshotBox}{\begin{tikzpicture}[remember picture,overlay]\node[anchor=north east] at ($(current page.north east)+(-13mm,-7mm)$) {\begin{tcolorbox}[colback=white,colframe=BroGold,boxrule=.8pt,arc=3mm,left=0pt,right=0pt,top=0pt,bottom=0pt,width=34mm,height=42mm]\IfFileExists{../../../../assets/media/portraits/headshot.png}{\includegraphics[width=34mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}}{\includegraphics[width=34mm,height=42mm,keepaspectratio]{../assets/headshot.png}}\end{tcolorbox}};\end{tikzpicture}}
