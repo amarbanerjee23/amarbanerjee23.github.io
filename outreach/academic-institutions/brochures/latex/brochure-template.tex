@@ -41,14 +41,23 @@
 \newtcolorbox{DarkCard}[1][]{enhanced,colback=BroNavy,colframe=BroNavy,boxrule=0pt,arc=2.8mm,left=4.5mm,right=4.5mm,top=3.7mm,bottom=3.7mm,#1}
 \newtcolorbox{GoldCard}[1][]{enhanced,colback=BroGold!10,colframe=BroGold!38,boxrule=.45pt,arc=2.8mm,left=4.5mm,right=4.5mm,top=3.5mm,bottom=3.5mm,#1}
 
+% Absolute page decoration must not participate in TeX line breaking.  Wrapping
+% overlay-only TikZ drawings in a smashed zero-width box preserves their page
+% coordinates while preventing false Overfull \hbox warnings in strict builds.
+\newcommand{\PageOverlay}[1]{%
+  \noindent\makebox[0pt][l]{%
+    \smash{\begin{tikzpicture}[remember picture,overlay]#1\end{tikzpicture}}%
+  }\par\nointerlineskip\ignorespaces%
+}
+
 \newcommand{\Hero}[5]{%
-\begin{tikzpicture}[remember picture,overlay]
+\PageOverlay{%
   \fill[BroNavy] (current page.north west) rectangle ($(current page.north east)+(0,-50mm)$);
   \fill[Accent] ($(current page.north west)+(0,-48.6mm)$) rectangle ($(current page.north east)+(0,-50mm)$);
   \fill[Accent!14!BroNavy] ($(current page.north east)+(-20mm,-19mm)$) circle (31mm);
   \node[circle,fill=Accent,minimum size=27mm,text=white,font=\fontsize{24}{26}\selectfont\bfseries] at ($(current page.north east)+(-24mm,-25mm)$) {#5};
   \node[text=white,font=\fontsize{6.7}{8}\selectfont\bfseries] at ($(current page.north east)+(-24mm,-36.5mm)$) {PROGRAM};
-\end{tikzpicture}
+}
 \vspace*{5.2mm}
 \begin{minipage}[t]{.72\textwidth}
 {\color{Accent}\fontsize{7.8}{9.3}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{2.1mm}
@@ -58,21 +67,21 @@
 \end{minipage}\vspace{7.3mm}}
 
 \newcommand{\CompactHero}[3]{%
-\begin{tikzpicture}[remember picture,overlay]
+\PageOverlay{%
   \fill[BroNavy](current page.north west) rectangle ($(current page.north east)+(0,-38mm)$);
   \fill[Accent]($(current page.north west)+(0,-36.6mm)$) rectangle ($(current page.north east)+(0,-38mm)$);
-\end{tikzpicture}
+}
 \vspace*{2.4mm}
 {\color{Accent}\fontsize{7.6}{9}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{1.5mm}
 {\color{white}\fontsize{19.5}{20.8}\selectfont\bfseries #2\par}\vspace{1.3mm}
 {\color{white!90}\fontsize{9.1}{11}\selectfont #3\par}\vspace{10.8mm}}
 
 \newcommand{\BigHero}[3]{%
-\begin{tikzpicture}[remember picture,overlay]
+\PageOverlay{%
   \fill[BroNavy](current page.north west) rectangle ($(current page.north east)+(0,-47mm)$);
   \fill[Accent!14!BroNavy] ($(current page.north east)+(-22mm,-18mm)$) circle (31mm);
   \fill[Accent] ($(current page.north west)+(0,-45.6mm)$) rectangle ($(current page.north east)+(0,-47mm)$);
-\end{tikzpicture}
+}
 \vspace*{5.5mm}\begin{minipage}[t]{.70\textwidth}
 {\color{Accent}\fontsize{7.8}{9.3}\selectfont\bfseries\MakeUppercase{#1}\par}\vspace{2mm}
 {\color{white}\fontsize{24}{25.4}\selectfont\bfseries #2\par}\vspace{1.7mm}
@@ -93,4 +102,8 @@
 
 \newcommand{\ProgramFooter}[1]{\vfill\begin{tcolorbox}[colback=BroNavy,colframe=BroNavy,boxrule=0pt,arc=2mm,left=5mm,right=5mm,top=2.9mm,bottom=2.9mm]\begin{minipage}{.67\linewidth}{\fontsize{7.7}{9.2}\selectfont\bfseries\color{white}#1}\end{minipage}\hfill\begin{minipage}{.29\linewidth}\RaggedLeft{\fontsize{7.1}{8.5}\selectfont\color{white}amarbanerjee23@gmail.com}\end{minipage}\end{tcolorbox}}
 \newcommand{\MiniPill}[2]{\tikz[baseline=(n.base)]\node[fill=AccentSoft,rounded corners=2mm,inner xsep=2.2mm,inner ysep=.9mm,text=BroInk,font=\fontsize{7.2}{8.5}\selectfont\bfseries](n){\textcolor{Accent}{#1}\ #2};}
-\newcommand{\HeadshotBox}{\begin{tikzpicture}[remember picture,overlay]\node[anchor=north east] at ($(current page.north east)+(-13mm,-7mm)$) {\begin{tcolorbox}[colback=white,colframe=BroGold,boxrule=.8pt,arc=3mm,left=0pt,right=0pt,top=0pt,bottom=0pt,width=34mm,height=42mm]\IfFileExists{../../../../assets/media/portraits/headshot.png}{\includegraphics[width=34mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}}{\begin{tikzpicture}\fill[AccentSoft](0,0)rectangle(34mm,42mm);\node[text=Accent,font=\bfseries\Large]at(17mm,21mm){AB};\end{tikzpicture}}\end{tcolorbox}};\end{tikzpicture}}
+\newcommand{\HeadshotBox}{%
+\PageOverlay{%
+  \node[anchor=north east] at ($(current page.north east)+(-13mm,-7mm)$) {\begin{tcolorbox}[colback=white,colframe=BroGold,boxrule=.8pt,arc=3mm,left=0pt,right=0pt,top=0pt,bottom=0pt,width=34mm,height=42mm]\IfFileExists{../../../../assets/media/portraits/headshot.png}{\includegraphics[width=34mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}}{\begin{tikzpicture}\fill[AccentSoft](0,0)rectangle(34mm,42mm);\node[text=Accent,font=\bfseries\Large]at(17mm,21mm){AB};\end{tikzpicture}}\end{tcolorbox}};
+}%
+}
