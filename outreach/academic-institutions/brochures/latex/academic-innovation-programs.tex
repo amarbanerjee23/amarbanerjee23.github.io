@@ -1,10 +1,23 @@
 \documentclass[10pt,a4paper]{article}
 \input{brochure-template.tex}
+
+% The master brochure includes the facilitator section, so use the real portrait
+% and a zero-width overlay-safe TikZ node to avoid layout warnings.
+\renewcommand{\HeadshotBox}{%
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,inner sep=1mm,fill=white,draw=BroGold,line width=.9pt,rounded corners=3mm]
+    at ($(current page.north east)+(-12mm,-6.5mm)$) {%
+      \includegraphics[width=35mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}%
+    };
+\end{tikzpicture}\ignorespaces%
+}
+
 \begin{document}
 \input{innovation-in-academia-page.tex}
 \input{modern-day-professional-page.tex}
 \input{technology-to-emotions-page.tex}
 \input{storytelling-in-education-page.tex}
+\input{innovation-pillars-page.tex}
 \input{facilitator-page.tex}
 \input{collaboration-page.tex}
 \end{document}

@@ -64,12 +64,12 @@ jobs:
             academic-innovation-programs
           )
           declare -A expected_pages=(
-            [academic-innovation-partnership]=4
-            [innovation-in-academia]=2
-            [modern-day-professional]=2
-            [technology-to-emotions]=2
-            [storytelling-in-education]=2
-            [academic-innovation-programs]=12
+            [academic-innovation-partnership]=6
+            [innovation-in-academia]=4
+            [modern-day-professional]=4
+            [technology-to-emotions]=4
+            [storytelling-in-education]=4
+            [academic-innovation-programs]=14
           )
 
           pushd "$src" >/dev/null
