@@ -1,0 +1,1 @@
+The Academic Innovation Partnership brochure requires the repository portrait at assets/media/portraits/headshot.png. The build intentionally fails instead of substituting initials if that portrait is unavailable.
