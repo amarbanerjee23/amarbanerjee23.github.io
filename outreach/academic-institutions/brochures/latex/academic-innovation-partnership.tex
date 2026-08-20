@@ -4,14 +4,15 @@
 % The partnership brief is facilitator-led, so the real portrait is part of the
 % first-page identity. Do not silently fall back to initials: if the repository
 % portrait is unavailable, the brochure build should fail rather than publish a
-% placeholder.
+% placeholder. The page overlay is zero-size in TeX's flow, so absolute portrait
+% positioning cannot create a false overfull box.
 \renewcommand{\HeadshotBox}{%
-\begin{tikzpicture}[remember picture,overlay]
+\PageOverlay{%
   \node[anchor=north east,inner sep=1mm,fill=white,draw=BroGold,line width=.9pt,rounded corners=3mm]
     at ($(current page.north east)+(-12mm,-6.5mm)$) {%
       \includegraphics[width=35mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}%
     };
-\end{tikzpicture}\ignorespaces%
+}%
 }
 
 \begin{document}
