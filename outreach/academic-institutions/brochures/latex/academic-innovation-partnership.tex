@@ -1,5 +1,28 @@
 \documentclass[10pt,a4paper]{article}
 \input{brochure-template.tex}
+
+% The partnership brief is facilitator-led, so the real portrait is part of the
+% first-page identity. Do not silently fall back to initials: if the repository
+% portrait is unavailable, the brochure build should fail rather than publish a
+% placeholder.
+\renewcommand{\HeadshotBox}{%
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east] at ($(current page.north east)+(-12mm,-6.5mm)$) {%
+    \begin{tcolorbox}[
+      colback=white,
+      colframe=BroGold,
+      boxrule=.9pt,
+      arc=3mm,
+      left=1mm,right=1mm,top=1mm,bottom=1mm,
+      width=38mm,height=45mm,
+      halign=center,valign=center
+    ]
+      \includegraphics[width=35mm,height=42mm,keepaspectratio]{../../../../assets/media/portraits/headshot.png}
+    \end{tcolorbox}%
+  };
+\end{tikzpicture}%
+}
+
 \begin{document}
 \input{facilitator-page.tex}
 \input{collaboration-page.tex}
