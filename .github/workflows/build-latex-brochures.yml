@@ -43,28 +43,60 @@ jobs:
             texlive-latex-extra \
             texlive-pictures \
             texlive-fonts-recommended \
+            texlive-fonts-extra \
             poppler-utils \
             librsvg2-bin
 
-      - name: Compile institution-ready brochures
+      - name: Compile and preflight institution-ready brochures
         shell: bash
         run: |
           set -euo pipefail
           src="outreach/academic-institutions/brochures/latex"
           out="outreach/academic-institutions/brochures/pdf"
           mkdir -p "$out" downloads
+
           brochures=(
             academic-innovation-partnership
             innovation-in-academia
             modern-day-professional
             technology-to-emotions
+            storytelling-in-education
+            academic-innovation-programs
           )
+          declare -A expected_pages=(
+            [academic-innovation-partnership]=4
+            [innovation-in-academia]=2
+            [modern-day-professional]=2
+            [technology-to-emotions]=2
+            [storytelling-in-education]=2
+            [academic-innovation-programs]=12
+          )
+
           pushd "$src" >/dev/null
           for brochure in "${brochures[@]}"; do
             latexmk -pdf -interaction=nonstopmode -halt-on-error "$brochure.tex"
-            pdfinfo "$brochure.pdf" | grep -q "Pages:[[:space:]]*4"
+
+            pages="$(pdfinfo "$brochure.pdf" | awk '/^Pages:/ {print $2}')"
+            test "$pages" = "${expected_pages[$brochure]}" || {
+              echo "Unexpected page count for $brochure: $pages"
+              exit 1
+            }
+
+            if grep -Eq 'Overfull \\[hv]box|LaTeX Error|Package .* Error' "$brochure.log"; then
+              echo "Layout/compiler error detected in $brochure.log"
+              grep -E 'Overfull \\[hv]box|LaTeX Error|Package .* Error' "$brochure.log"
+              exit 1
+            fi
+
+            rm -f "/tmp/${brochure}-"*.png
+            pdftoppm -png -r 72 "$brochure.pdf" "/tmp/${brochure}" >/dev/null 2>&1
+            test -f "/tmp/${brochure}-1.png" || {
+              echo "Render verification failed for $brochure"
+              exit 1
+            }
           done
           popd >/dev/null
+
           for brochure in "${brochures[@]}"; do
             cp "$src/$brochure.pdf" "$out/$brochure.pdf"
             cp "$src/$brochure.pdf" "downloads/$brochure.pdf"
