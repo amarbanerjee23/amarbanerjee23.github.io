@@ -1,0 +1,98 @@
+name: PR26 publish brochure assets
+
+on:
+  push:
+    branches:
+      - agent/update-brochure-download-links
+    paths:
+      - '.github/workflows/pr26-publish-brochures.yml'
+      - 'outreach/academic-institutions/brochures/latex/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pr26-brochure-assets
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: agent/update-brochure-download-links
+
+      - name: Install document tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-pictures \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            poppler-utils
+
+      - name: Compile and preflight all brochures
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="outreach/academic-institutions/brochures/latex"
+          out="outreach/academic-institutions/brochures/pdf"
+          mkdir -p "$out" downloads
+          brochures=(
+            academic-innovation-partnership
+            innovation-in-academia
+            modern-day-professional
+            technology-to-emotions
+            storytelling-in-education
+            academic-innovation-programs
+          )
+          declare -A expected_pages=(
+            [academic-innovation-partnership]=6
+            [innovation-in-academia]=4
+            [modern-day-professional]=4
+            [technology-to-emotions]=4
+            [storytelling-in-education]=4
+            [academic-innovation-programs]=14
+          )
+          pushd "$src" >/dev/null
+          for brochure in "${brochures[@]}"; do
+            latexmk -pdf -interaction=nonstopmode -halt-on-error "$brochure.tex"
+            pages="$(pdfinfo "$brochure.pdf" | awk '/^Pages:/ {print $2}')"
+            test "$pages" = "${expected_pages[$brochure]}" || {
+              echo "Unexpected page count for $brochure: $pages"
+              exit 1
+            }
+            if grep -Eq 'Overfull \\[hv]box|LaTeX Error|Package .* Error' "$brochure.log"; then
+              echo "Layout/compiler error detected in $brochure.log"
+              grep -E 'Overfull \\[hv]box|LaTeX Error|Package .* Error' "$brochure.log"
+              exit 1
+            fi
+          done
+          popd >/dev/null
+          for brochure in "${brochures[@]}"; do
+            cp "$src/$brochure.pdf" "$out/$brochure.pdf"
+            cp "$src/$brochure.pdf" "downloads/$brochure.pdf"
+            base64 -w 76 "$src/$brochure.pdf" > "downloads/$brochure.pdf.b64"
+          done
+
+      - name: Commit generated brochure assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outreach/academic-institutions/brochures/pdf/*.pdf
+          git add downloads/*.pdf downloads/*.pdf.b64
+          if git diff --cached --quiet; then
+            echo "Brochure assets already current."
+          else
+            git commit -m "Publish current brochure assets for PR 26 [skip ci]"
+            git push origin HEAD:agent/update-brochure-download-links
+          fi
