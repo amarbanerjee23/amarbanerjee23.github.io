@@ -19,6 +19,10 @@
   --future-teal:#126f73;
   --academic-teal:#126f73;
   --conv-teal:#126f73;
+  --tc-ink:#102f3d;
+  --tc-body:#314e5c;
+  --tc-muted:#4d6773;
+  --tc-accent:#126f73;
 }
 
 html[data-theme="dark"]{
@@ -35,6 +39,10 @@ html[data-theme="dark"]{
   --read-on-dark-muted:#c7d8df;
   --muted:#b5c5cd;
   --calm-muted:#b5c5cd;
+  --tc-ink:#f0f5f7;
+  --tc-body:#d5e0e5;
+  --tc-muted:#b5c5cd;
+  --tc-accent:#79cfd0;
 }
 
 body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio){
@@ -47,7 +55,7 @@ body:is(.academic-future-home,.academic-programs-page,.academic-future-instituti
 body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(h1,h2,h3,h4,h5,h6,strong,b){
   color:var(--read-heading)!important;
 }
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(p,li,dd,blockquote){
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(p,li,dd,blockquote,em){
   color:var(--read-body)!important;
 }
 body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(small,time,code,.section-head p,.lead){
@@ -146,6 +154,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .decision-confidence-card,
   .diagnostic-value,
@@ -209,6 +218,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .decision-confidence-card,
   .diagnostic-value,
@@ -272,6 +282,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .decision-confidence-card,
   .diagnostic-value,
@@ -327,7 +338,7 @@ body :is(
   .image-preview-dialog,
   .gallery-image-button.image-failed,
   .status-head
-) :where(p,li,dd,blockquote,span:not(.btn *),small,time,label,code){
+) :where(p,li,dd,blockquote,em,span:not(.btn *),small,time,label,code){
   color:var(--read-on-dark-body)!important;
 }
 
@@ -335,6 +346,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .diagnosis-result,
   .academic-cta,
@@ -357,6 +369,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .diagnosis-result,
   .academic-cta,
@@ -375,6 +388,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .diagnosis-result,
   .academic-cta,
@@ -392,6 +406,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .diagnosis-result,
   .academic-cta,
@@ -406,6 +421,7 @@ body :is(
   .academic-future-hero,
   .academic-programs-hero,
   .profile-hero,
+  .gallery-hero,
   .academic-hero,
   .diagnosis-result,
   .academic-cta,
@@ -421,6 +437,7 @@ body :is(
 
 body :is(
   .academic-future-hero,.academic-programs-hero,.profile-hero,.academic-hero,
+  .gallery-hero,
   .decision-confidence-card,.diagnostic-value,.diagnosis-result,.outcome-large,
   .evidence-featured,.investment-note,.academic-cta,.academic-invite-shell,
   .ai-story,.ai-thesis,.shift-callout,.volume-funnel,.impact-target,
@@ -587,6 +604,15 @@ html[data-theme="dark"] body :is(
 .academic-page .site-header .nav a:last-child{color:#fff!important}
 body.ux-calm .story-nav-count,
 body.ux-calm .story-nav-number{color:var(--read-link)!important}
+.skip-link{color:#fff!important}
+.sticky-diagnostic{color:#fff!important}
+.impact-vs{color:var(--read-link)!important}
+
+/* The first-party analytics choice is a dark overlay, not a page card. */
+.analytics-consent{color:var(--read-on-dark-body)!important}
+.analytics-consent :where(strong,h1,h2,h3){color:var(--read-on-dark)!important}
+.analytics-consent :where(p,span,small){color:var(--read-on-dark-body)!important}
+.analytics-consent a:not(.btn){color:var(--read-on-dark)!important}
 
 @media (prefers-contrast:more){
   body :is(

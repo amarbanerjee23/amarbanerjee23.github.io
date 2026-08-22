@@ -115,10 +115,10 @@ body.academic-future-home .home-intro-footer :where(p,span){color:#e7f2f5}
 body.academic-future-home .home-intro-footer :where(small){color:#a4f4f5}
 
 /* Buttons: explicit foreground/background pairings */
-body.academic-future-home .btn.primary,
-body.academic-future-institution .btn.primary,
-body.academic-programs-page .btn.primary{color:#061b31;background:#fff;border-color:#fff}
-body.academic-future-home .btn.secondary,
+body.academic-future-home :is(.academic-future-hero,.future-contact,.home-intro-footer) .btn.primary,
+body.academic-future-institution :is(.academic-hero,.academic-cta,.institutional-diagnostic,.future-contact) .btn.primary,
+body.academic-programs-page :is(.academic-programs-hero,.future-contact,.storytelling-static-intro) .btn.primary{color:#061b31;background:#fff;border-color:#fff}
+body.academic-future-home :is(.academic-future-hero,.future-contact,.home-intro-footer) .btn.secondary,
 body.academic-future-institution .academic-hero .btn.secondary,
 body.academic-programs-page .academic-programs-hero .btn.secondary{color:#fff;border-color:rgba(255,255,255,.55)}
 body.academic-future-home .future-contact .btn.light,

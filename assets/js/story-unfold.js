@@ -2,7 +2,7 @@
   const body = document.body;
   body.classList.add('story-unfolding', 'ux-calm');
 
-  ['/assets/css/sticky-nav-fix.css', '/assets/css/academic-offerings.css', '/assets/css/hero-signal-cards.css', '/assets/css/reading-comfort.css?v=20260822-contrast3'].forEach(href => {
+  ['/assets/css/sticky-nav-fix.css', '/assets/css/academic-offerings.css', '/assets/css/hero-signal-cards.css', '/assets/css/reading-comfort.css?v=20260822-contrast4'].forEach(href => {
     const existing = document.querySelector(`link[href="${href}"]`);
     if (existing) {
       if (href.includes('reading-comfort')) document.head.append(existing);
@@ -142,8 +142,15 @@
   }
 })();
 
-import('/assets/js/academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error));
-import('/assets/js/contact-intake.js').catch(error => console.error('Contact form failed to load', error));
-import('/assets/js/analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error));
-import('/assets/js/trust-conversion.js').catch(error => console.error('Trust and conversion layer failed to load', error));
-import('/assets/js/evidence-expansion.js').catch(error => console.error('Additional evidence layer failed to load', error));
+const featureImports = [
+  import('/assets/js/academic-offerings.js').catch(error => console.error('Academic offerings failed to load', error)),
+  import('/assets/js/contact-intake.js').catch(error => console.error('Contact form failed to load', error)),
+  import('/assets/js/analytics-bootstrap.js').catch(error => console.error('Analytics bootstrap failed to load', error)),
+  import('/assets/js/trust-conversion.js').catch(error => console.error('Trust and conversion layer failed to load', error)),
+  import('/assets/js/evidence-expansion.js').catch(error => console.error('Additional evidence layer failed to load', error))
+];
+
+Promise.all(featureImports).finally(() => {
+  const readability = document.querySelector('link[href*="reading-comfort"]');
+  if (readability) document.head.append(readability);
+});
