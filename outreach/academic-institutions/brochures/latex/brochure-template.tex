@@ -88,11 +88,11 @@
 {\color{BroGold}\fontsize{10.2}{12.2}\selectfont\bfseries #3\par}
 \end{minipage}\vspace{10.2mm}}
 
-\newcommand{\MetaBar}[4]{\begin{tcolorbox}[colback=AccentSoft,colframe=AccentSoft,boxrule=0pt,arc=2.8mm,left=2.5mm,right=2.5mm,top=2.8mm,bottom=2.8mm]\MetaItem{\faUsers}{Audience}{#1}\hfill\MetaItem{\faClock}{Duration}{#2}\hfill\MetaItem{\faChalkboardTeacher}{Format}{#3}\hfill\MetaItem{\faRupeeSign}{Investment}{#4}\end{tcolorbox}}
+\newcommand{\MetaBar}[4]{\begin{tcolorbox}[colback=AccentSoft,colframe=AccentSoft,boxrule=0pt,arc=2.8mm,left=2.5mm,right=2.5mm,top=2.8mm,bottom=2.8mm]\MetaItem{\faUsers}{Audience}{#1}\hfill\MetaItem{\faClock}{Duration}{#2}\hfill\MetaItem{\faChalkboardTeacher}{Format}{#3}\hfill\MetaItem{\faComments}{Custom program}{#4}\end{tcolorbox}}
 \newcommand{\WhyCard}[3]{\begin{BroCard}\SectionTitle{Why this matters now}\begin{SoftCard}\SmallCaps{For academic leaders}\par\vspace{1mm}{\fontsize{9.45}{11.7}\selectfont\bfseries\color{BroInk}#1}\end{SoftCard}\vspace{2.7mm}\begin{minipage}[t]{.485\linewidth}\SmallCaps{Why students need it}\par\vspace{1mm}\TightText{#2}\end{minipage}\hfill\begin{minipage}[t]{.485\linewidth}\SmallCaps{Why academicians need it}\par\vspace{1mm}\TightText{#3}\end{minipage}\end{BroCard}}
 \newcommand{\TwinCard}[4]{\begin{BroCard}\begin{minipage}[t]{.485\linewidth}\SectionTitle{#1}\TightText{#2}\end{minipage}\hfill\begin{minipage}[t]{.485\linewidth}\SectionTitle{#3}\TightText{#4}\end{minipage}\end{BroCard}}
 \newcommand{\SideCard}[2]{\begin{BroCard}\SectionTitle{#1}\TightText{#2}\end{BroCard}}
-\newcommand{\InvestmentCard}[2]{\begin{GoldCard}\SectionTitle{Investment \& included value}{\fontsize{9.4}{11.4}\selectfont\bfseries\color{BroInk}#1\par}\vspace{1.4mm}\TightText{#2}\end{GoldCard}}
+\newcommand{\CustomProgramCard}[2]{\begin{GoldCard}\SectionTitle{Custom program}{\fontsize{9.4}{11.4}\selectfont\bfseries\color{BroInk}#1\par}\vspace{1.4mm}\TightText{#2}\end{GoldCard}}
 
 % Full-width journey table: wider columns avoid needless line wrapping.
 \newcommand{\JourneyTableRow}[3]{#1 & #2 & #3\\}

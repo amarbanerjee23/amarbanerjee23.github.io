@@ -160,7 +160,7 @@
     strip.innerHTML = `
       <div>
         <small>For academic decision-makers</small>
-        <h3>Start with the institutional outcome before comparing agendas or fees.</h3>
+        <h3>Start with the institutional outcome before comparing formats or scope.</h3>
         <p>Use the self-diagnosis, decision brief and evidence wall to identify the most credible starting point.</p>
       </div>
       <a class="btn primary btn-arrow" href="academic-partnerships.html#conversation">Discuss an institutional priority <span>→</span></a>`;

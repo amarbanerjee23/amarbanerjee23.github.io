@@ -19,7 +19,7 @@ This folder contains the institution-facing brochure and pitch system for academ
 
 ## Design principles
 
-The brochure system uses a single reusable A4 template with Source Sans Pro, a deep-navy institutional base, program-specific accent colours, high-contrast typography, spacious cards and two-page program layouts. The extra page per program is intentional: it prevents overflow and keeps the learning journey, outcomes, methods and investment information readable instead of shrinking text into one crowded page.
+The brochure system uses a single reusable A4 template with Source Sans Pro, a deep-navy institutional base, program-specific accent colours, high-contrast typography, spacious cards and two-page program layouts. The extra page per program is intentional: it prevents overflow and keeps the learning journey, outcomes, methods and custom-program information readable instead of shrinking text into one crowded page.
 
 The build workflow verifies page counts, rejects LaTeX overfull boxes/compiler errors and renders every brochure through Poppler before publishing generated PDFs.
 
