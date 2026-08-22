@@ -1,31 +1,31 @@
 /* Readability layer for the academic-first site.
    The intent is high legibility without pure black-on-white or pure white-on-black glare. */
 :root{
-  --read-heading:#18323f;
-  --read-body:#425965;
-  --read-muted:#677b86;
+  --read-heading:#102f3d;
+  --read-body:#314e5c;
+  --read-muted:#4d6773;
   --read-link:#126f73;
   --read-surface:#fbfcfd;
   --read-card:#ffffff;
   --read-soft:#f3f7f8;
   --read-border:#dce6e9;
-  --read-on-dark:#edf4f6;
-  --read-on-dark-body:#c8d7de;
-  --read-on-dark-muted:#a9bdc6;
+  --read-on-dark:#f5fafb;
+  --read-on-dark-body:#e2edf1;
+  --read-on-dark-muted:#c7d8df;
 }
 
 html[data-theme="dark"]{
-  --read-heading:#e3ecef;
-  --read-body:#c2d0d7;
-  --read-muted:#9eb0ba;
+  --read-heading:#f0f5f7;
+  --read-body:#d5e0e5;
+  --read-muted:#b5c5cd;
   --read-link:#79cfd0;
   --read-surface:#0d171e;
   --read-card:#132129;
   --read-soft:#101d25;
   --read-border:#2a3d47;
-  --read-on-dark:#edf4f6;
-  --read-on-dark-body:#c8d7de;
-  --read-on-dark-muted:#a9bdc6;
+  --read-on-dark:#f5fafb;
+  --read-on-dark-body:#e2edf1;
+  --read-on-dark-muted:#c7d8df;
 }
 
 body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page){

@@ -66,10 +66,10 @@ body.ux-calm .story-progress-bar{background:var(--calm-teal)!important}
 body.ux-calm .story-start-map,body.ux-calm .story-continue,body.ux-calm .story-next,body.ux-calm .story-chapter-marker{display:none!important}
 
 /* Alternate only neutral page surfaces. Heroes retain their dedicated visual treatment. */
-body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero)[data-surface="plain"]{background:var(--paper)!important}
-body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero)[data-surface="soft"]{background:var(--calm-bg)!important}
-body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):before,
-body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):after{display:none!important}
+body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):not(.profile-hero)[data-surface="plain"]{background:var(--paper)!important}
+body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):not(.profile-hero)[data-surface="soft"]{background:var(--calm-bg)!important}
+body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):not(.profile-hero):before,
+body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):not(.profile-hero):after{display:none!important}
 
 /* Hero hierarchy */
 body.ux-calm .premium-hero,body.ux-calm .workshop-hero,body.ux-calm .gallery-hero,body.ux-calm .academic-hero{padding-top:clamp(64px,7vw,92px)!important;padding-bottom:clamp(52px,6vw,76px)!important}
@@ -122,6 +122,56 @@ body.ux-calm .academic-decision-strip,body.ux-calm .decision-confidence-card,bod
 body.ux-calm .btn{min-height:44px;border-radius:11px;box-shadow:none!important}
 body.ux-calm .btn:hover{transform:none!important}
 body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{outline:3px solid var(--calm-teal);outline-offset:3px;box-shadow:0 0 0 3px color-mix(in srgb,var(--calm-teal) 18%,transparent)!important}
+
+/* Use the available desktop width before wrapping display copy. Body copy keeps a readable measure. */
+@media(min-width:961px){
+  body.ux-calm .section-head{max-width:1000px!important}
+  body.ux-calm .section-head p{max-width:82ch}
+  body.ux-calm :where(
+    .premium-hero h1,
+    .academic-future-copy h1,
+    .academic-programs-hero h1,
+    .academic-hero-copy h1,
+    .profile-hero-copy h1,
+    .research-hero-copy h1,
+    .gallery-hero h1,
+    .facilitation-hero h1,
+    .privacy-hero h1,
+    .future-contact h2,
+    .profile-contact-shell h2,
+    .research-engage .engage-copy h2,
+    .academic-cta h2,
+    .diagnosis-result h3,
+    .diagnostic-value h3,
+    .outcome-large h3,
+    .outcome-accent h3,
+    .evidence-featured h3,
+    .pitch-preview h3,
+    .leadership-positioning .statement h3
+  ){max-width:none!important}
+  body.ux-calm :where(
+    .premium-hero .lead,
+    .academic-future-copy .lead,
+    .academic-programs-hero .lead,
+    .academic-hero-copy .lead,
+    .profile-hero-copy .lead,
+    .research-hero-copy .lead,
+    .privacy-hero p,
+    .hero-thesis,
+    .profile-thesis
+  ){max-width:72ch!important}
+  body.ux-calm :where(
+    .btn,
+    .nav a,
+    .story-nav-label,
+    .profile-links a,
+    .profile-identity-links a,
+    .text-link,
+    .institution-path span,
+    .audience-tags span,
+    summary b
+  ){white-space:nowrap}
+}
 
 @media(max-width:960px){
   html{scroll-padding-top:116px}
@@ -180,4 +230,4 @@ body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{outline:3px
 html[data-theme="dark"] body.ux-calm{background:var(--paper)}
 html[data-theme="dark"] body.ux-calm .premium-header,html[data-theme="dark"] body.ux-calm .story-nav{background:color-mix(in srgb,var(--paper) 94%,transparent)!important;border-color:var(--line)!important}
 html[data-theme="dark"] body.ux-calm .story-nav a[aria-current="step"]{background:color-mix(in srgb,var(--teal) 17%,var(--paper))!important;color:var(--text)!important}
-html[data-theme="dark"] body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero)[data-surface]{background:var(--paper)!important}
+html[data-theme="dark"] body.ux-calm .story-layer:not(.premium-hero):not(.workshop-hero):not(.gallery-hero):not(.academic-hero):not(.profile-hero)[data-surface]{background:var(--paper)!important}
