@@ -2,7 +2,7 @@
   const body = document.body;
   body.classList.add('story-unfolding', 'ux-calm');
 
-  ['/assets/css/sticky-nav-fix.css', '/assets/css/academic-offerings.css', '/assets/css/hero-signal-cards.css', '/assets/css/reading-comfort.css?v=20260822-contrast4'].forEach(href => {
+  ['/assets/css/sticky-nav-fix.css', '/assets/css/academic-offerings.css', '/assets/css/hero-signal-cards.css', '/assets/css/reading-comfort.css?v=20260822-contrast5'].forEach(href => {
     const existing = document.querySelector(`link[href="${href}"]`);
     if (existing) {
       if (href.includes('reading-comfort')) document.head.append(existing);

@@ -20,7 +20,7 @@
   ];
 
   const promoteStyles = () => {
-    ['/assets/css/academic-future.css', '/assets/css/sticky-nav-fix.css', '/assets/css/academic-contrast.css', '/assets/css/reading-comfort.css?v=20260822-contrast4'].forEach(href => {
+    ['/assets/css/academic-future.css', '/assets/css/sticky-nav-fix.css', '/assets/css/academic-contrast.css', '/assets/css/reading-comfort.css?v=20260822-contrast5'].forEach(href => {
       let link = document.querySelector(`link[href="${href}"]`);
       if (!link) {
         link = document.createElement('link');

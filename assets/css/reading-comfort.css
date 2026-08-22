@@ -436,6 +436,15 @@ body :is(
 }
 
 body :is(
+  .academic-future-hero,.academic-programs-hero,.profile-hero,.gallery-hero,
+  .academic-hero,.diagnosis-result,.academic-cta,.future-contact,
+  .profile-contact,.research-engage,.contact-box,.gallery-next,
+  .institutional-diagnostic
+) :is(.btn.secondary,.btn.outline,.pitch-actions .secondary){
+  background:transparent!important;
+}
+
+body :is(
   .academic-future-hero,.academic-programs-hero,.profile-hero,.academic-hero,
   .gallery-hero,
   .decision-confidence-card,.diagnostic-value,.diagnosis-result,.outcome-large,
@@ -605,14 +614,14 @@ html[data-theme="dark"] body :is(
 body.ux-calm .story-nav-count,
 body.ux-calm .story-nav-number{color:var(--read-link)!important}
 .skip-link{color:#fff!important}
-.sticky-diagnostic{color:#fff!important}
+body.ux-calm a.sticky-diagnostic{color:#fff!important}
 .impact-vs{color:var(--read-link)!important}
 
 /* The first-party analytics choice is a dark overlay, not a page card. */
-.analytics-consent{color:var(--read-on-dark-body)!important}
-.analytics-consent :where(strong,h1,h2,h3){color:var(--read-on-dark)!important}
-.analytics-consent :where(p,span,small){color:var(--read-on-dark-body)!important}
-.analytics-consent a:not(.btn){color:var(--read-on-dark)!important}
+body .analytics-consent{color:var(--read-on-dark-body)!important}
+body .analytics-consent :where(strong,h1,h2,h3){color:var(--read-on-dark)!important}
+body .analytics-consent :where(p,span,small){color:var(--read-on-dark-body)!important}
+body .analytics-consent a:not(.btn){color:var(--read-on-dark)!important}
 
 @media (prefers-contrast:more){
   body :is(

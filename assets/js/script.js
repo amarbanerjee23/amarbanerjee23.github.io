@@ -337,4 +337,4 @@
   if (year) year.textContent = new Date().getFullYear();
 })();
 
-import('/assets/js/story-ui.js?v=20260822-contrast4').catch(error => console.error('Story navigation failed to load', error));
+import('/assets/js/story-ui.js?v=20260822-contrast5').catch(error => console.error('Story navigation failed to load', error));
