@@ -12,6 +12,13 @@
   --read-on-dark:#f5fafb;
   --read-on-dark-body:#e2edf1;
   --read-on-dark-muted:#c7d8df;
+  --muted:#4d6773;
+  --calm-muted:#4d6773;
+  --teal:#126f73;
+  --calm-teal:#126f73;
+  --future-teal:#126f73;
+  --academic-teal:#126f73;
+  --conv-teal:#126f73;
 }
 
 html[data-theme="dark"]{
@@ -26,25 +33,28 @@ html[data-theme="dark"]{
   --read-on-dark:#f5fafb;
   --read-on-dark-body:#e2edf1;
   --read-on-dark-muted:#c7d8df;
+  --muted:#b5c5cd;
+  --calm-muted:#b5c5cd;
 }
 
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page){
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio){
   background:var(--read-surface)!important;
   color:var(--read-body)!important;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
 
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(h1,h2,h3,h4,h5,h6,strong,b){
-  color:var(--read-heading);
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(h1,h2,h3,h4,h5,h6,strong,b){
+  color:var(--read-heading)!important;
 }
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(p,li,dd,blockquote){
-  color:var(--read-body);
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(p,li,dd,blockquote){
+  color:var(--read-body)!important;
 }
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(small,time,.section-head p,.lead){
-  color:var(--read-muted);
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(small,time,code,.section-head p,.lead){
+  color:var(--read-muted)!important;
 }
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) a:not(.btn){
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) a:not(.btn){
+  color:var(--read-link)!important;
   text-decoration-color:color-mix(in srgb,var(--read-link) 38%,transparent);
 }
 
@@ -60,7 +70,7 @@ body:is(.academic-future-home,.academic-programs-page,.academic-future-instituti
 }
 
 /* Keep key accent labels visible but not fluorescent. */
-body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page) :where(.eyebrow,.section-label,.section-head>span,.program-sticky-intro>span,.experience-period,.publication-list time){
+body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page,.research-page,.gallery-page,.premium-portfolio) :where(.eyebrow,.section-label,.section-head>span,.program-sticky-intro>span,.experience-period,.publication-list time){
   color:var(--read-link)!important;
 }
 body:is(.academic-future-home,.academic-programs-page,.academic-future-institution,.profile-page) :is(.academic-future-hero,.academic-programs-hero,.profile-hero) .eyebrow{
@@ -148,6 +158,9 @@ body :is(
   .academic-invite-shell,
   .ai-story,
   .ai-thesis,
+  .shift-callout,
+  .volume-funnel,
+  .impact-target,
   .ai-journey-card.accent,
   .leading-institutes,
   .india-main,
@@ -208,6 +221,9 @@ body :is(
   .academic-invite-shell,
   .ai-story,
   .ai-thesis,
+  .shift-callout,
+  .volume-funnel,
+  .impact-target,
   .ai-journey-card.accent,
   .leading-institutes,
   .india-main,
@@ -268,6 +284,9 @@ body :is(
   .academic-invite-shell,
   .ai-story,
   .ai-thesis,
+  .shift-callout,
+  .volume-funnel,
+  .impact-target,
   .ai-journey-card.accent,
   .leading-institutes,
   .india-main,
@@ -308,7 +327,7 @@ body :is(
   .image-preview-dialog,
   .gallery-image-button.image-failed,
   .status-head
-) :where(p,li,dd,blockquote,span:not(.btn *)){
+) :where(p,li,dd,blockquote,span:not(.btn *),small,time,label,code){
   color:var(--read-on-dark-body)!important;
 }
 
@@ -398,6 +417,28 @@ body :is(
   .institutional-diagnostic
 ) :is(.btn.secondary,.btn.outline,.pitch-actions .secondary) *{
   color:#fff!important;
+}
+
+body :is(
+  .academic-future-hero,.academic-programs-hero,.profile-hero,.academic-hero,
+  .decision-confidence-card,.diagnostic-value,.diagnosis-result,.outcome-large,
+  .evidence-featured,.investment-note,.academic-cta,.academic-invite-shell,
+  .ai-story,.ai-thesis,.shift-callout,.volume-funnel,.impact-target,
+  .ai-journey-card.accent,.leading-institutes,.india-main,.student-promise,
+  .output-callout,.pitch-preview,.leadership-positioning .statement,
+  .first-30-days,.review-intro,.institutional-diagnostic,
+  .storytelling-program .program-sticky-intro,.storytelling-static-intro,
+  .storytelling-static-declaration,.storytelling-static-output,
+  .storytelling-institution .storytelling-shell,.before-after>div:last-child,
+  .program-output,.program-cover,.program-hero-note,.hero-note,.pathway,
+  .future-contrast-accent,.future-outcome-strip,.future-contact,.profile-contact,
+  .research-engage,.facilitation-section,.facilitation-teaser,
+  .premium-facilitation-teaser,.path-card-accent,.operating-model,
+  .gallery-manifesto,.gallery-next,.linkedin-visual,.contact-box,.privacy-hero,
+  .home-intro-footer,.image-preview-dialog,.gallery-image-button.image-failed,
+  .status-head
+) a:not(.btn){
+  color:var(--read-on-dark)!important;
 }
 
 /* Fixed light panels become theme-aware instead of keeping light text on white. */
@@ -544,6 +585,8 @@ html[data-theme="dark"] body :is(
   color:#fff!important;
 }
 .academic-page .site-header .nav a:last-child{color:#fff!important}
+body.ux-calm .story-nav-count,
+body.ux-calm .story-nav-number{color:var(--read-link)!important}
 
 @media (prefers-contrast:more){
   body :is(
