@@ -7,6 +7,7 @@
 .profile-page .section-head p{margin-top:16px;color:#3b5663;font-size:15px;line-height:1.75}
 
 .profile-page .profile-hero{position:relative;overflow:hidden;background:linear-gradient(145deg,#071b2d 0%,#0b2a3d 58%,#0c3545 100%)!important;color:#fff}
+body.profile-page.ux-calm #profile-opening.profile-hero{background:linear-gradient(145deg,#071b2d 0%,#0b2a3d 58%,#0c3545 100%)!important}
 .profile-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 22%,rgba(40,196,199,.17),transparent 27%),radial-gradient(circle at 18% 82%,rgba(232,185,90,.12),transparent 28%);pointer-events:none}
 .profile-hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.72fr);gap:clamp(34px,6vw,76px);align-items:center}
 .profile-hero-copy h1{max-width:13ch;margin:18px 0;font-size:clamp(3rem,5.8vw,5.25rem);line-height:.96;letter-spacing:-.06em}
