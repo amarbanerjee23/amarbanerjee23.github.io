@@ -90,7 +90,7 @@ jobs:
 
             rm -f "/tmp/${brochure}-"*.png
             pdftoppm -png -r 72 "$brochure.pdf" "/tmp/${brochure}" >/dev/null 2>&1
-            test -f "/tmp/${brochure}-1.png" || {
+            compgen -G "/tmp/${brochure}-*.png" >/dev/null || {
               echo "Render verification failed for $brochure"
               exit 1
             }
