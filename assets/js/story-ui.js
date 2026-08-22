@@ -1,5 +1,5 @@
 (() => {
-  ['/assets/css/ux-calm-v2.css?v=20260822-flow1'].forEach(href => {
+  ['/assets/css/ux-calm-v2.css?v=20260822-contrast2'].forEach(href => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
@@ -17,7 +17,7 @@
     make manual scrolling feel as if the page is being pulled backwards.
   */
   if (body.classList.contains('academic-future-home') || body.classList.contains('academic-programs-page')) {
-    import('/assets/js/story-unfold.js?v=20260822-flow1').catch(error => console.error('Story support failed to load', error));
+    import('/assets/js/story-unfold.js?v=20260822-contrast2').catch(error => console.error('Story support failed to load', error));
     return;
   }
 
@@ -88,7 +88,7 @@
   }).filter(Boolean);
 
   if (chapters.length < 2) {
-    import('/assets/js/story-unfold.js?v=20260822-flow1').catch(error => console.error('Story support failed to load', error));
+    import('/assets/js/story-unfold.js?v=20260822-contrast2').catch(error => console.error('Story support failed to load', error));
     return;
   }
 
@@ -184,5 +184,5 @@
   const hashIndex = chapters.findIndex(chapter => `#${chapter.id}` === location.hash);
   activate(hashIndex >= 0 ? hashIndex : 0);
 
-  import('/assets/js/story-unfold.js?v=20260822-flow1').catch(error => console.error('Story support failed to load', error));
+  import('/assets/js/story-unfold.js?v=20260822-contrast2').catch(error => console.error('Story support failed to load', error));
 })();

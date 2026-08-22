@@ -119,3 +119,437 @@ body.research-page .publication-card p{line-height:1.72}
   :root{--read-heading:#102a36;--read-body:#2e4652;--read-muted:#526b77}
   html[data-theme="dark"]{--read-heading:#f0f5f7;--read-body:#d5e0e5;--read-muted:#b5c5cd}
 }
+
+/*
+  Contrast assurance layer
+
+  The site deliberately mixes light editorial cards with dark narrative panels.
+  These rules keep foreground colours tied to the surface underneath them, even
+  when a page-level readability rule or the dark theme changes inherited colour.
+*/
+:root{
+  --read-on-dark-accent:#9ae8e5;
+}
+
+/* Dark narrative surfaces shared by the public pages. */
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .decision-confidence-card,
+  .diagnostic-value,
+  .diagnosis-option[aria-pressed="true"],
+  .diagnosis-result,
+  .outcome-large,
+  .evidence-featured,
+  .investment-note,
+  .academic-cta,
+  .academic-invite-shell,
+  .ai-story,
+  .ai-thesis,
+  .ai-journey-card.accent,
+  .leading-institutes,
+  .india-main,
+  .student-promise,
+  .output-callout,
+  .pitch-preview,
+  .leadership-positioning .statement,
+  .first-30-days,
+  .review-intro,
+  .institutional-diagnostic,
+  .storytelling-program .program-sticky-intro,
+  .storytelling-static-intro,
+  .storytelling-static-declaration,
+  .storytelling-static-output,
+  .storytelling-institution .storytelling-shell,
+  .before-after>div:last-child,
+  .program-output,
+  .program-cover,
+  .program-hero-note,
+  .hero-note,
+  .pathway,
+  .future-contrast-accent,
+  .future-outcome-strip,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .facilitation-section,
+  .facilitation-teaser,
+  .premium-facilitation-teaser,
+  .path-card-accent,
+  .operating-model,
+  .gallery-manifesto,
+  .gallery-next,
+  .linkedin-visual,
+  .contact-box,
+  .privacy-hero,
+  .home-intro-footer,
+  .image-preview-dialog,
+  .gallery-image-button.image-failed,
+  .status-head
+){
+  color:var(--read-on-dark-body)!important;
+}
+
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .decision-confidence-card,
+  .diagnostic-value,
+  .diagnosis-option[aria-pressed="true"],
+  .diagnosis-result,
+  .outcome-large,
+  .evidence-featured,
+  .investment-note,
+  .academic-cta,
+  .academic-invite-shell,
+  .ai-story,
+  .ai-thesis,
+  .ai-journey-card.accent,
+  .leading-institutes,
+  .india-main,
+  .student-promise,
+  .output-callout,
+  .pitch-preview,
+  .leadership-positioning .statement,
+  .first-30-days,
+  .review-intro,
+  .institutional-diagnostic,
+  .storytelling-program .program-sticky-intro,
+  .storytelling-static-intro,
+  .storytelling-static-declaration,
+  .storytelling-static-output,
+  .storytelling-institution .storytelling-shell,
+  .before-after>div:last-child,
+  .program-output,
+  .program-cover,
+  .program-hero-note,
+  .hero-note,
+  .pathway,
+  .future-contrast-accent,
+  .future-outcome-strip,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .facilitation-section,
+  .facilitation-teaser,
+  .premium-facilitation-teaser,
+  .path-card-accent,
+  .operating-model,
+  .gallery-manifesto,
+  .gallery-next,
+  .linkedin-visual,
+  .contact-box,
+  .privacy-hero,
+  .home-intro-footer,
+  .image-preview-dialog,
+  .gallery-image-button.image-failed,
+  .status-head
+) :where(h1,h2,h3,h4,h5,h6,strong){
+  color:var(--read-on-dark)!important;
+}
+
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .decision-confidence-card,
+  .diagnostic-value,
+  .diagnosis-option[aria-pressed="true"],
+  .diagnosis-result,
+  .outcome-large,
+  .evidence-featured,
+  .investment-note,
+  .academic-cta,
+  .academic-invite-shell,
+  .ai-story,
+  .ai-thesis,
+  .ai-journey-card.accent,
+  .leading-institutes,
+  .india-main,
+  .student-promise,
+  .output-callout,
+  .pitch-preview,
+  .leadership-positioning .statement,
+  .first-30-days,
+  .review-intro,
+  .institutional-diagnostic,
+  .storytelling-program .program-sticky-intro,
+  .storytelling-static-intro,
+  .storytelling-static-declaration,
+  .storytelling-static-output,
+  .storytelling-institution .storytelling-shell,
+  .before-after>div:last-child,
+  .program-output,
+  .program-cover,
+  .program-hero-note,
+  .hero-note,
+  .pathway,
+  .future-contrast-accent,
+  .future-outcome-strip,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .facilitation-section,
+  .facilitation-teaser,
+  .premium-facilitation-teaser,
+  .path-card-accent,
+  .operating-model,
+  .gallery-manifesto,
+  .gallery-next,
+  .linkedin-visual,
+  .contact-box,
+  .privacy-hero,
+  .home-intro-footer,
+  .image-preview-dialog,
+  .gallery-image-button.image-failed,
+  .status-head
+) :where(p,li,dd,blockquote,span:not(.btn *)){
+  color:var(--read-on-dark-body)!important;
+}
+
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .diagnosis-result,
+  .academic-cta,
+  .ai-story,
+  .leading-institutes,
+  .first-30-days,
+  .institutional-diagnostic,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .gallery-manifesto,
+  .gallery-next,
+  .home-intro-footer
+) :where(.eyebrow,.section-label,.section-head>span,small,time){
+  color:var(--read-on-dark-accent)!important;
+}
+
+/* Buttons on dark surfaces retain a clear foreground on their own fill. */
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .diagnosis-result,
+  .academic-cta,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .contact-box,
+  .gallery-next,
+  .institutional-diagnostic
+) :is(.btn.primary,.btn.light,.pitch-actions .primary){
+  background:#fff!important;
+  color:#071b2d!important;
+}
+
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .diagnosis-result,
+  .academic-cta,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .contact-box,
+  .gallery-next,
+  .institutional-diagnostic
+) :is(.btn.primary,.btn.light,.pitch-actions .primary) *{
+  color:#071b2d!important;
+}
+
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .diagnosis-result,
+  .academic-cta,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .contact-box,
+  .gallery-next,
+  .institutional-diagnostic
+) :is(.btn.secondary,.btn.outline,.pitch-actions .secondary),
+body :is(
+  .academic-future-hero,
+  .academic-programs-hero,
+  .profile-hero,
+  .academic-hero,
+  .diagnosis-result,
+  .academic-cta,
+  .future-contact,
+  .profile-contact,
+  .research-engage,
+  .contact-box,
+  .gallery-next,
+  .institutional-diagnostic
+) :is(.btn.secondary,.btn.outline,.pitch-actions .secondary) *{
+  color:#fff!important;
+}
+
+/* Fixed light panels become theme-aware instead of keeping light text on white. */
+html[data-theme="dark"] body :is(
+  .research-hero,
+  .research-impact,
+  .research-publications,
+  .research-patents,
+  .leadership-review,
+  .credibility-translation
+){
+  background:var(--read-soft)!important;
+}
+
+html[data-theme="dark"] body :is(
+  .ai-shift-visual,
+  .shift-panel,
+  .impact-card,
+  .impact-note,
+  .india-callout,
+  .architecture-card,
+  .format-strip,
+  .pitch-side article,
+  .role-card,
+  .leadership-outcome-card,
+  .leadership-positioning .audiences,
+  .transformation-card,
+  .review-metric,
+  .credibility-numbers div,
+  .credibility-copy,
+  .diagnostic-form,
+  .outcome-bento article:not(.outcome-large),
+  .mechanism-flow,
+  .academic-program-grid article,
+  .evidence-card:not(.evidence-featured),
+  .partnership-steps,
+  .research-stats div,
+  .research-profile-card,
+  .research-theme-card,
+  .publication-card,
+  .portfolio-note,
+  .patent-card,
+  .privacy-card,
+  .linkedin-card,
+  .gallery-note,
+  .facilitator-photo,
+  .storytelling-softskills,
+  .storytelling-contrast article,
+  .storytelling-why-grid article,
+  .flyer-card,
+  .asset-archive-note
+){
+  background:var(--read-card)!important;
+  border-color:var(--read-border)!important;
+  color:var(--read-body)!important;
+}
+
+html[data-theme="dark"] body :is(
+  .ai-shift-visual,
+  .shift-panel,
+  .impact-card,
+  .impact-note,
+  .india-callout,
+  .architecture-card,
+  .format-strip,
+  .pitch-side article,
+  .role-card,
+  .leadership-outcome-card,
+  .leadership-positioning .audiences,
+  .transformation-card,
+  .review-metric,
+  .credibility-numbers div,
+  .credibility-copy,
+  .diagnostic-form,
+  .outcome-bento article:not(.outcome-large),
+  .mechanism-flow,
+  .academic-program-grid article,
+  .evidence-card:not(.evidence-featured),
+  .partnership-steps,
+  .research-stats div,
+  .research-profile-card,
+  .research-theme-card,
+  .publication-card,
+  .portfolio-note,
+  .patent-card,
+  .privacy-card,
+  .linkedin-card,
+  .gallery-note,
+  .facilitator-photo,
+  .storytelling-softskills,
+  .storytelling-contrast article,
+  .storytelling-why-grid article,
+  .flyer-card,
+  .asset-archive-note
+) :where(h1,h2,h3,h4,h5,h6,strong,b){
+  color:var(--read-heading)!important;
+}
+
+html[data-theme="dark"] body :is(
+  .ai-shift-visual,
+  .shift-panel,
+  .impact-card,
+  .impact-note,
+  .india-callout,
+  .architecture-card,
+  .format-strip,
+  .pitch-side article,
+  .role-card,
+  .leadership-outcome-card,
+  .leadership-positioning .audiences,
+  .transformation-card,
+  .review-metric,
+  .credibility-numbers div,
+  .credibility-copy,
+  .diagnostic-form,
+  .outcome-bento article:not(.outcome-large),
+  .mechanism-flow,
+  .academic-program-grid article,
+  .evidence-card:not(.evidence-featured),
+  .partnership-steps,
+  .research-stats div,
+  .research-profile-card,
+  .research-theme-card,
+  .publication-card,
+  .portfolio-note,
+  .patent-card,
+  .privacy-card,
+  .linkedin-card,
+  .gallery-note,
+  .facilitator-photo,
+  .storytelling-softskills,
+  .storytelling-contrast article,
+  .storytelling-why-grid article,
+  .flyer-card,
+  .asset-archive-note
+) :where(p,li,dd,blockquote,span,small,time,label){
+  color:var(--read-body)!important;
+}
+
+/* Header actions must not inherit the muted navigation colour over a dark fill. */
+.site-header .nav a.active,
+.site-header .nav a[aria-current="page"]{
+  background:#0b2436!important;
+  color:#fff!important;
+}
+.academic-page .site-header .nav a:last-child{color:#fff!important}
+
+@media (prefers-contrast:more){
+  body :is(
+    .academic-future-hero,.academic-programs-hero,.profile-hero,.academic-hero,
+    .future-contact,.profile-contact,.research-engage,.gallery-next,.privacy-hero
+  ) :where(p,li,dd,blockquote,span:not(.btn *)){
+    color:#edf6f8!important;
+  }
+}
