@@ -3,14 +3,14 @@
 :root{
   --future-ink:#082538;
   --future-teal:#08778f;
-  --future-muted:#425d69;
-  --contrast-body:#314e5c;
-  --contrast-muted:#425d69;
+  --future-muted:#31515f;
+  --contrast-body:#234453;
+  --contrast-muted:#31515f;
   --contrast-teal:#06677d;
   --contrast-dark:#061b31;
-  --contrast-dark-copy:#edf8fa;
-  --contrast-dark-muted:#dcecf1;
-  --contrast-dark-accent:#8de8f0;
+  --contrast-dark-copy:#f5fbfc;
+  --contrast-dark-muted:#e7f2f5;
+  --contrast-dark-accent:#a4f4f5;
   --contrast-gold:#f8cf72;
 }
 
@@ -108,6 +108,11 @@ body.academic-future-home .future-profile-copy small,
 body.academic-programs-page .program-hero-note>small{color:var(--contrast-dark-accent)!important}
 body.academic-programs-page .program-hero-note>small,
 body.academic-future-home .future-profile-copy small{font-size:10px!important}
+
+/* The closing facilitator footer uses explicit high-contrast colors. */
+body.academic-future-home .home-intro-footer :where(h2,b){color:#fff!important}
+body.academic-future-home .home-intro-footer :where(p,span){color:#e7f2f5}
+body.academic-future-home .home-intro-footer :where(small){color:#a4f4f5}
 
 /* Buttons: explicit foreground/background pairings */
 body.academic-future-home .btn.primary,

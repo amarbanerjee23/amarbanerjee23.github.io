@@ -133,15 +133,6 @@
     note.appendChild(extra);
   };
 
-  const addProfileLink = () => {
-    const links = document.querySelector('.future-profile .profile-links');
-    if (!links || links.querySelector('a[href="profile.html"]')) return;
-    const about = document.createElement('a');
-    about.href = 'profile.html';
-    about.textContent = 'About & experience';
-    links.prepend(about);
-  };
-
   const init = () => {
     document.querySelector('.academic-leader-invite')?.remove();
     promoteStyles();
@@ -149,7 +140,6 @@
     updateHeaderMetric();
     installStoryNav();
     addVenueAmbition();
-    addProfileLink();
 
     const header = document.querySelector('.site-header');
     if ('ResizeObserver' in window && header) new ResizeObserver(updateHeaderMetric).observe(header);
