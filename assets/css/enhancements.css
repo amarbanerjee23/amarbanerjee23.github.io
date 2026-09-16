@@ -758,7 +758,7 @@ body footer.home-intro-footer .home-footer-base .social a { color: var(--editori
   .sticky-diagnostic { display: none !important; }
 }
 
-/* Final consistency pass: one restrained nav state and a readable enquiry band. */
+/* Final consistency pass: one restrained nav state and a cohesive enquiry band. */
 body .site-header nav#nav a,
 body .site-header .nav a {
   border: 0 !important;
@@ -785,13 +785,43 @@ body .site-header nav#nav a.active::after,
 body .site-header nav#nav a[aria-current="page"]::after { transform: scaleX(1); }
 
 body.academic-future-home main#main section.future-contact {
-  background: var(--editorial-soft) !important;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--editorial-soft) !important;
+  background-image:
+    linear-gradient(var(--flat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px) !important;
+  background-size: 40px 40px !important;
   color: var(--editorial-ink) !important;
   border-block: 1px solid var(--editorial-line) !important;
 }
 body.academic-future-home .future-contact-shell {
+  gap: clamp(36px, 5vw, 72px) !important;
+  padding-top: clamp(64px, 8vw, 92px) !important;
+  padding-bottom: clamp(64px, 8vw, 92px) !important;
   border-left: 5px solid var(--editorial-green) !important;
   padding-left: clamp(22px, 3vw, 42px) !important;
+}
+body.academic-future-home section.future-contact > .container > div:first-child {
+  align-self: center;
+}
+body.academic-future-home section.future-contact > .container > div:first-child > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: .08em !important;
+}
+body.academic-future-home section.future-contact > .container > div:first-child > span::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  background: var(--editorial-gold);
+}
+body.academic-future-home section.future-contact h2 {
+  max-width: 18ch !important;
+  margin-top: 18px !important;
+  font-size: clamp(2.25rem, 4vw, 4.4rem) !important;
+  line-height: 1.04 !important;
 }
 body.academic-future-home section.future-contact :is(h2, h3, label) {
   color: var(--editorial-ink) !important;
@@ -804,6 +834,8 @@ body.academic-future-home section.future-contact .contact-intake-head small {
   color: var(--editorial-green) !important;
 }
 body.academic-future-home section.future-contact .contact-intake {
+  width: 100% !important;
+  padding: clamp(22px, 3vw, 32px) !important;
   border: 1px solid var(--editorial-line) !important;
   border-radius: 0 !important;
   background: var(--editorial-paper) !important;
@@ -822,6 +854,7 @@ body.academic-future-home section.future-contact :is(input, textarea)::placehold
   opacity: .78 !important;
 }
 body.academic-future-home section.future-contact .contact-intake-submit {
+  min-height: 48px !important;
   border-radius: 0 !important;
   background: var(--editorial-green) !important;
   color: var(--btn-primary-fg) !important;
@@ -832,7 +865,11 @@ html[data-theme="dark"] body.academic-future-home main#main section.future-conta
 
 @media (max-width: 760px) {
   body .site-header nav#nav a::after { left: 0; right: 0; bottom: 2px; }
-  body.academic-future-home .future-contact-shell { padding-left: 18px !important; }
+  body.academic-future-home .future-contact-shell {
+    gap: 28px !important;
+    padding: 56px 0 56px 18px !important;
+  }
+  body.academic-future-home section.future-contact h2 { font-size: clamp(2.2rem, 11vw, 3.4rem) !important; }
 }
 
 @media (max-width: 760px) {
