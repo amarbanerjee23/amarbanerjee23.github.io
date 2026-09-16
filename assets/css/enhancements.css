@@ -1,0 +1,131 @@
+/* ============================================================
+   Enhancements layer — scroll reveals, FAQ, interaction polish
+   Loaded last on every page. Purely additive: it only targets
+   its own classes plus gentle global refinements.
+   ============================================================ */
+
+/* --- Scroll reveal ------------------------------------------------ */
+.js-reveal,
+.js-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js-reveal.is-visible,
+.js-reveal-stagger > *.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.js-reveal-stagger > *:nth-child(2) { transition-delay: 70ms; }
+.js-reveal-stagger > *:nth-child(3) { transition-delay: 140ms; }
+.js-reveal-stagger > *:nth-child(4) { transition-delay: 210ms; }
+.js-reveal-stagger > *:nth-child(5) { transition-delay: 280ms; }
+.js-reveal-stagger > *:nth-child(6) { transition-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal,
+  .js-reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* --- Smooth anchor scrolling -------------------------------------- */
+html { scroll-behavior: smooth; }
+section[id], div[id] { scroll-margin-top: 88px; }
+
+/* --- FAQ section --------------------------------------------------- */
+.faq-section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+.faq-section .faq-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.faq-section h2 {
+  margin: 0.6rem 0 2.2rem;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  line-height: 1.15;
+  max-width: 22ch;
+}
+.faq-list { display: grid; gap: 0.9rem; max-width: 46rem; }
+.faq-list details {
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 14px;
+  padding: 1.05rem 1.35rem;
+  background: rgba(127, 127, 127, 0.05);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.faq-list details[open] {
+  border-color: rgba(127, 127, 127, 0.5);
+  background: rgba(127, 127, 127, 0.09);
+}
+.faq-list summary {
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after {
+  content: "+";
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+.faq-list details p {
+  margin: 0.8rem 0 0;
+  line-height: 1.65;
+  opacity: 0.85;
+  max-width: 60ch;
+}
+.faq-list summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* --- Back-to-top button ------------------------------------------- */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 60;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: rgba(127, 127, 127, 0.12);
+  backdrop-filter: blur(8px);
+  color: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+.back-to-top.is-shown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.back-to-top:hover { background: rgba(127, 127, 127, 0.25); }
+
+/* --- External link affordance ------------------------------------- */
+a[target="_blank"][rel~="noreferrer"]:not(.btn):not(.card):not([class*="card"]) {
+  text-underline-offset: 3px;
+}
