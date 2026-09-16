@@ -157,3 +157,18 @@
   else window.addEventListener("load", schedule);
   document.addEventListener("click", function () { setTimeout(fix, 120); }, true);
 })();
+
+/* Single primary action per page: demote duplicate primary buttons in main content. */
+(function(){
+  function demote(){
+    var main = document.querySelector('main') || document.body;
+    var btns = Array.prototype.slice.call(main.querySelectorAll('.btn.primary')).filter(function(b){ return !b.closest('form') && b.tagName !== 'BUTTON'; });
+    btns.forEach(function(b,i){
+      if(i===0) b.classList.remove('is-demoted');
+      else b.classList.add('is-demoted');
+    });
+  }
+  if(document.readyState !== 'loading') demote();
+  else document.addEventListener('DOMContentLoaded', demote);
+  window.addEventListener('load', function(){ setTimeout(demote, 600); });
+})();
