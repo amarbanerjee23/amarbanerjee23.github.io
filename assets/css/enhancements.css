@@ -1247,3 +1247,361 @@ html[data-theme="dark"] body main > .privacy-hero {
     background-size: auto, var(--page-grid-size) var(--page-grid-size), var(--page-grid-size) var(--page-grid-size) !important;
   }
 }
+
+/* Final legacy-selector sweep. */
+body main :is(
+  .storytelling-static-intro, .storytelling-static-declaration,
+  .storytelling-static-output, .storytelling-shell, .storytelling-declaration,
+  .storytelling-institution-grid, .storytelling-softskills,
+  .ai-thesis, .ai-insight, .shift-callout, .shift-vs,
+  .leading-quote, .india-main, .student-promise, .output-callout,
+  .impact-target, .investment-note, .evidence-featured, .pitch-preview,
+  .program-output, .program-audience, .asset-archive-note,
+  .brochure-use-note, .facilitator-focus-image, .gallery-note,
+  .card-takeaway, .contact-box, .contact-intake,
+  .linkedin-media-gallery, .image-thumbnails, .linkedin-visual
+) {
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+  background-image: none !important;
+  color: var(--editorial-ink) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body main :is(
+  .storytelling-static-intro, .storytelling-static-declaration,
+  .storytelling-static-output, .storytelling-shell, .storytelling-declaration,
+  .storytelling-institution-grid, .storytelling-softskills,
+  .ai-thesis, .ai-insight, .shift-callout, .shift-vs,
+  .leading-quote, .india-main, .student-promise, .output-callout,
+  .impact-target, .investment-note, .evidence-featured, .pitch-preview,
+  .program-output, .program-audience, .asset-archive-note,
+  .brochure-use-note, .facilitator-focus-image, .gallery-note,
+  .card-takeaway, .contact-box, .contact-intake
+) :is(h2, h3, h4, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+
+body main :is(
+  .storytelling-static-intro, .storytelling-static-declaration,
+  .storytelling-static-output, .storytelling-shell, .storytelling-declaration,
+  .storytelling-institution-grid, .storytelling-softskills,
+  .ai-thesis, .ai-insight, .shift-callout, .shift-vs,
+  .leading-quote, .india-main, .student-promise, .output-callout,
+  .impact-target, .investment-note, .evidence-featured, .pitch-preview,
+  .program-output, .program-audience, .asset-archive-note,
+  .brochure-use-note, .facilitator-focus-image, .gallery-note,
+  .card-takeaway, .contact-box, .contact-intake
+) :is(p, li, span, label) {
+  color: var(--editorial-muted) !important;
+}
+
+body main :is(.ai-insight, .program-output, .storytelling-static-output,
+  .card-takeaway, .asset-archive-note, .brochure-use-note):nth-child(3n + 1) {
+  border-left: 4px solid var(--editorial-green) !important;
+}
+body main :is(.ai-insight, .program-output, .storytelling-static-output,
+  .card-takeaway, .asset-archive-note, .brochure-use-note):nth-child(3n + 2) {
+  border-left: 4px solid var(--editorial-cobalt) !important;
+}
+body main :is(.ai-insight, .program-output, .storytelling-static-output,
+  .card-takeaway, .asset-archive-note, .brochure-use-note):nth-child(3n) {
+  border-left: 4px solid var(--editorial-gold) !important;
+}
+
+body main :is(.gallery-image-button, .featured-image, .image-preview-stage,
+  .image-preview-dialog) {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body main :is(.image-count, .image-open-label, .audience-tags span,
+  .storytelling-flyer-link, .profile-identity-links a, .card-actions a,
+  .card-actions button) {
+  border-radius: 2px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body main :is(.storytelling-static-intro, .storytelling-shell,
+  .linkedin-visual, .impact-target, .corporate-program)::before,
+body main :is(.storytelling-static-intro, .storytelling-shell,
+  .linkedin-visual, .impact-target, .corporate-program)::after,
+body main :is(.rings, .dots, .decorative-orb) {
+  display: none !important;
+}
+
+body main :is(.contact-intake, .privacy-card) :is(input, textarea, select) {
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+  box-shadow: none !important;
+}
+
+body main :is(.contact-intake, .privacy-card) :is(input, textarea, select)::placeholder {
+  color: var(--editorial-muted) !important;
+}
+
+/* Shared chrome follows the same crisp geometry. */
+.site-header,
+.nav-wrap,
+.page-subnav-wrap {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.brand-mark,
+.back-to-top,
+.story-nav,
+.story-nav a {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body main :is(h1, h2, h3, h4, h5, h6, blockquote, strong, b) {
+  font-family: "Sora", "Manrope", system-ui, sans-serif !important;
+}
+
+/* ===== Complete section parity: remove every remaining legacy visual island ===== */
+body main > section:not(:first-child) {
+  background-color: var(--editorial-paper) !important;
+  background-image: none !important;
+  color: var(--editorial-ink) !important;
+  border-top: 1px solid var(--editorial-line);
+}
+
+body main > section:not(:first-child):nth-of-type(even) {
+  background-color: var(--editorial-soft) !important;
+}
+
+body main > section:not(:first-child)::before,
+body main > section:not(:first-child)::after {
+  filter: none !important;
+}
+
+body main > section:not(:first-child) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+
+body main > section:not(:first-child) :is(p, li, dd, figcaption) {
+  color: var(--editorial-muted) !important;
+}
+
+body main > section:not(:first-child) :is(.eyebrow, small, dt, [class*="kicker"], [class*="label"]) {
+  color: var(--editorial-green) !important;
+}
+
+body main > section:not(:first-child) :is(.btn, button, [role="button"]),
+body main > section:not(:first-child) :is(.btn, button, [role="button"]) * {
+  color: inherit !important;
+}
+
+body main > section:not(:first-child) .btn.primary {
+  border-color: var(--editorial-green) !important;
+  background: var(--editorial-green) !important;
+  color: var(--btn-primary-fg) !important;
+}
+
+body main > section:not(:first-child) .btn.secondary {
+  border-color: var(--editorial-line) !important;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+
+/* Old page modules used gradients, glass blur and large curves. All now share
+   the same crisp paper, border and three-accent system. */
+body main :is(
+  article,
+  details,
+  [class$="-card"],
+  [class*="-card "],
+  [class$="-panel"],
+  [class*="-panel "],
+  [class$="-shell"],
+  [class*="-shell "],
+  [class$="-callout"],
+  [class*="-callout "],
+  [class$="-strip"],
+  [class*="-strip "]
+) {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body main :is(
+  .operating-model,
+  .premium-facilitation-teaser,
+  .academic-cta,
+  .academic-decision-strip,
+  .research-engage-shell,
+  .profile-contact-shell,
+  .diagnostic-value,
+  .leadership-positioning > div,
+  .outcome-large,
+  .outcome-accent,
+  .india-callout,
+  .ai-shift-visual,
+  .story-start-map-shell,
+  .download-card,
+  .portfolio-note,
+  .tc-contact-process,
+  .tc-diagnostic-shell,
+  .tc-evidence-shell,
+  .tc-executive-shell
+) {
+  border: 1px solid var(--editorial-line) !important;
+  border-left: 5px solid var(--editorial-cobalt) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body main :is(
+  .operating-model,
+  .premium-facilitation-teaser,
+  .academic-cta,
+  .academic-decision-strip,
+  .research-engage-shell,
+  .profile-contact-shell,
+  .diagnostic-value,
+  .leadership-positioning > div,
+  .outcome-large,
+  .outcome-accent,
+  .india-callout,
+  .ai-shift-visual,
+  .story-start-map-shell,
+  .download-card,
+  .portfolio-note,
+  .tc-contact-process,
+  .tc-diagnostic-shell,
+  .tc-evidence-shell,
+  .tc-executive-shell
+) :is(h2, h3, h4, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+
+body main :is(
+  .operating-model,
+  .premium-facilitation-teaser,
+  .academic-cta,
+  .academic-decision-strip,
+  .research-engage-shell,
+  .profile-contact-shell,
+  .diagnostic-value,
+  .leadership-positioning > div,
+  .outcome-large,
+  .outcome-accent,
+  .india-callout,
+  .ai-shift-visual,
+  .story-start-map-shell,
+  .download-card,
+  .portfolio-note,
+  .tc-contact-process,
+  .tc-diagnostic-shell,
+  .tc-evidence-shell,
+  .tc-executive-shell
+) :is(p, li, span) {
+  color: var(--editorial-muted) !important;
+}
+
+body main :is(.mini-program-grid a, .operating-model li, .engage-grid article,
+  .leadership-positioning .proof, .diagnostic-value li, .academic-cta article) {
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-soft) !important;
+  color: var(--editorial-ink) !important;
+}
+
+body main :is(.mini-program-grid a, .operating-model li, .engage-grid article,
+  .diagnostic-value li) :is(h3, b, strong) {
+  color: var(--editorial-ink) !important;
+}
+
+body main :is(.mini-program-grid a, .operating-model li, .engage-grid article,
+  .diagnostic-value li) :is(p, span) {
+  color: var(--editorial-muted) !important;
+}
+
+body main :is(.research-theme-card, .publication-card, .patent-card,
+  .profile-proof > div, .proof-strip > div, .academic-proof > div,
+  .outcome-bento article, .transformation-card, .gallery-item,
+  .evidence-card, .format-card, .resource-card, .brochure-card, .flyer-card) {
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+  box-shadow: none !important;
+}
+
+body main :is(.research-theme-card, .publication-card, .patent-card,
+  .profile-proof > div, .proof-strip > div, .academic-proof > div,
+  .outcome-bento article, .transformation-card, .gallery-item,
+  .evidence-card, .format-card, .resource-card, .brochure-card, .flyer-card):nth-child(3n + 1) {
+  border-top: 4px solid var(--editorial-green) !important;
+}
+body main :is(.research-theme-card, .publication-card, .patent-card,
+  .profile-proof > div, .proof-strip > div, .academic-proof > div,
+  .outcome-bento article, .transformation-card, .gallery-item,
+  .evidence-card, .format-card, .resource-card, .brochure-card, .flyer-card):nth-child(3n + 2) {
+  border-top: 4px solid var(--editorial-cobalt) !important;
+}
+body main :is(.research-theme-card, .publication-card, .patent-card,
+  .profile-proof > div, .proof-strip > div, .academic-proof > div,
+  .outcome-bento article, .transformation-card, .gallery-item,
+  .evidence-card, .format-card, .resource-card, .brochure-card, .flyer-card):nth-child(3n) {
+  border-top: 4px solid var(--editorial-gold) !important;
+}
+
+body main :is(.patent-number, .leadership-outcome-card span, .day-number,
+  .step-number, .role-number, .engage-grid > article > span) {
+  border-radius: 0 !important;
+  background: var(--editorial-green) !important;
+  color: var(--btn-primary-fg) !important;
+}
+
+body main :is(.availability-pill, .story-chip, .filter-button, .tag, .badge) {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Contact and closing sections use the same quiet grid as the homepage. */
+body main > section:is(.future-contact, .profile-contact, .premium-contact,
+  .research-engage, .institutional-diagnostic, .gallery-next, .first-30-days,
+  .leading-institutes, .ai-story) {
+  background-color: var(--editorial-soft) !important;
+  background-image:
+    linear-gradient(var(--flat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px) !important;
+  background-size: 40px 40px !important;
+  color: var(--editorial-ink) !important;
+}
+
+body main > section:is(.future-contact, .profile-contact, .premium-contact,
+  .research-engage, .institutional-diagnostic, .gallery-next, .first-30-days,
+  .leading-institutes, .ai-story) :is(h1, h2, h3, h4, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+
+body main > section:is(.future-contact, .profile-contact, .premium-contact,
+  .research-engage, .institutional-diagnostic, .gallery-next, .first-30-days,
+  .leading-institutes, .ai-story) :is(p, li) {
+  color: var(--editorial-muted) !important;
+}
+
+@media (max-width: 760px) {
+  body main :is(.operating-model, .academic-cta, .academic-decision-strip,
+    .research-engage-shell, .profile-contact-shell, .leadership-positioning) {
+    grid-template-columns: 1fr !important;
+  }
+}
