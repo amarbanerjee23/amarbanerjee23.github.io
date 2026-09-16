@@ -123,10 +123,11 @@ import config from '/assets/js/analytics-config.js';
     const banner = document.createElement('aside');
     banner.className = 'analytics-consent';
     banner.setAttribute('aria-label', 'Anonymous analytics choice');
+    banner.setAttribute('role', 'region');
     banner.innerHTML = `
       <div>
-        <strong>Anonymous site analytics</strong>
-        <p>This site can record page journeys, approximate city/country, device type and engagement actions. Raw IP addresses are not stored and no Google identity is collected.</p>
+        <strong>Optional anonymous analytics</strong>
+        <p>Help improve the site with anonymous usage data. No raw IP address or Google identity is stored.</p>
       </div>
       <div class="analytics-consent-actions">
         <button type="button" data-analytics-choice="allow">Allow anonymous analytics</button>
@@ -153,10 +154,10 @@ import config from '/assets/js/analytics-config.js';
     const style = document.createElement('style');
     style.id = 'analytics-consent-style';
     style.textContent = `
-      .analytics-consent{position:fixed;left:20px;right:20px;bottom:20px;z-index:10000;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;max-width:980px;margin:auto;padding:18px 20px;border:1px solid rgba(40,196,199,.28);border-radius:18px;background:rgba(7,27,45,.96);color:#fff;box-shadow:0 24px 70px rgba(0,0,0,.3);backdrop-filter:blur(18px)}
-      .analytics-consent strong{font-size:14px}.analytics-consent p{margin:5px 0 0;max-width:68ch;color:rgba(255,255,255,.73);font-size:11px;line-height:1.55}
-      .analytics-consent-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.analytics-consent button,.analytics-consent a{min-height:40px;padding:10px 13px;border-radius:11px;font:inherit;font-size:11px;font-weight:700;cursor:pointer}.analytics-consent button:first-child{border:0;background:#28c4c7;color:#071b2d}.analytics-consent button:nth-child(2){border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}.analytics-consent a{display:inline-flex;align-items:center;color:#fff;text-decoration:none}
-      @media(max-width:720px){.analytics-consent{grid-template-columns:1fr;bottom:10px;left:10px;right:10px}.analytics-consent-actions{justify-content:flex-start}}
+      .analytics-consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:10000;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;max-width:820px;margin:auto;padding:14px 16px;border:1px solid var(--editorial-line,#d4d9ce);border-radius:0;background:var(--editorial-paper,#fff);color:var(--editorial-ink,#102a20);box-shadow:0 12px 34px rgba(16,42,32,.12)}
+      body .analytics-consent strong{font-size:13px;color:var(--editorial-ink,#102a20)!important}body .analytics-consent p{margin:4px 0 0;max-width:62ch;color:var(--editorial-muted,#5c7167)!important;font-size:10px;line-height:1.5}
+      .analytics-consent-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.analytics-consent button,.analytics-consent a{min-height:36px;padding:8px 11px;border-radius:0;font:inherit;font-size:10px;font-weight:700;cursor:pointer}.analytics-consent button:first-child{border:1px solid var(--editorial-green,#075f3b);background:var(--editorial-green,#075f3b);color:var(--btn-primary-fg,#fff)!important}.analytics-consent button:nth-child(2){border:1px solid var(--editorial-line,#d4d9ce);background:transparent;color:var(--editorial-ink,#102a20)!important}.analytics-consent a{display:inline-flex;align-items:center;color:var(--editorial-muted,#5c7167)!important;text-decoration:underline;text-underline-offset:3px}
+      @media(max-width:720px){.analytics-consent{grid-template-columns:1fr;bottom:8px;left:8px;right:8px;gap:12px;padding:13px}.analytics-consent-actions{justify-content:flex-start}.analytics-consent button,.analytics-consent a{min-height:34px}}
     `;
     document.head.appendChild(style);
   };
