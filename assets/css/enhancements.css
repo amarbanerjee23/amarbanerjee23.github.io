@@ -584,3 +584,128 @@ html[data-theme="dark"] .brand :is(.brand-mark, .logo, span[aria-hidden]) {
   background: var(--editorial-green) !important;
   color: #06150f !important;
 }
+
+/* ============================================================
+   Modern flat refresh — crisp geometry and high-signal colour
+   ============================================================ */
+:root {
+  --flat-grid: color-mix(in srgb, var(--editorial-line) 58%, transparent);
+  --flat-shadow: 8px 8px 0 color-mix(in srgb, var(--editorial-ink) 9%, transparent);
+}
+
+/* Replace atmospheric effects with a precise editorial grid. */
+body.academic-future-home main#main section.academic-future-hero::after {
+  inset: 0;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent 0 72%, color-mix(in srgb, var(--editorial-cobalt) 9%, transparent) 72%),
+    linear-gradient(180deg, transparent 0 84%, color-mix(in srgb, var(--editorial-gold) 18%, transparent) 84%),
+    linear-gradient(var(--flat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px);
+  background-size: auto, auto, 42px 42px, 42px 42px;
+  filter: none;
+  animation: none;
+}
+body.academic-future-home .academic-future-copy h1,
+html[data-theme="dark"] body.academic-future-home .academic-future-copy h1 {
+  background: none;
+  color: var(--editorial-ink) !important;
+  -webkit-text-fill-color: currentColor;
+}
+body.academic-future-home .academic-future-copy h1::after {
+  content: "";
+  display: block;
+  width: min(180px, 34vw);
+  height: 8px;
+  margin-top: 24px;
+  background: linear-gradient(90deg, var(--editorial-green) 0 58%, var(--editorial-cobalt) 58% 82%, var(--editorial-gold) 82%);
+}
+
+/* Flat brand and action language. */
+.brand-mark { box-shadow: 5px 5px 0 var(--editorial-gold) !important; }
+.btn.primary, .primary.btn { box-shadow: 4px 4px 0 var(--editorial-gold) !important; }
+.btn.primary:hover, .primary.btn:hover {
+  box-shadow: 2px 2px 0 var(--editorial-gold) !important;
+  transform: translate(2px, 2px);
+}
+.btn.secondary:hover, .secondary.btn:hover {
+  border-color: var(--editorial-cobalt) !important;
+  color: var(--editorial-cobalt) !important;
+}
+
+/* Compact high-signal labels. */
+.availability-pill {
+  border: 1px solid var(--editorial-line) !important;
+  border-left: 5px solid var(--editorial-green) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+}
+.eyebrow::before, .section-head > span::before, .section-label::before {
+  width: 30px;
+  height: 4px;
+}
+
+/* Every repeated item becomes a clear, flat module. */
+.card, .path-card, .program-mini, .module-card, .format-card, .download-card,
+.gallery-card, .evidence-card, .profile-card, .future-contrast article,
+.patent-lens article, .institution-options a, .top-venue-stack > div,
+.future-signal-row a, .innovation-journey article, .faq-list details {
+  box-shadow: none !important;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease !important;
+}
+.card:hover, .path-card:hover, .program-mini:hover, .module-card:hover,
+.format-card:hover, .download-card:hover, .gallery-card:hover,
+.evidence-card:hover, .institution-options a:hover, .patent-lens article:hover,
+.future-signal-row a:hover, .innovation-journey article:hover {
+  transform: translate(-3px, -3px) !important;
+  border-color: var(--editorial-cobalt) !important;
+  box-shadow: var(--flat-shadow) !important;
+}
+.innovation-journey article:nth-child(3n + 1),
+.institution-options a:nth-child(3n + 1) { border-top: 4px solid var(--editorial-green) !important; }
+.innovation-journey article:nth-child(3n + 2),
+.institution-options a:nth-child(3n + 2) { border-top: 4px solid var(--editorial-cobalt) !important; }
+.innovation-journey article:nth-child(3n),
+.institution-options a:nth-child(3n) { border-top: 4px solid var(--editorial-gold) !important; }
+.innovation-journey article > span,
+.top-venue-stack > div > span {
+  display: inline-grid;
+  min-width: 38px;
+  min-height: 38px;
+  place-items: center;
+  background: var(--editorial-green);
+  color: var(--btn-primary-fg) !important;
+}
+.future-signal-row a:first-child { border-left-width: 5px !important; }
+.future-signal-row a:last-child { border-left: 5px solid var(--editorial-gold) !important; }
+
+/* Photography reads as evidence, not decoration. */
+.gallery-card img, .evidence-card img, .premium-facilitation-teaser img,
+.home-intro-profile img, .profile-hero img, .facilitator-focus-image img {
+  filter: saturate(.86) contrast(1.04);
+  transition: filter .25s ease, transform .25s ease;
+}
+.gallery-card:hover img, .evidence-card:hover img { filter: saturate(1) contrast(1.02); }
+
+/* Strong section transitions and proof points. */
+.future-contrast-accent { border-left-color: var(--editorial-gold) !important; }
+.future-outcome-strip { border-left: 5px solid var(--editorial-cobalt) !important; }
+.home-intro-proof b, .premium-proof strong { font-size: clamp(1.7rem, 3vw, 2.5rem) !important; }
+.faq-list details[open] { border-left-color: var(--editorial-cobalt) !important; }
+
+@media (max-width: 760px) {
+  body.academic-future-home main#main section.academic-future-hero::after {
+    background:
+      linear-gradient(180deg, transparent 0 90%, color-mix(in srgb, var(--editorial-gold) 18%, transparent) 90%),
+      linear-gradient(var(--flat-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px);
+    background-size: auto, 32px 32px, 32px 32px;
+  }
+  .future-signal-row a:last-child { border-left: 0 !important; border-top: 5px solid var(--editorial-gold) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .path-card, .program-mini, .module-card, .format-card, .download-card,
+  .gallery-card, .evidence-card, .institution-options a, .patent-lens article,
+  .future-signal-row a, .innovation-journey article { transition: none !important; }
+}
