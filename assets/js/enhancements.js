@@ -2,6 +2,15 @@
 (function () {
   "use strict";
 
+  /* Load the shared Sora + Manrope editorial type system. */
+  if (!document.querySelector('link[data-editorial-fonts]')) {
+    var fonts = document.createElement("link");
+    fonts.rel = "stylesheet";
+    fonts.href = "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap";
+    fonts.setAttribute("data-editorial-fonts", "");
+    document.head.appendChild(fonts);
+  }
+
   /* Reveal on scroll: upgrades existing .reveal blocks and any
      .js-reveal / .js-reveal-stagger containers. */
   var revealEls = document.querySelectorAll(".js-reveal, .js-reveal-stagger > *");
