@@ -69,6 +69,73 @@
   });
 })();
 
+/* Clear page endings, evidence-based outcomes and focused program pathways. */
+(function(){
+  var file = location.pathname.split('/').pop() || 'index.html';
+  var stories = {
+    'index.html': ['From assigned topic to defensible problem', 'Students often begin with a technology or supplied brief.', 'The Problem-to-Proof method makes them observe friction, frame the problem and define evidence.', 'They leave with a framed challenge, an evidence plan and a clearer reason to pursue the idea.'],
+    'workshops.html': ['Work that continues after the session', 'A one-day event can create energy without changing the next decision.', 'Each pathway combines a repeatable method, guided practice and student-owned outputs.', 'Students retain a problem map, research direction or invention canvas they can continue refining.'],
+    'research-ip.html': ['Research translated into usable thinking', 'Complex portfolios can be difficult for students and collaborators to navigate.', 'Each publication and patent is explained through the practical problem it addresses.', 'Readers can identify relevant themes, methods and collaboration questions without guessing from titles alone.'],
+    'academic-partnerships.html': ['A focused pilot before a broad initiative', 'Institutions may know the ambition but not the right cohort or first format.', 'A diagnostic identifies one capability, one cohort, one reviewable output and a credible starting format.', 'Leadership receives a clear pilot proposition tied to visible student work and follow-through.'],
+    'profile.html': ['Experience converted into student capability', 'Research, invention and teaching can appear as separate accomplishments.', 'The academic programs connect problem discovery, evidence, novelty and communication into one discipline.', 'Students gain a clearer route from project idea to paper, patent, prototype or next experiment.'],
+    'facilitation-gallery.html': ['Complex ideas made actionable', 'AI, healthcare and career questions can overwhelm mixed academic audiences.', 'Workshops, panels and mentoring use dialogue and memorable decision principles.', 'The public engagements demonstrate participation, practical framing and a clear learner next step.']
+  };
+  var steps = {
+    'index.html': ['Choose the right starting point', 'Match one cohort to one capability.', 'Compare the three core pathways before choosing a format.', 'workshops.html', 'Explore the programs'],
+    'workshops.html': ['Need evidence first?', 'See how the facilitation works in public settings.', 'Review selected workshops, panels and mentoring before starting a conversation.', 'facilitation-gallery.html', 'View facilitation evidence'],
+    'research-ip.html': ['Continue with the research pathway', 'Turn research and invention experience into a cohort capability.', 'Return to the Research Excellence pathway at the exact point it becomes relevant.', 'workshops.html#research-excellence', 'Back to Programs'],
+    'academic-partnerships.html': ['Review before deciding', 'Compare the three core student pathways.', 'Choose innovation thinking, research excellence or patent thinking as the strongest starting point.', 'workshops.html#program-pathways', 'Back to Programs'],
+    'profile.html': ['Explore the academic application', 'See how this experience becomes structured student practice.', 'Return to the Programs page and select the pathway that fits your cohort.', 'workshops.html#program-pathways', 'Back to Programs'],
+    'facilitation-gallery.html': ['From evidence to structure', 'See the pathways behind these public engagements.', 'Compare the program outcomes and student-owned outputs.', 'workshops.html#program-pathways', 'Back to Programs'],
+    'privacy.html': ['Return to the main experience', 'Continue exploring the academic innovation work.', 'Your analytics choice remains saved while you browse.', 'index.html', 'Return home'],
+    'analytics-status.html': ['Continue exploring', 'Return to the academic innovation work.', 'Review the programs, evidence and institutional pathways.', 'index.html', 'Return home'],
+    '404.html': ['Choose a clear destination', 'The page you requested is not available.', 'Return to the main site without losing your place in the browser history.', 'index.html', 'Return home']
+  };
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function insertBeforeClosing(section){
+    var main=document.querySelector('main'); if(!main) return;
+    var contact=main.querySelector(':scope > section.contact:last-of-type, :scope > .contact:last-of-type');
+    main.insertBefore(section, contact || null);
+  }
+  var story=stories[file];
+  if(story && !document.querySelector('.outcome-story')){
+    var s=document.createElement('section'); s.className='section soft outcome-story';
+    s.innerHTML='<div class="container"><span class="outcome-kicker">Outcome in practice</span><h2>'+esc(story[0])+'</h2><dl>'+[['Challenge',story[1]],['Intervention',story[2]],['Demonstrated outcome',story[3]]].map(function(x){return '<div><dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd></div>';}).join('')+'</dl></div>';
+    insertBeforeClosing(s);
+  }
+  var step=steps[file];
+  if(step && !document.querySelector('.page-next-step')){
+    var n=document.createElement('section'); n.className='page-next-step';
+    n.innerHTML='<div class="container"><div><span>'+esc(step[0])+'</span><h2>'+esc(step[1])+'</h2><p>'+esc(step[2])+'</p></div><a href="'+esc(step[3])+'">'+esc(step[4])+' →</a></div>';
+    insertBeforeClosing(n);
+  }
+
+  if(file === 'workshops.html'){
+    var hero=document.querySelector('#programs-opening');
+    var ids=['student-innovation','research-excellence','patent-thinking'];
+    if(hero && !document.querySelector('#program-pathways')){
+      var chooser=document.createElement('nav'); chooser.id='program-pathways'; chooser.className='program-pathways'; chooser.setAttribute('aria-label','Choose a program pathway');
+      chooser.innerHTML='<div class="container"><span>Choose one pathway</span><div role="tablist">'+ids.map(function(id,i){var title=document.querySelector('#'+id+' h2'); return '<button type="button" role="tab" aria-controls="'+id+'" aria-selected="'+(i===0?'true':'false')+'" data-pathway="'+id+'">'+esc(title?title.textContent:id)+'</button>';}).join('')+'</div></div>';
+      hero.insertAdjacentElement('afterend',chooser);
+      function select(id, scroll){
+        ids.forEach(function(x){var sec=document.getElementById(x), b=chooser.querySelector('[data-pathway="'+x+'"]'); if(sec) sec.hidden=x!==id; if(b){b.setAttribute('aria-selected',x===id?'true':'false'); b.tabIndex=x===id?0:-1;}});
+        if(scroll){ history.replaceState(null,'','#'+id); var sec=document.getElementById(id); if(sec) sec.scrollIntoView({behavior:'smooth'}); }
+      }
+      chooser.addEventListener('click',function(e){var b=e.target.closest('[data-pathway]'); if(b) select(b.dataset.pathway,true);});
+      var initial=ids.indexOf(location.hash.slice(1))>-1?location.hash.slice(1):ids[0]; select(initial,false);
+      window.addEventListener('hashchange',function(){var id=location.hash.slice(1); if(ids.indexOf(id)>-1) select(id,false);});
+      var storySection=document.getElementById('storytelling');
+      if(storySection){ storySection.classList.add('supporting-capability'); var label=storySection.querySelector('.storytelling-static-intro > span'); if(label) label.textContent='Supporting capability across all three pathways'; }
+    }
+    function removeCompetingOverview(){
+      var old=document.getElementById('four-programs');
+      if(old) old.remove();
+    }
+    removeCompetingOverview();
+    [300,900,1800,3200].forEach(function(ms){setTimeout(removeCompetingOverview,ms);});
+  }
+})();
+
 /* Readability pass: guarantee every text element has legible colour and size. */
 (function () {
   var INK = "#102a20", IVORY = "#fbfaf5", MUTED = "#5c7167", MUTED_DARK = "#c6d5cb";
