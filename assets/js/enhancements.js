@@ -11,6 +11,16 @@
     document.head.appendChild(fonts);
   }
 
+  /* Some legacy page scripts promote their styles at runtime. Keep this
+     visual system last in the cascade after those scripts have completed. */
+  var editorialStyles = document.querySelector('link[href*="assets/css/enhancements.css"]');
+  if (editorialStyles) document.head.appendChild(editorialStyles);
+  window.addEventListener("load", function () {
+    window.setTimeout(function () {
+      if (editorialStyles) document.head.appendChild(editorialStyles);
+    }, 0);
+  });
+
   /* Reveal on scroll: upgrades existing .reveal blocks and any
      .js-reveal / .js-reveal-stagger containers. */
   var revealEls = document.querySelectorAll(".js-reveal, .js-reveal-stagger > *");

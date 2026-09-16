@@ -106,13 +106,14 @@ h1, h2, h3, h4, .brand strong {
 .lead { font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.75; }
 
 /* --- Home: asymmetric opening and evidence ------------------------ */
-.academic-future-hero {
+html body.academic-future-home main#main section.academic-future-hero {
   background: var(--paper) !important;
+  color: var(--editorial-ink) !important;
   min-height: min(800px, calc(100vh - 72px));
   display: flex;
   align-items: center;
 }
-.academic-future-hero::before {
+html body.academic-future-home main#main section.academic-future-hero::before {
   content: "";
   position: absolute;
   top: 14%;
@@ -122,9 +123,13 @@ h1, h2, h3, h4, .brand strong {
   border: 1px solid var(--line);
   border-right: 6px solid var(--editorial-cobalt);
   pointer-events: none;
+  background: none !important;
+  opacity: 1 !important;
+  inset: auto 4% auto auto;
+  mask-image: none;
 }
 .academic-future-hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
-.academic-future-copy { max-width: 920px; }
+.academic-future-copy { max-width: 920px; min-width: 0; }
 .academic-future-copy h1 { max-width: 13ch !important; }
 .academic-future-copy .lead { max-width: 720px; }
 .academic-future-copy .hero-thesis {
@@ -139,6 +144,32 @@ h1, h2, h3, h4, .brand strong {
   background: var(--paper) !important;
 }
 .future-signal-row a:first-child { border-left: 4px solid var(--editorial-cobalt); }
+html body.academic-future-home main#main section.academic-future-hero :is(h1, h2, h3, h4, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+html body.academic-future-home main#main section.academic-future-hero :is(p, li, span) {
+  color: var(--editorial-muted) !important;
+}
+html body.academic-future-home main#main section.academic-future-hero :is(.eyebrow, .availability-pill, small) {
+  color: var(--editorial-green) !important;
+}
+html body.academic-future-home main#main section.academic-future-hero .availability-pill {
+  border-color: var(--editorial-line) !important;
+  background: transparent !important;
+}
+html body.academic-future-home main#main section.academic-future-hero .btn.primary {
+  border-color: var(--editorial-green) !important;
+  background: var(--editorial-green) !important;
+  color: #fff !important;
+}
+html body.academic-future-home main#main section.academic-future-hero .btn.secondary {
+  border-color: var(--editorial-line) !important;
+  color: var(--editorial-ink) !important;
+}
+.future-signal-row a {
+  border-color: var(--editorial-line) !important;
+  background: var(--editorial-paper) !important;
+}
 
 /* --- Buttons and content surfaces --------------------------------- */
 .btn {
@@ -316,10 +347,15 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (max-width: 760px) {
   .container { width: min(100% - 32px, 1180px); }
   .section { padding: 64px 0; }
-  .academic-future-hero { min-height: auto; padding-block: 72px !important; }
-  .academic-future-hero::before { display: none; }
+  html body.academic-future-home main#main section.academic-future-hero { min-height: auto; padding-block: 64px !important; }
+  html body.academic-future-home main#main section.academic-future-hero::before { display: none; }
   .hero h1, .premium-hero h1, .workshop-hero h1, .gallery-hero h1,
-  .academic-hero h1, .profile-hero h1 { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
+  .academic-hero h1, .profile-hero h1 {
+    max-width: 100% !important;
+    overflow-wrap: anywhere;
+    font-size: clamp(2.35rem, 11vw, 3.4rem) !important;
+  }
+  .academic-future-grid, .academic-future-copy { min-width: 0; width: 100%; }
   .future-signal-row { grid-template-columns: 1fr !important; }
   .future-signal-row a:first-child { border-left: 0; border-top: 4px solid var(--editorial-cobalt); }
 }
