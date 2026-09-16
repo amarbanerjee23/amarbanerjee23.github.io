@@ -1093,3 +1093,157 @@ html[data-theme="dark"] body .site-header nav#nav a.nav-cta:hover{background:var
   .nav-toggle span{display:block!important;width:20px;height:2px;margin:0;background:currentColor!important;border-radius:0}
   body .site-header nav#nav{left:0!important;right:0!important;width:auto!important;max-width:none!important;border-radius:0!important;margin:0!important}
 }
+
+/* ===== Site-wide visual parity: one flat editorial opening on every page ===== */
+:root { --page-grid-size: 42px; }
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child,
+body main > .privacy-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--editorial-ivory) !important;
+  background-image:
+    linear-gradient(90deg, transparent 0 72%, color-mix(in srgb, var(--editorial-cobalt) 8%, transparent) 72%),
+    linear-gradient(180deg, transparent 0 86%, color-mix(in srgb, var(--editorial-gold) 16%, transparent) 86%),
+    linear-gradient(var(--flat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px) !important;
+  background-size: auto, auto, var(--page-grid-size) var(--page-grid-size), var(--page-grid-size) var(--page-grid-size) !important;
+  color: var(--editorial-ink) !important;
+  border-bottom: 1px solid var(--editorial-line);
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child::before,
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child::after,
+body main > .privacy-hero::before,
+body main > .privacy-hero::after {
+  display: none !important;
+}
+
+body.profile-page.ux-calm #profile-opening.profile-hero {
+  background-color: var(--editorial-ivory) !important;
+  background-image:
+    linear-gradient(90deg, transparent 0 72%, color-mix(in srgb, var(--editorial-cobalt) 8%, transparent) 72%),
+    linear-gradient(180deg, transparent 0 86%, color-mix(in srgb, var(--editorial-gold) 16%, transparent) 86%),
+    linear-gradient(var(--flat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px) !important;
+  background-size: auto, auto, var(--page-grid-size) var(--page-grid-size), var(--page-grid-size) var(--page-grid-size) !important;
+  color: var(--editorial-ink) !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child :is(h1, h2, h3, h4, strong, b),
+body main > .privacy-hero :is(h1, h2, h3, h4, strong, b) {
+  color: var(--editorial-ink) !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child :is(p, li),
+body main > .privacy-hero p {
+  color: var(--editorial-muted) !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child :is(.eyebrow, .availability-pill, small),
+body main > .privacy-hero .eyebrow {
+  color: var(--editorial-green) !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child h1,
+body main > .privacy-hero h1 {
+  max-width: 15ch !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child h1::after,
+body main > .privacy-hero h1::after {
+  content: "";
+  display: block;
+  width: min(180px, 34vw);
+  height: 8px;
+  margin-top: 24px;
+  background: linear-gradient(90deg, var(--editorial-green) 0 58%, var(--editorial-cobalt) 58% 82%, var(--editorial-gold) 82%);
+}
+
+/* Flatten page-specific opening panels that previously retained glass and navy. */
+body.academic-page .decision-confidence-card,
+body.workshops-page .program-hero-note,
+body.gallery-page .gallery-manifesto,
+body.profile-page :is(.profile-identity, .profile-identity-card),
+body.research-page :is(.research-profile-card, .research-hero-card) {
+  border: 1px solid var(--editorial-line) !important;
+  border-top: 5px solid var(--editorial-cobalt) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--editorial-ink) 7%, transparent) !important;
+  backdrop-filter: none !important;
+}
+
+body.academic-page .decision-confidence-card li,
+body.workshops-page .program-hero-note li,
+body.gallery-page .gallery-manifesto li,
+body.profile-page .profile-identity :is(li, .profile-proof > div),
+body.research-page .research-profile-card :is(li, .research-profile-proof > div) {
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 0 !important;
+  background: var(--editorial-soft) !important;
+}
+
+body.academic-page .decision-confidence-card li > span,
+body.workshops-page .program-hero-note li::before {
+  border-radius: 0 !important;
+  background: var(--editorial-green) !important;
+  color: var(--btn-primary-fg) !important;
+}
+
+body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child .btn.secondary {
+  border-color: var(--editorial-line) !important;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+
+/* Carry the flat card language through page-specific modules, not only shared cards. */
+:is(.role-card, .ai-journey-card, .impact-card, .leading-card,
+  .leadership-outcome-card, .transformation-card, .architecture-card,
+  .day-step, .review-metric, .diagnostic-value, .academic-proof > div,
+  .program-card, .program-pillar, .gallery-manifesto, .gallery-item,
+  .profile-proof > div, .research-profile-card, .privacy-card) {
+  border-radius: 0 !important;
+  border-color: var(--editorial-line) !important;
+  box-shadow: none !important;
+}
+
+:is(.role-card, .ai-journey-card, .impact-card, .leading-card,
+  .leadership-outcome-card, .architecture-card, .day-step, .review-metric,
+  .academic-proof > div, .program-card, .program-pillar, .gallery-item,
+  .privacy-card) {
+  background: var(--editorial-paper) !important;
+}
+
+:is(.role-card, .ai-journey-card, .leading-card, .leadership-outcome-card,
+  .architecture-card, .day-step, .review-metric, .program-card, .program-pillar):nth-child(3n + 1) {
+  border-top: 4px solid var(--editorial-green) !important;
+}
+:is(.role-card, .ai-journey-card, .leading-card, .leadership-outcome-card,
+  .architecture-card, .day-step, .review-metric, .program-card, .program-pillar):nth-child(3n + 2) {
+  border-top: 4px solid var(--editorial-cobalt) !important;
+}
+:is(.role-card, .ai-journey-card, .leading-card, .leadership-outcome-card,
+  .architecture-card, .day-step, .review-metric, .program-card, .program-pillar):nth-child(3n) {
+  border-top: 4px solid var(--editorial-gold) !important;
+}
+
+html[data-theme="dark"] body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child,
+html[data-theme="dark"] body main > .privacy-hero {
+  background-color: var(--editorial-ivory) !important;
+  color: var(--editorial-ink) !important;
+}
+
+@media (max-width: 760px) {
+  :root { --page-grid-size: 32px; }
+  body:is(.academic-page, .workshops-page, .gallery-page, .profile-page, .research-page) main > section:first-child,
+  body main > .privacy-hero {
+    background-image:
+      linear-gradient(180deg, transparent 0 92%, color-mix(in srgb, var(--editorial-gold) 16%, transparent) 92%),
+      linear-gradient(var(--flat-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--flat-grid) 1px, transparent 1px) !important;
+    background-size: auto, var(--page-grid-size) var(--page-grid-size), var(--page-grid-size) var(--page-grid-size) !important;
+  }
+}
