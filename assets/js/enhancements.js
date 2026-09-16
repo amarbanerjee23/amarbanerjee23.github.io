@@ -172,3 +172,74 @@
   else document.addEventListener('DOMContentLoaded', demote);
   window.addEventListener('load', function(){ setTimeout(demote, 600); });
 })();
+
+/* Compact header once the reader scrolls. */
+(function(){
+  var ticking=false;
+  function update(){
+    document.body.classList.toggle('is-scrolled', window.scrollY > 24);
+    ticking=false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking=true; window.requestAnimationFrame(update); }
+  }, {passive:true});
+  update();
+})();
+
+/* One simple, consistent primary navigation on every page. */
+(function(){
+  var file = location.pathname.split('/').pop() || 'index.html';
+  var page = file === 'workshops.html' ? 'workshops'
+    : file === 'facilitation-gallery.html' ? 'gallery'
+    : file === 'academic-partnerships.html' ? 'academic'
+    : file === 'research-ip.html' ? 'research'
+    : file === 'profile.html' ? 'profile' : 'home';
+  var items = [
+    ['Home', 'index.html', ['home']],
+    ['Programs', 'workshops.html', ['workshops','gallery']],
+    ['Research & IP', 'research-ip.html', ['research']],
+    ['Partnerships', 'academic-partnerships.html', ['academic']],
+    ['About', 'profile.html', ['profile']]
+  ];
+  var html = items.map(function(it){
+    var current = it[2].indexOf(page) > -1;
+    var href = (current && page === 'home') ? '#overview' : it[1];
+    return '<a href="' + href + '"' + (current ? ' aria-current="page"' : '') + '>' + it[0] + '</a>';
+  }).join('');
+  html += '<a class="nav-cta" href="' + (page === 'academic' ? '#conversation' : 'academic-partnerships.html#conversation') + '">Start a conversation</a>';
+
+  var applies = 0;
+  function apply(){
+    var nav = document.querySelector('#nav') || document.querySelector('.nav');
+    if(!nav || applies > 60) return;
+    if(nav.innerHTML.trim() !== html){ applies++; nav.innerHTML = html; }
+  }
+  var pending = false;
+  function queue(){
+    if(pending) return;
+    pending = true;
+    setTimeout(function(){ pending = false; apply(); }, 60);
+  }
+  function watch(){
+    if(!window.MutationObserver || !document.body) return;
+    new MutationObserver(function(muts){
+      for(var i=0;i<muts.length;i++){
+        var t = muts[i].target;
+        if(t && t.closest && (t.closest('#nav') || t.closest('.site-header'))){ queue(); return; }
+      }
+    }).observe(document.body, {childList:true, subtree:true});
+  }
+  function closeOnClick(e){
+    if(!e.target.closest || !e.target.closest('#nav a')) return;
+    var nav = document.querySelector('#nav');
+    if(nav) nav.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    var t = document.querySelector('.nav-toggle');
+    if(t) t.setAttribute('aria-expanded','false');
+  }
+  function init(){ apply(); watch(); document.addEventListener('click', closeOnClick); }
+  if(document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  [200,600,1200,2000,3200,5000].forEach(function(ms){ setTimeout(apply, ms); });
+
+})();

@@ -59,58 +59,23 @@
   const backToTop = document.querySelector('.back-to-top');
   const year = document.getElementById('year');
 
-  const navigation = {
-    home: [
-      ['Home', '#overview'],
-      ['Leadership', '#leadership'],
-      ['Research & IP', 'research-ip.html'],
-      ['Academic Leaders', 'academic-partnerships.html'],
-      ['Programs', 'workshops.html'],
-      ['Contact', '#contact']
-    ],
-    workshops: [
-      ['Home', 'index.html'],
-      ['Research & IP', 'research-ip.html'],
-      ['Academic Leaders', 'academic-partnerships.html'],
-      ['Programs', '#finder'],
-      ['Gallery', 'facilitation-gallery.html'],
-      ['Brochures', '#downloads']
-    ],
-    gallery: [
-      ['Home', 'index.html'],
-      ['Research & IP', 'research-ip.html'],
-      ['Programs', 'workshops.html'],
-      ['Gallery', 'facilitation-gallery.html'],
-      ['Academic Leaders', 'academic-partnerships.html'],
-      ['Contact', '#contact']
-    ],
-    academic: [
-      ['Home', 'index.html'],
-      ['Research & IP', 'research-ip.html'],
-      ['Diagnose', '#diagnose'],
-      ['Evidence', '#evidence'],
-      ['Programs', '#programs'],
-      ['Discuss priority', '#conversation']
-    ],
-    research: [
-      ['Home', 'index.html'],
-      ['Themes', '#themes'],
-      ['Publications', '#publications'],
-      ['Patents', '#patents'],
-      ['Programs', 'workshops.html'],
-      ['Collaborate', '#engage']
-    ]
-  };
+  const primaryNav = [
+    ['Home', 'index.html', ['home']],
+    ['Programs', 'workshops.html', ['workshops', 'gallery']],
+    ['Research & IP', 'research-ip.html', ['research']],
+    ['Partnerships', 'academic-partnerships.html', ['academic']]
+  ];
 
   if (nav) {
-    nav.innerHTML = navigation[page].map(([label, href]) => {
-      const current = (page === 'gallery' && href === 'facilitation-gallery.html')
-        || (page === 'workshops' && href === '#finder')
-        || (page === 'academic' && href === '#diagnose')
-        || (page === 'research' && href === '#themes');
-      return `<a href="${href}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
+    const links = primaryNav.map(([label, href, pages]) => {
+      const current = pages.includes(page);
+      const target = current && page === 'home' ? '#overview' : href;
+      return `<a href="${target}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
     }).join('');
+    const contactHref = page === 'academic' ? '#conversation' : 'academic-partnerships.html#conversation';
+    nav.innerHTML = `${links}<a class="nav-cta" href="${contactHref}">Start a conversation</a>`;
   }
+
 
   document.querySelectorAll('.site-search-trigger,.site-search').forEach(element => element.remove());
   document.querySelectorAll('.post-preview-button').forEach(element => element.remove());
