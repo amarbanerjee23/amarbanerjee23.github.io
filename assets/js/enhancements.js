@@ -68,3 +68,92 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 })();
+
+/* Readability pass: guarantee every text element has legible colour and size. */
+(function () {
+  var INK = "#102a20", IVORY = "#fbfaf5", MUTED = "#5c7167", MUTED_DARK = "#c6d5cb";
+
+  function parse(c) {
+    if (!c) return null;
+    var srgb = c.indexOf("color(") === 0;
+    var m = c.replace(/^color\(\s*srgb/, "").match(/[\d.]+/g);
+    if (!m || m.length < 3) return null;
+    var k = srgb ? 255 : 1;
+    return { r: +m[0] * k, g: +m[1] * k, b: +m[2] * k, a: m.length > 3 ? parseFloat(m[3]) : 1 };
+  }
+  function lin(v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+  function lum(c) { return 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b); }
+  function ratio(a, b) {
+    var l1 = lum(a), l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+  function bgOf(el) {
+    var n = el;
+    while (n && n.nodeType === 1) {
+      var cs = getComputedStyle(n);
+      var bi = cs.backgroundImage;
+      if (bi && bi !== "none") {
+        if (bi.indexOf("url(") !== -1) return null;
+        var stops = bi.match(/rgba?\([^)]+\)/g) || [];
+        var acc = null, count = 0;
+        for (var k = 0; k < stops.length; k++) {
+          var sc = parse(stops[k]);
+          if (!sc || sc.a < 0.5) continue;
+          acc = acc ? { r: acc.r + sc.r, g: acc.g + sc.g, b: acc.b + sc.b, a: 1 } : sc;
+          count++;
+        }
+        if (acc && count) return { r: acc.r / count, g: acc.g / count, b: acc.b / count, a: 1 };
+      }
+      var c = parse(cs.backgroundColor);
+      if (c && c.a > 0.5) return c;
+      n = n.parentElement;
+    }
+    return { r: 255, g: 255, b: 255, a: 1 };
+  }
+  function hasText(el) {
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var n = el.childNodes[i];
+      if (n.nodeType === 3 && n.textContent.trim()) return true;
+    }
+    return false;
+  }
+
+  function fix() {
+    var dark = document.documentElement.dataset.theme === "dark";
+    var els = document.querySelectorAll("body *");
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (!hasText(el)) continue;
+      var cs = getComputedStyle(el);
+      if (cs.display === "none" || cs.visibility === "hidden") continue;
+      var size = parseFloat(cs.fontSize);
+      if (size && size < 12) el.style.setProperty("font-size", "12px", "important");
+      var fg = parse(cs.color), bg = bgOf(el);
+      if (!fg || !bg) continue;
+      var weight = parseInt(cs.fontWeight, 10) || 400;
+      var need = (size >= 24 || (size >= 18.66 && weight >= 700)) ? 3 : 4.5;
+      if (ratio(fg, bg) >= need) continue;
+      var onDark = lum(bg) < 0.4;
+      var strong = weight >= 600 || size >= 18;
+      var chosen = onDark ? (strong ? IVORY : MUTED_DARK) : (strong ? INK : MUTED);
+      if (ratio(parse(chosen === IVORY ? "rgb(251,250,245)" : chosen === INK ? "rgb(16,42,32)" : chosen === MUTED ? "rgb(92,113,103)" : "rgb(167,185,175)"), bg) < need) {
+        chosen = onDark ? IVORY : INK;
+      }
+      el.style.setProperty("color", chosen, "important");
+    }
+  }
+
+  function schedule() {
+    [0, 400, 1200, 2500].forEach(function (d) { setTimeout(fix, d); });
+    if (window.MutationObserver) {
+      var t = null;
+      new MutationObserver(function () {
+        clearTimeout(t);
+        t = setTimeout(fix, 250);
+      }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
+    }
+  }
+  if (document.readyState === "complete") schedule();
+  else window.addEventListener("load", schedule);
+  document.addEventListener("click", function () { setTimeout(fix, 120); }, true);
+})();

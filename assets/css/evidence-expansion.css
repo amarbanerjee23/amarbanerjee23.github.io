@@ -76,7 +76,7 @@
 .tc-evidence-link-copy small{
   display:block;
   color:var(--tc-muted,#6c7f89);
-  font-size:.7rem;
+  font-size:0.75rem;
   line-height:1.25;
   letter-spacing:.05em;
   text-transform:uppercase;

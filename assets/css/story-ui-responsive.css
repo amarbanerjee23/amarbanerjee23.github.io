@@ -17,7 +17,7 @@
   .story-nav a{grid-template-columns:26px auto;min-height:42px;padding:5px 9px}
   .story-next{right:14px;bottom:16px;max-width:138px;min-height:58px;padding:9px}
   .story-next-copy small{display:none}
-  .story-next-copy strong{max-width:72px;font-size:10px}
+  .story-next-copy strong{max-width:72px;font-size:12px}
   .story-next-arrow{width:34px;height:34px;flex-basis:34px}
   .back-to-top{bottom:84px!important}
 }

@@ -3,7 +3,7 @@
 .portfolio-profile .profile-name{font:400 30px/1.1 "DM Serif Display",Georgia,serif;margin-bottom:8px}
 .portfolio-profile .role{color:var(--teal)}
 .identity-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;padding:0!important}
-.identity-chips span{display:inline-flex;padding:7px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:10px;font-weight:800;color:var(--muted)}
+.identity-chips span{display:inline-flex;padding:7px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--muted)}
 .proof-strip{margin-top:64px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:0 18px 50px rgba(16,42,67,.08);overflow:hidden}
 .proof-strip div{padding:24px;border-right:1px solid var(--line)}
 .proof-strip div:last-child{border-right:0}
@@ -17,7 +17,7 @@
 .role-panel p{color:var(--muted)}
 .role-panel ul{padding-left:20px;margin:24px 0}
 .role-panel li{margin:8px 0}
-.panel-label{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:currentColor}
+.panel-label{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:currentColor}
 .leadership-panel{color:var(--teal)}
 .facilitator-panel{color:var(--violet)}
 .role-panel h3,.role-panel p,.role-panel li{color:var(--text)}
@@ -32,12 +32,12 @@
 .leadership-statement p{font:400 25px/1.45 "DM Serif Display",Georgia,serif;margin:0}
 .facilitation-section{background:linear-gradient(145deg,#0c2235,#173b59);color:#fff}
 .facilitation-intro{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:end;margin-bottom:42px}
-.facilitation-intro>div>span{display:inline-block;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.facilitation-intro>div>span{display:inline-block;color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
 .facilitation-intro h2{font:400 clamp(42px,5vw,66px)/1.05 "DM Serif Display",Georgia,serif;margin:16px 0 0}
 .facilitation-intro>p{color:#d4e0e8;font-size:18px;margin:0}
 .audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .audience-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:26px;padding:34px}
-.audience-card>span{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+.audience-card>span{color:var(--gold);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
 .audience-card h3{font:400 34px/1.15 "DM Serif Display",Georgia,serif;margin:14px 0}
 .audience-card p,.audience-card li{color:#d4e0e8}
 .audience-card ul{padding-left:20px;margin:22px 0 0}
@@ -49,7 +49,7 @@
 .signature-programs .light{background:#fff;color:var(--navy)}
 .engagement-portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .engagement-portfolio-card{min-height:240px;padding:30px;border:1px solid var(--line);border-radius:24px;background:var(--paper)}
-.engagement-portfolio-card small{display:inline-block;color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.engagement-portfolio-card small{display:inline-block;color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .engagement-portfolio-card h3{font:400 30px/1.15 "DM Serif Display",Georgia,serif;margin:18px 0 12px}
 .engagement-portfolio-card p{color:var(--muted);margin:0}
 @media(max-width:1060px){.proof-strip{grid-template-columns:repeat(2,1fr)}.proof-strip div:nth-child(2){border-right:0}.proof-strip div:nth-child(-n+2){border-bottom:1px solid var(--line)}.role-grid,.facilitation-intro,.audience-grid{grid-template-columns:1fr}.leadership-grid,.engagement-portfolio-grid{grid-template-columns:repeat(2,1fr)}}

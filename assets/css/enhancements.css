@@ -38,7 +38,7 @@ html[data-theme="dark"] {
   --editorial-ivory: #0b1813;
   --editorial-paper: #10241b;
   --editorial-soft: #14261e;
-  --editorial-muted: #a7b9af;
+  --editorial-muted: #c6d5cb;
   --editorial-line: #2c4238;
   --paper: var(--editorial-paper);
   --soft: var(--editorial-soft);
@@ -753,7 +753,7 @@ body footer.home-intro-footer .home-footer-base .social a { color: var(--editori
   .home-intro-proof b { font-size: 1.45rem !important; }
   .home-intro-links { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px !important; }
   .home-intro-links::before { grid-column: 1 / -1; }
-  .home-intro-links a { align-items: start; font-size: 10px !important; }
+  .home-intro-links a { align-items: start; font-size:12px !important; }
   .home-footer-base { align-items: flex-start !important; }
   .sticky-diagnostic { display: none !important; }
 }
@@ -887,4 +887,119 @@ html[data-theme="dark"] body.academic-future-home main#main section.future-conta
   .card, .path-card, .program-mini, .module-card, .format-card, .download-card,
   .gallery-card, .evidence-card, .institution-options a, .patent-lens article,
   .future-signal-row a, .innovation-journey article { transition: none !important; }
+}
+
+/* ===== Legibility layer: readable colour, size and typeface everywhere ===== */
+html body :is(small, figcaption, .eyebrow, .kicker, .meta, .caption, .label,
+  .story-nav-label, .story-nav-number, .story-nav-count, .image-count,
+  .image-open-label, .offering-audience, .visual-label, .visual-symbol,
+  .availability-pill, .badge, .tag, .pill){
+  font-size: max(0.75rem, 12px);
+  font-family: "Manrope", system-ui, sans-serif;
+  color: var(--editorial-muted);
+  opacity: 1;
+}
+html body :is(.story-nav-number, .story-nav-count, .image-count, .visual-symbol){
+  color: var(--editorial-green);
+  font-family: "Sora", "Manrope", system-ui, sans-serif;
+}
+html[data-theme="dark"] body :is(small, figcaption, .eyebrow, .kicker, .meta,
+  .caption, .label, .story-nav-label, .story-nav-count, .image-count,
+  .image-open-label, .offering-audience, .visual-label, .availability-pill,
+  .badge, .tag, .pill){ color: var(--editorial-muted); }
+html[data-theme="dark"] body :is(.story-nav-number, .story-nav-count, .visual-symbol){
+  color: var(--editorial-green);
+}
+html body .skip-link{
+  background: var(--editorial-ink);
+  color: #ffffff;
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: max(0.8125rem, 13px);
+}
+html body [style*="opacity:0.3"], html body [style*="opacity: 0.3"]{ opacity: .75 !important; }
+
+
+/* Enquiry / contact bands: keep type readable on the light editorial paper */
+.section.contact,
+.profile-contact,
+.research-contact,
+.future-contact {
+  color: var(--editorial-ink);
+}
+.section.contact h1, .section.contact h2, .section.contact h3, .section.contact h4,
+.profile-contact h1, .profile-contact h2, .profile-contact h3,
+.research-contact h1, .research-contact h2, .research-contact h3,
+.future-contact h1, .future-contact h2, .future-contact h3 {
+  color: var(--editorial-ink);
+}
+.section.contact p, .section.contact small, .section.contact label, .section.contact span, .section.contact li,
+.profile-contact p, .profile-contact small, .profile-contact label, .profile-contact span, .profile-contact li,
+.research-contact p, .research-contact small, .research-contact label, .research-contact span, .research-contact li,
+.future-contact p, .future-contact small, .future-contact label, .future-contact span, .future-contact li {
+  color: var(--editorial-muted);
+}
+.section.contact a, .profile-contact a, .research-contact a, .future-contact a {
+  color: var(--editorial-green);
+}
+html[data-theme="dark"] .section.contact,
+html[data-theme="dark"] .profile-contact,
+html[data-theme="dark"] .research-contact,
+html[data-theme="dark"] .future-contact,
+html[data-theme="dark"] .section.contact h1, html[data-theme="dark"] .section.contact h2,
+html[data-theme="dark"] .section.contact h3, html[data-theme="dark"] .profile-contact h2,
+html[data-theme="dark"] .research-contact h2, html[data-theme="dark"] .future-contact h2,
+html[data-theme="dark"] .profile-contact h3, html[data-theme="dark"] .research-contact h3,
+html[data-theme="dark"] .future-contact h3 {
+  color: var(--editorial-ivory);
+}
+html[data-theme="dark"] .section.contact p, html[data-theme="dark"] .section.contact small,
+html[data-theme="dark"] .section.contact label, html[data-theme="dark"] .section.contact span,
+html[data-theme="dark"] .profile-contact p, html[data-theme="dark"] .profile-contact small,
+html[data-theme="dark"] .profile-contact label, html[data-theme="dark"] .profile-contact span,
+html[data-theme="dark"] .research-contact p, html[data-theme="dark"] .research-contact small,
+html[data-theme="dark"] .research-contact label, html[data-theme="dark"] .research-contact span,
+html[data-theme="dark"] .future-contact p, html[data-theme="dark"] .future-contact small,
+html[data-theme="dark"] .future-contact label, html[data-theme="dark"] .future-contact span {
+  color: var(--editorial-muted-dark, #c6d5cb);
+}
+
+/* Post-enquiry "what happens next" steps: readable on the light editorial paper */
+.tc-contact-process div {
+  border: 1px solid var(--editorial-line);
+  border-radius: 0;
+  background: var(--editorial-paper);
+}
+.tc-contact-process small {
+  color: var(--editorial-green) !important;
+  font-family: "Sora", "Manrope", system-ui, sans-serif;
+  font-size: max(0.75rem, 12px) !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 1 !important;
+}
+.tc-contact-process span {
+  color: var(--editorial-ink) !important;
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: max(0.875rem, 14px) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .tc-contact-process div {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+html[data-theme="dark"] .tc-contact-process span { color: var(--editorial-ivory) !important; }
+html[data-theme="dark"] .tc-contact-process small { color: #6fd39b !important; }
+
+/* Flat, single-tone section bands (no half-light gradients behind text) */
+.section.leadership-outcomes,
+.leadership-outcomes {
+  background: var(--editorial-soft) !important;
+  color: var(--editorial-ink);
+}
+html[data-theme="dark"] .section.leadership-outcomes,
+html[data-theme="dark"] .leadership-outcomes {
+  background: #0c1f18 !important;
+  color: var(--editorial-ivory);
 }

@@ -57,13 +57,13 @@ body.ux-calm .brand-mark{
   background:var(--calm-navy);
 }
 body.ux-calm .brand strong{font-size:13px}
-body.ux-calm .brand small{font-size:8px;color:var(--calm-muted)}
+body.ux-calm .brand small{font-size:12px;color:var(--calm-muted)}
 body.ux-calm .nav{gap:2px}
 body.ux-calm .nav a{
   min-height:42px;
   padding:0 11px;
   border-radius:10px;
-  font-size:11px;
+  font-size:12px;
   font-weight:750;
 }
 body.ux-calm .nav a:hover{background:var(--calm-teal-soft);color:var(--calm-navy)}
@@ -113,10 +113,10 @@ body.ux-calm .story-nav-head{
 }
 body.ux-calm .story-nav-head small{
   color:var(--calm-muted)!important;
-  font-size:8px!important;
+  font-size:12px!important;
   letter-spacing:.12em!important;
 }
-body.ux-calm .story-nav-count{color:var(--calm-teal)!important;font-size:9px!important}
+body.ux-calm .story-nav-count{color:var(--calm-teal)!important;font-size:12px!important}
 body.ux-calm .story-nav-list{
   display:flex!important;
   flex:1 1 auto!important;
@@ -158,9 +158,9 @@ body.ux-calm .story-nav-number{
   border-radius:0!important;
   background:transparent!important;
   color:var(--calm-teal)!important;
-  font-size:8px!important;
+  font-size:12px!important;
 }
-body.ux-calm .story-nav-label{font-size:10px!important;font-weight:750!important;white-space:nowrap}
+body.ux-calm .story-nav-label{font-size:12px!important;font-weight:750!important;white-space:nowrap}
 body.ux-calm .story-progress-track{
   position:absolute;
   left:6px;
@@ -206,7 +206,7 @@ body.ux-calm .premium-hero h1{
 body.ux-calm .premium-hero .lead{max-width:58ch;font-size:16px;line-height:1.68}
 body.ux-calm .hero-actions{margin-top:24px}
 body.ux-calm .hero-trust{margin-top:18px;gap:6px}
-body.ux-calm .hero-trust span{min-height:28px;padding:0 9px;font-size:9px;background:rgba(255,255,255,.07)}
+body.ux-calm .hero-trust span{min-height:28px;padding:0 9px;font-size:12px;background:rgba(255,255,255,.07)}
 body.ux-calm .premium-profile{
   padding:8px;
   border-radius:20px;
@@ -229,7 +229,7 @@ body.ux-calm .premium-proof div{
   box-shadow:none;
 }
 body.ux-calm .premium-proof strong{font-size:28px}
-body.ux-calm .premium-proof span{font-size:10px}
+body.ux-calm .premium-proof span{font-size:12px}
 
 /* Typography and section rhythm. */
 body.ux-calm .section-head{max-width:820px}
@@ -345,7 +345,7 @@ body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{
   body.ux-calm .story-nav-head{display:none!important}
   body.ux-calm .story-nav a{min-height:34px!important;padding:0 9px!important}
   body.ux-calm .story-nav-number{display:none!important}
-  body.ux-calm .story-nav-label{font-size:9px!important}
+  body.ux-calm .story-nav-label{font-size:12px!important}
 
   body.ux-calm .premium-hero-grid{grid-template-columns:1fr!important}
   body.ux-calm .premium-hero h1{font-size:clamp(2.7rem,9vw,4.25rem)}
@@ -374,7 +374,7 @@ body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{
   }
   body.ux-calm .story-nav-list{gap:2px!important}
   body.ux-calm .story-nav a{min-height:34px!important;padding:0 8px!important}
-  body.ux-calm .story-nav-label{display:block!important;font-size:9px!important}
+  body.ux-calm .story-nav-label{display:block!important;font-size:12px!important}
 
   body.ux-calm .premium-hero,
   body.ux-calm .workshop-hero,
@@ -391,7 +391,7 @@ body.ux-calm :where(a,button,input,summary,[tabindex]):focus-visible{
   body.ux-calm .premium-proof{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:24px}
   body.ux-calm .premium-proof div{min-height:82px;padding:13px}
   body.ux-calm .premium-proof strong{font-size:23px}
-  body.ux-calm .premium-proof span{font-size:9px}
+  body.ux-calm .premium-proof span{font-size:12px}
 
   body.ux-calm .section-head h2{font-size:clamp(1.9rem,9vw,2.7rem)}
   body.ux-calm .path-card{min-height:auto;padding:20px}

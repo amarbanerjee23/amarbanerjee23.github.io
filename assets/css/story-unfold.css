@@ -41,7 +41,7 @@ body.story-unfolding .story-nav:before{
 }
 body.story-unfolding .story-nav:after{display:none!important}
 body.story-unfolding .story-nav-head{display:flex!important;margin:0 4px 7px!important}
-body.story-unfolding .story-nav-head small{color:var(--joy-navy);font-size:8px}
+body.story-unfolding .story-nav-head small{color:var(--joy-navy);font-size:12px}
 body.story-unfolding .story-nav-count{color:var(--joy-teal)}
 body.story-unfolding .story-nav-list{
   display:flex!important;
@@ -72,7 +72,7 @@ body.story-unfolding .story-nav a[aria-current="step"]{
 }
 body.story-unfolding .story-nav-number{border:0!important;background:color-mix(in srgb,var(--joy-teal) 12%,var(--paper))!important;color:var(--joy-teal)!important}
 body.story-unfolding .story-nav a[aria-current="step"] .story-nav-number{background:rgba(255,255,255,.1)!important;color:#f2c661!important}
-body.story-unfolding .story-nav-label{font-size:10px!important;white-space:nowrap}
+body.story-unfolding .story-nav-label{font-size:12px!important;white-space:nowrap}
 body.story-unfolding .story-progress-track{display:block!important;height:3px!important;margin:8px 4px 0!important;background:color-mix(in srgb,var(--line) 78%,transparent)!important}
 body.story-unfolding .story-progress-bar{background:linear-gradient(90deg,var(--joy-teal),#6cc8e8,#e8b95a)!important}
 body.story-unfolding .story-next{display:none!important}
@@ -89,7 +89,7 @@ body.story-unfolding .story-next{display:none!important}
   background:linear-gradient(135deg,#fff,color-mix(in srgb,var(--joy-sky) 48%,#fff));
   box-shadow:0 14px 40px rgba(16,42,67,.07);
 }
-.story-start-map small{color:var(--joy-teal);font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.story-start-map small{color:var(--joy-teal);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .story-start-map h2{max-width:16ch;margin:8px 0 0;font-size:clamp(1.8rem,3.2vw,3rem);line-height:1.04;color:var(--joy-navy)}
 .story-start-steps{display:flex;align-items:stretch;gap:7px;overflow:auto;scrollbar-width:none}
 .story-start-steps::-webkit-scrollbar{display:none}
@@ -108,8 +108,8 @@ body.story-unfolding .story-next{display:none!important}
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
 .story-start-steps a:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--joy-teal) 44%,var(--line));box-shadow:0 10px 24px rgba(16,42,67,.08)}
-.story-start-steps span{color:var(--joy-teal);font-size:9px;font-weight:800}
-.story-start-steps strong{margin-top:auto;font-size:11px;line-height:1.35}
+.story-start-steps span{color:var(--joy-teal);font-size:12px;font-weight:800}
+.story-start-steps strong{margin-top:auto;font-size:12px;line-height:1.35}
 
 body.story-unfolding .story-layer{
   position:relative;
@@ -167,7 +167,7 @@ body.story-unfolding .story-layer.is-story-current .story-chapter-marker{border-
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
 .story-continue:hover{transform:translateY(-3px);border-color:var(--joy-teal);box-shadow:0 16px 38px rgba(16,42,67,.11)}
-.story-continue small{display:block;color:var(--joy-teal);font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.story-continue small{display:block;color:var(--joy-teal);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .story-continue strong{display:block;margin-top:5px;color:var(--joy-navy);font-size:17px}
 .story-continue span{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--joy-navy);color:#fff;font-size:17px}
 .story-continue>span:first-child{display:block;width:auto;height:auto;border-radius:0;background:transparent;color:inherit}
@@ -190,7 +190,7 @@ html[data-theme="dark"] body.story-unfolding .story-layer[data-story-tone]{backg
   body.story-unfolding .story-nav{top:70px!important;width:calc(100% - 20px)!important;margin-top:6px!important;padding:7px 8px!important;border-radius:16px!important}
   body.story-unfolding .story-nav-head{display:none!important}
   body.story-unfolding .story-nav a{grid-template-columns:25px auto!important;min-height:38px!important;padding:4px 8px!important}
-  body.story-unfolding .story-nav-label{font-size:9px!important}
+  body.story-unfolding .story-nav-label{font-size:12px!important}
   body.story-unfolding .story-progress-track{margin-top:5px!important}
   .story-start-map-shell{grid-template-columns:1fr;gap:18px}
 }
